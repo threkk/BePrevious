@@ -1,0 +1,18 @@
+{
+  "appenders": [
+    { 
+      "type": "console" 
+    },
+    {
+      "type": "file",
+      "filename": "/logs/database.log",
+      "maxLogSize": 20480,
+      "backups": 1,
+      "category": "database"
+    }
+  ],
+  "levels": {
+    "database":  "WARN" 
+  },
+  "replaceConsole": true
+}
