@@ -9,10 +9,18 @@
       "maxLogSize": 20480,
       "backups": 1,
       "category": "database"
+    },
+    {
+      "type": "file",
+      "filename": "/logs/client.log",
+      "maxLogSize": 20480,
+      "backups": 1,
+      "category": "client"
     }
   ],
   "levels": {
-    "database":  "WARN" 
+    "database":  "WARN", 
+    "client":  "DEBUG" 
   },
   "replaceConsole": true
 }

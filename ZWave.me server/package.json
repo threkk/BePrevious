@@ -9,7 +9,8 @@
 	"mongodb": "1.1.11",
 	"async": "0.1.22", 
 	"hulk-hogan": "0.0.9",
-	"log4js": "0.5.6",
-	"lodash": "1.0.1"
+	"log4js": "0.6.0",
+	"lodash": "1.0.1", 
+	"restify": "2.3.4"
   }
 }

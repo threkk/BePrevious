@@ -4,8 +4,9 @@ var path = require("path");
 var async = require('async');
 var fs = require('fs');
 var app = express();
-
 log4js = require('log4js');
+
+var client = require('./client');
 
 var logger = log4js.getLogger("app");
 
@@ -64,11 +65,17 @@ app.configure(function () {
     }));
 });
 
+
+
 var root_routes = {
 	get: function(req,res) {
-		res.send('hello world');
+	    res.render('demo.hulk',{naam: req.query.naam});
 	}
 }
+
+client.on('update', function(message) {
+	logger.debug(JSON.stringify(message));
+});
 
 // map all api routes
 app.map(root_routes, '/');
