@@ -65,8 +65,6 @@ app.configure(function () {
     }));
 });
 
-
-
 var root_routes = {
 	get: function(req,res) {
 	    res.render('demo.hulk',{naam: req.query.naam});
