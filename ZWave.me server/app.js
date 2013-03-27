@@ -7,7 +7,7 @@ var app = express();
 log4js = require('log4js');
 
 var client = require('./client');
-
+var io = require('./io');
 var logger = log4js.getLogger("app");
 
 fs.mkdir('logs', 0777, function(err) {
