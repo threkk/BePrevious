@@ -72,7 +72,7 @@ var root_routes = {
 }
 
 client.on('update', function(message) {
-	logger.debug(JSON.stringify(message));
+	logger.debug('client received update: ' + JSON.stringify(message));
 });
 
 // map all api routes

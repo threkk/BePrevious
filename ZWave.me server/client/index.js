@@ -100,7 +100,8 @@ Client.prototype = {
     	
     	for(var key in this.updates) {
     		var commandUpdate = this.updates[key];
-    		if (commandUpdate.timestamp==timestamp) {
+    		if (commandUpdate.timestamp == timestamp 
+    			&& commandUpdate.command.id == commandId) {
     			return;
     		}
     	}
@@ -117,11 +118,9 @@ Client.prototype = {
     		}
     	}
     	
-    	this.updates.splice(0,0,commandUpdate);
-    	
-    	//TODO: memmory leak, empty array when it gets too big
-    	
-    	console.log('update: ' + JSON.stringify(commandUpdate));
+    	this.updates.push(commandUpdate);
+    	this.updates = this.updates.slice(-50);
+    	this.emit('update', commandUpdate);
     }
 };
 
