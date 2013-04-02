@@ -3,20 +3,21 @@ var fs = require("fs");
 var cronJob = require('cron').CronJob;
 var moment = require('moment');
 var job = new cronJob({
-    cronTime: '00 02 12 * * 1-5',
+    cronTime: '00 24 14 * * 1-5',
     onTick: function () {
-        createTar('input.txt');
+        createTar("input.json");
     }
 });
 startJob();
 
 function startJob() {
+	console.log(returnDate());
     job.start();
 }
 
 
 function createTar(filename) {
-    var child = exec('tar -zcf ' + returnDate() + '.tgz ' + filename, function (error, stdout, stderr) {
+    var child = exec("tar -zcf "  + returnDate() + ".tgz " + filename, function (error, stdout, stderr) {
         console.log('execute');
         console.log(stdout);
         console.log(stderr);
@@ -27,7 +28,7 @@ function createTar(filename) {
 }
 
 function returnDate() {
-    var now = moment().format('ll');
+    var now = moment().format("YYYY-MM-DD");
     return now;
 }
 
@@ -37,9 +38,14 @@ function emptyFile() {
     });
 }
 
-function writeToFile(text) {
-    var log = fs.createWriteStream('input.txt', {
-        'flags': 'a'
-    });
-    log.end("this is a message");
+function appendToFile(text) {
+
+   var stream = fs.createWriteStream("input.txt" , {
+   		'flags': 'a'
+   });
+	stream.once('open', function(fd) {
+  	stream.write(text);
+  	stream.write("\r\n");
+  	stream.end();
+});
 }
