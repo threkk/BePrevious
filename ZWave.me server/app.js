@@ -65,18 +65,22 @@ app.configure(function () {
     }));
 });
 
-var root_routes = {
+
+
+
+// map all api routes
+var routes = {
 	get: function(req,res) {
-	    res.render('demo.hulk',{naam: req.query.naam});
+		res.render('home.hulk',{});
 	}
 }
+app.map(routes, '/');
 
+//start client
+client.init();
 client.on('update', function(message) {
 	logger.debug('client received update: ' + JSON.stringify(message));
 });
-
-// map all api routes
-app.map(root_routes, '/');
 
 // Launch server
 server.listen(8080);

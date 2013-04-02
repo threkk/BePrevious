@@ -3,6 +3,10 @@ var emitter = new EventEmitter();
 var configuration = require('../configuration.js');
 var restify = require('restify');
 var logger = log4js.getLogger("client");
+var _ = require('lodash');
+
+var apiDataPath = '/ZWaveAPI/Data/';
+var apiCommandPath = '/ZWaveAPI/Run/';
 
 function Client(restClient) {
     this.restClient = restClient;
@@ -19,9 +23,11 @@ Client.prototype = {
 
     init: function () {
     	this.pathRegex = new RegExp(/^devices\.(\d+)\.instances\.(\d+)\.commandClasses\.(\d+)\.(.*)$/);
+        
         setTimeout(function () {
             client._update();
         }, this.updateRate);
+        
         this.emit('initialized');
     },
     
@@ -34,9 +40,23 @@ Client.prototype = {
     	}
     	return null;
     },
+    
+    startInclusionMode: function(callback) {
+    	this.restClient.post(apiCommandPath + 'controller.AddNodeToNetwork(1)', 
+    		function (err, req, res, json) {
+    		callback && callback(err,json);
+    	});
+    },
+    
+    stopInclusionMode: function(callback) {
+    	this.restClient.post(apiCommandPath + 'controller.AddNodeToNetwork(0)', 
+    		function (err, req, res, json) {
+    		callback && callback(err,json);
+    	});
+    },
 
     _update: function () {
-        this.restClient.get('/ZWaveAPI/Data/' + this.updateTime, function (err, req, res, json) {
+        this.restClient.get(apiDataPath + this.updateTime, function (err, req, res, json) {
             if (err) {
                 logger.error('client failed to retrieve data');
             } else {
@@ -98,13 +118,7 @@ Client.prototype = {
     	var device = this.getDevice(nodeId);
     	var timestamp = json.updateTime;
     	
-    	for(var key in this.updates) {
-    		var commandUpdate = this.updates[key];
-    		if (commandUpdate.timestamp == timestamp 
-    			&& commandUpdate.command.id == commandId) {
-    			return;
-    		}
-    	}
+    	
     	
     	var commandUpdate = {
     		device: device,
@@ -118,7 +132,14 @@ Client.prototype = {
     		}
     	}
     	
-    	this.updates.push(commandUpdate);
+    	for(var key in this.updates) {
+    		if (_.isEqual(this.updates[key],commandUpdate)) {
+    			return;
+    		}
+    	}
+    	
+    	
+    	this.updates.splice(0,0,commandUpdate);
     	this.updates = this.updates.slice(-50);
     	this.emit('update', commandUpdate);
     }
@@ -132,6 +153,5 @@ var restClient = restify.createJsonClient({
 });
 
 var client = new Client(restClient);
-client.init();
 
 module.exports = client;
