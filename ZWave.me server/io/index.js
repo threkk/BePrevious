@@ -5,28 +5,17 @@ var moment = require('moment');
 var job = new cronJob({
     cronTime: '00 24 14 * * 1-5',
     onTick: function () {
-        createTar(returnDatePreviousDay() + ".txt");
+        
     }
 });
 var logger = log4js.getLogger("io");
-//startJob();
-
-function startJob() {
-    console.log(returnDate());
-    job.start();
-}
-
-
-
-
-
-
 
 function Writer() {}
 
 Writer.prototype = {
     directory: './data',
     dateFormat: 'YYYY-MM-DD',
+    
     init: function () {
         fs.mkdir(this.directory, 0777, function (err) {
             if (!err) {
@@ -54,7 +43,6 @@ Writer.prototype = {
         });
     },
 
-
     compressFiles: function () {
         fs.readdir(this.directory, function (err, files) {
 
@@ -67,15 +55,13 @@ Writer.prototype = {
                     return;
                 }
 				
-				logger.debug(JSON.stringify(file));
-                logger.debug("to compress " + this.directory+'/'+file);
                 this._compressFile(this.directory+'/'+file, function (err) {
                     if (!err) {
                         fs.unlink(this.directory+'/'+file, function (err) {
                             if (err) {
                                 logger.error(err);
                             } else {
-                            	logger.debug('successfully deleted');
+                            	logger.debug('deleted file ' + file);
                             }
                         }.bind(this));
                     } else {
@@ -87,8 +73,9 @@ Writer.prototype = {
     },
 
     _compressFile : function (filename, callback) {
-    	logger.info("command to execute" + " tar -zcf " + filename.substr(0, filename.length-5) + ".tgz ");
-        var child = exec("tar -zcf " + filename.substr(0, filename.length-5) + ".tgz " + filename, function (error, stdout, stderr) {
+    	logger.debug('compressing file '+filename);
+    	var command = "tar -zcf " + filename.substr(0, filename.length-5) + ".tgz " + filename;
+        var child = exec(command, function (error, stdout, stderr) {
             callback(error, {
                 stdout: stdout,
                 stderr: stderr
@@ -98,10 +85,5 @@ Writer.prototype = {
 }
 
 var w = new Writer();
-w.init();
-w.compressFiles();
-w.write({
-    message: 'aids'
-}, function (err, status) {
-    console.log(status);
-});
+
+module.exports = w;

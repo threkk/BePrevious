@@ -5,10 +5,10 @@ var async = require('async');
 var fs = require('fs');
 var app = express();
 log4js = require('log4js');
+var logger = log4js.getLogger("app");
 
 var client = require('./client');
 var io = require('./io');
-var logger = log4js.getLogger("app");
 
 fs.mkdir('logs', 0777, function(err) {
 	if (!err) {
@@ -77,9 +77,12 @@ var routes = {
 app.map(routes, '/');
 
 //start client
+io.init();
 client.init();
 client.on('update', function(message) {
-	logger.debug('client received update: ' + JSON.stringify(message));
+	io.write(message, function(err,status){
+		logger.debug('wrote to file: ' + JSON.stringify(message));
+	});	
 });
 
 // Launch server
