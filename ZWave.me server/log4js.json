@@ -5,21 +5,21 @@
     },
     {
       "type": "file",
-      "filename": "/logs/database.log",
+      "filename": "./logs/database.log",
       "maxLogSize": 20480,
       "backups": 1,
       "category": "database"
     },
     {
       "type": "file",
-      "filename": "/logs/client.log",
+      "filename": "./logs/client.log",
       "maxLogSize": 20480,
       "backups": 1,
       "category": "client"
     },
     {
       "type": "file",
-      "filename": "/logs/io.log",
+      "filename": "./logs/io.log",
       "maxLogSize": 20480,
       "backups": 1,
       "category": "io"
