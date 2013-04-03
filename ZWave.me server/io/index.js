@@ -5,47 +5,103 @@ var moment = require('moment');
 var job = new cronJob({
     cronTime: '00 24 14 * * 1-5',
     onTick: function () {
-        createTar("input.json");
+        createTar(returnDatePreviousDay() + ".txt");
     }
 });
-startJob();
+var logger = log4js.getLogger("io");
+//startJob();
 
 function startJob() {
-	console.log(returnDate());
+    console.log(returnDate());
     job.start();
 }
 
 
-function createTar(filename) {
-    var child = exec("tar -zcf "  + returnDate() + ".tgz " + filename, function (error, stdout, stderr) {
-        console.log('execute');
-        console.log(stdout);
-        console.log(stderr);
-        if (!error) {
-            emptyFile();
-        }
-    });
+
+
+
+
+
+function Writer() {}
+
+Writer.prototype = {
+    directory: './data',
+    dateFormat: 'YYYY-MM-DD',
+    init: function () {
+        fs.mkdir(this.directory, 0777, function (err) {
+            if (!err) {
+                logger.debug("created data directory");
+            } else {
+                if (err && err.code !== 'EEXIST') {
+                    logger.error(err);
+                    throw new Error('Failed to create data directory');
+                }
+            }
+
+        })
+    },
+
+    write: function (json, callback) {
+        var filename = moment().format(this.dateFormat) + ".json";
+        fs.appendFile(this.directory + '/' + filename, JSON.stringify(json) + '\r\n', function (err) {
+            if (err) {
+                callback(err);
+            } else {
+                callback(null, {
+                    code: 200
+                });
+            }
+        });
+    },
+
+
+    compressFiles: function () {
+        fs.readdir(this.directory, function (err, files) {
+
+            files.map(function (file) {
+                if (file.substr(-5) != '.json') {
+                    return;
+                }
+
+                if (file.substr(0, file.length-5) == moment().format(this.dateFormat)) {
+                    return;
+                }
+				
+				logger.debug(JSON.stringify(file));
+                logger.debug("to compress " + this.directory+'/'+file);
+                this._compressFile(this.directory+'/'+file, function (err) {
+                    if (!err) {
+                        fs.unlink(this.directory+'/'+file, function (err) {
+                            if (err) {
+                                logger.error(err);
+                            } else {
+                            	logger.debug('successfully deleted');
+                            }
+                        }.bind(this));
+                    } else {
+                    	logger.error('failed to compress file' + JSON.stringify(err));
+                    }
+                }.bind(this));
+            }.bind(this));
+        }.bind(this));
+    },
+
+    _compressFile : function (filename, callback) {
+    	logger.info("command to execute" + " tar -zcf " + filename.substr(0, filename.length-5) + ".tgz ");
+        var child = exec("tar -zcf " + filename.substr(0, filename.length-5) + ".tgz " + filename, function (error, stdout, stderr) {
+            callback(error, {
+                stdout: stdout,
+                stderr: stderr
+            });
+        });
+    }
 }
 
-function returnDate() {
-    var now = moment().format("YYYY-MM-DD");
-    return now;
-}
-
-function emptyFile() {
-    fs.writeFile('input.txt', '', function (err) {
-        if (err) console.log(err);
-    });
-}
-
-function appendToFile(text) {
-
-   var stream = fs.createWriteStream("input.txt" , {
-   		'flags': 'a'
-   });
-	stream.once('open', function(fd) {
-  	stream.write(text);
-  	stream.write("\r\n");
-  	stream.end();
+var w = new Writer();
+w.init();
+w.compressFiles();
+w.write({
+    message: 'aids'
+}, function (err, status) {
+    console.log(status);
 });
-}

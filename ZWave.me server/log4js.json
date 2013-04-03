@@ -16,11 +16,19 @@
       "maxLogSize": 20480,
       "backups": 1,
       "category": "client"
+    },
+    {
+      "type": "file",
+      "filename": "/logs/io.log",
+      "maxLogSize": 20480,
+      "backups": 1,
+      "category": "io"
     }
   ],
   "levels": {
     "database":  "WARN", 
-    "client":  "DEBUG" 
+    "client":  "DEBUG", 
+    "io":  "DEBUG" 
   },
   "replaceConsole": true
 }
