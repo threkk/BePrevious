@@ -5,4 +5,5 @@
 *.war
 *.ear
 /ZWave.me server/data
+/ZWave.me server/logs
 /ZWave.me server/node_modules
