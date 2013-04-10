@@ -48,12 +48,23 @@ app.map = function(a, route) {
 var http = require('http');
 var server = http.createServer(app);
 
+function registerPartialSync(hbs, partialName, filename) {
+    var encoding = 'utf8'
+	var content = fs.readFileSync(__dirname + '\\' + filename, encoding);
+	
+	hbs.registerPartial(partialName, content);
+}
+
 // Config
 app.configure(function () {
-	app.engine('hulk', require('hulk-hogan').__express);
+	var hbs = require('hbs');
+	
+	app.engine('hbs', hbs.__express);
 	
     app.set('views', __dirname + '/views');
-    app.set('view engine', 'hulk');
+	app.set('view engine', 'hbs');
+	
+	registerPartialSync(hbs, 'header', 'views/header.hbs');
 	
     app.use(express.bodyParser());
     app.use(express.methodOverride());    
@@ -65,16 +76,7 @@ app.configure(function () {
     }));
 });
 
-
-
-
-// map all api routes
-var routes = {
-	get: function(req,res) {
-		res.render('home.hulk',{});
-	}
-}
-app.map(routes, '/');
+app.map(require('./dashboard').routes, '/');
 
 //start client
 io.init();

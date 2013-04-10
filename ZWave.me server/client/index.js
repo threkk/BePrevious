@@ -16,7 +16,7 @@ Client.prototype = {
     updateRate: 500,
     updateTime: 0,
     
-    controllerNodeId: null,
+    controllerData: {},
     devices: [],
     updates: [],
     pathRegex : null,
@@ -39,6 +39,10 @@ Client.prototype = {
     		}
     	}
     	return null;
+    },
+    
+    getControllerData: function() {
+    	return this.controllerData;
     },
     
     startInclusionMode: function(callback) {
@@ -79,7 +83,7 @@ Client.prototype = {
 	        		var commandId = match[3];
 	        		var json= data[key];
 	        		
-	        		if (nodeId == this.controllerNodeId) {
+	        		if (nodeId == this.controllerData.nodeId.value) {
 	        			continue;
 	        		}
 	        		
@@ -87,10 +91,10 @@ Client.prototype = {
 	        	}
 	        }
         } else if (data.devices) {
-        	this.controllerNodeId = data.controller.data.nodeId.value;
+        	this.controllerData = data.controller.data;
         	var devices = data.devices;
             for (var nodeId in devices) {
-            	if (nodeId == 255 || nodeId == this.controllerNodeId) {
+            	if (nodeId == 255 || nodeId == this.controllerData.nodeId.value) {
 					// We skip broadcase and self
 					continue;
 				}
@@ -117,9 +121,6 @@ Client.prototype = {
     _handleCommandUpdate: function(nodeId,instanceId,commandId, json) {
     	var device = this.getDevice(nodeId);
     	var timestamp = json.updateTime;
-    	
-    	
-    	
     	var commandUpdate = {
     		device: device,
     		instance: instanceId,
