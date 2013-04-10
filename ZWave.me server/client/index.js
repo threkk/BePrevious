@@ -139,7 +139,6 @@ Client.prototype = {
     		}
     	}
     	
-    	
     	this.updates.splice(0,0,commandUpdate);
     	this.updates = this.updates.slice(-50);
     	this.emit('update', commandUpdate);
@@ -148,11 +147,37 @@ Client.prototype = {
 
 Client.prototype.__proto__ = EventEmitter.prototype;
 
-var restClient = restify.createJsonClient({
+function getDevices(req, res) {
+	res.jsonp(client.devices);
+}
+
+function getDevice(req,res) {
+	res.jsonp(client.getDevice(req.params.id));
+}
+
+function getControllerData(req,res) {
+	res.jsonp(client.controllerData);
+}
+
+var client = new Client(restify.createJsonClient({
     url: configuration.host,
     version: '*'
-});
+}));
 
-var client = new Client(restClient);
 
-module.exports = client;
+var routes = {
+	'devices' : {
+		get: getDevices,
+		'/:id' : {
+			get: getDevice
+		}
+	},
+	'controller' : {
+		get: getControllerData
+	}
+};
+
+module.exports = {
+	client: client,
+	routes: routes
+};

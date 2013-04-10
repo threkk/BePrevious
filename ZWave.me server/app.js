@@ -7,7 +7,7 @@ var app = express();
 log4js = require('log4js');
 var logger = log4js.getLogger("app");
 
-var client = require('./client');
+var client = require('./client').client;
 var io = require('./io');
 
 fs.mkdir('logs', 0777, function(err) {
@@ -50,7 +50,8 @@ var server = http.createServer(app);
 
 function registerPartialSync(hbs, partialName, filename) {
     var encoding = 'utf8'
-	var content = fs.readFileSync(__dirname + '\\' + filename, encoding);
+    var absolutePath = path.join(__dirname, filename);
+	var content = fs.readFileSync(absolutePath, encoding);
 	
 	hbs.registerPartial(partialName, content);
 }
@@ -76,6 +77,7 @@ app.configure(function () {
     }));
 });
 
+app.map(require('./client').routes, '/client/');
 app.map(require('./dashboard').routes, '/');
 
 //start client

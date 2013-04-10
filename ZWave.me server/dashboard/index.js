@@ -1,4 +1,4 @@
-var client = require('../client');
+var client = require('../client').client;
 
 function getHome(req,res) {
 	res.render('home.hbs', {
