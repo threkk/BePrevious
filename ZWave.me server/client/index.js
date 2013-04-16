@@ -45,17 +45,27 @@ Client.prototype = {
     	return this.controllerData;
     },
     
-    startInclusionMode: function(callback) {
-    	this.restClient.post(apiCommandPath + 'controller.AddNodeToNetwork(1)', 
-    		function (err, req, res, json) {
-    		callback && callback(err,json);
+    startInclusionMode: function(duration, callback) {
+    	var self = this;
+    	self._runCommand('controller.AddNodeToNetwork(1)', function(err,json) {
+    		if (err) {
+    			logger.error('failed to start inclusion mode');
+    		} else {
+    	 		setTimeout(function() {
+    	 			self._runCommand('controller.AddNodeToNetwork(0)', function(err,json) {
+    	 				if (err) {
+    	 			    	logger.error('failed to stop inclusion mode');
+    	 				}
+    	 			});
+    	 		},duration);
+    		}
     	});
     },
     
-    stopInclusionMode: function(callback) {
-    	this.restClient.post(apiCommandPath + 'controller.AddNodeToNetwork(0)', 
+    _runCommand : function(command, callback) {
+        this.restClient.post(apiCommandPath + command, 
     		function (err, req, res, json) {
-    		callback && callback(err,json);
+    		callback && callback(err, json);
     	});
     },
 

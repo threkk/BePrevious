@@ -8,18 +8,121 @@
     <meta name="description" content="Boxlab homepage">
     <meta name="author" content="Maarten Blokker">
 
-    <!-- Le styles -->
+    <!-- styles -->
     <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    
+    <!-- javascript -->
+    <script src="/jquery/jquery-1.9.1.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.js"></script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="/shiv/js/html5shiv.js"></script>
     <![endif]-->
+    
+    <script type="text/javascript">
+    	var duration = 30000;
+    	var timer;
+    	
+    	$(document).ready(function () {
+		    $('#deviceModal').on('show', function () {
+		        var type = $(this).data('type');
+		        var titleLabel = $('#modalLabel');
+		        var textLabel = $('p#text-placeholder');
+		
+		        if (type == 'include') {
+		            titleLabel.text('Include new devices');
+		            textLabel.text('Press and hold the tamper button on the device to include it in the network');
+		        } else {
+		            titleLabel.text('Exclude device');
+		            textLabel.text('Press and hold the tamper button on the device to exclude it from the network');
+		        }
+		
+				var proggresBar = $('#progressbar');
+				proggresBar.css('width', '0%');
+		        startTimer(function(val){
+		        	if (val=='stop') {
+		        		$('#deviceModal').modal('hide');
+		        	} else {
+		        		proggresBar.css('width', val);
+		        	}
+		        });
+		    });
+		
+		    $('#deviceModal').on('hide', function () {
+		        var type = $(this).data('type');
+				console.log('..?');
+		        stopTimer();
+		
+		        console.log('hide');
+		    });
+		});
+		
+		function startTimer(callback) {
+			var progress = 0;
+			var interval = 1000;
+			
+			if (timer) {
+				stopTimer();
+			}			
+			
+			timer = setInterval(function(){
+				progress += interval;
+				
+				var percentage = Math.round((progress / duration) * 100) + '%';
+				
+				callback && callback(percentage);
+								
+				if (progress >= duration) {
+					stopTimer();
+					callback('stop');
+				}
+			},interval);
+		}
+		
+		function stopTimer() {
+			clearInterval(timer);
+			timer = null;
+		}
+    	
+    	
+    	function showExclusionDialog() {
+			$('#deviceModal')
+				.data('type', 'exclude')
+				.data('duration',duration)
+				.modal('show');
+		}
+    	
+    	function showInclusionDialog() {
+			$('#deviceModal')
+				.data('type', 'include')
+				.data('duration',duration)
+				.modal('show');
+		}
+    </script>
   </head>
 
   <body>
+  	<div id="deviceModal" class="modal hide fade" tabindex="-1" role="dialog"
+		aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3 id="modalLabel"></h3>
+		</div>
+		<div class="modal-body">
+			<p id="text-placeholder"></p>
+			<div class="progress progress-striped active">
+  				<div id="progressbar" class="bar" style="width: 0%;"></div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Stop</button>
+		</div>
+	</div>
+  
+  
     <div class="container">
      
       {{>header}}
@@ -34,6 +137,10 @@
       
       <div class="row-fluid">
       	<div class="span10 offset1">
+      		<div align="center">
+      		 	<button class="btn btn-primary" onclick="showInclusionDialog();">Include devices</button>
+  				<button class="btn btn-danger" onclick="showExclusionDialog();">Exclude devices</button>
+      		</div>
 			<table class="table">
 			  <thead>
 			    <tr>
@@ -62,11 +169,5 @@
       </div>
 
     </div> <!-- /container -->
-    
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/jquery/jquery-1.9.1.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.js"></script>
   </body>
 </html>
