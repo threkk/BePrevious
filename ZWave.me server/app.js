@@ -10,7 +10,6 @@ var cronJob = require('cron').CronJob;
 var client = require('./client').client;
 var writer = require('./io').writer;
 var ftp = require('./io').ftp;
-writer.compressFiles();
 var compressJob = new cronJob({
     cronTime: '00 00 02 * * *',
     onTick: function () {
