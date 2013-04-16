@@ -2,11 +2,9 @@
     var moment = require('moment');
     var fs = require('fs');
     var logger = log4js.getLogger("io");
+    var configuration = require('../configuration.js');
     var ftpconnection = new jsftp({
-        host: "145.92.76.82",
-        user: "ftpclient",
-        port: 21 // Defaults to 21
-
+		configuration.ftp
     });
 
     function Ftp() {}
