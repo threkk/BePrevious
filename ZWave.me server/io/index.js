@@ -2,22 +2,16 @@ var exec = require('child_process').exec;
 var fs = require("fs");
 var cronJob = require('cron').CronJob;
 var moment = require('moment');
-var job = new cronJob({
-    cronTime: '00 24 14 * * 1-5',
-    onTick: function () {
-        
-    }
-});
 var logger = log4js.getLogger("io");
 
 function Writer() {
-	this.init();
+    this.init();
 }
 
 Writer.prototype = {
     directory: './data',
     dateFormat: 'YYYY-MM-DD',
-    
+
     init: function () {
         fs.mkdir(this.directory, 0777, function (err) {
             if (!err) {
@@ -51,39 +45,44 @@ Writer.prototype = {
                     return;
                 }
 
-                if (file.substr(0, file.length-5) == moment().format(this.dateFormat)) {
+                if (file.substr(0, file.length - 5) == moment().format(this.dateFormat)) {
                     return;
                 }
-				
-                this._compressFile(this.directory+'/'+file, function (err) {
+
+                this._compressFile(this.directory + '/' + file, function (err) {
                     if (!err) {
-                        fs.unlink(this.directory+'/'+file, function (err) {
+                        fs.unlink(this.directory + '/' + file, function (err) {
                             if (err) {
                                 logger.error(err);
                             } else {
-                            	logger.debug('deleted file ' + file);
+                                logger.debug('deleted file ' + file);
                             }
                         }.bind(this));
                     } else {
-                    	logger.error('failed to compress file' + JSON.stringify(err));
+                        logger.error('failed to compress file' + JSON.stringify(err));
                     }
                 }.bind(this));
             }.bind(this));
         }.bind(this));
     },
 
-    _compressFile : function (filename, callback) {
-    	logger.debug('compressing file '+filename);
-    	var command = "tar -zcf " + filename.substr(0, filename.length-5) + ".tgz " + filename;
+    _compressFile: function (filename, callback) {
+
+        var tarfile = filename.substr(filename.lastIndexOf('/') + 1);
+        tarfile = tarfile.substr(0, tarfile.length - 5);
+        var fileToTar = filename.substr(filename.lastIndexOf('/') + 1);
+        var command = "cd ./data && tar -zcf " + tarfile + ".tgz " + fileToTar;
         var child = exec(command, function (error, stdout, stderr) {
             callback(error, {
                 stdout: stdout,
                 stderr: stderr
             });
         });
+
     }
 }
 
 var w = new Writer();
 
 module.exports.writer = w;
+module.exports.ftp = require('./ftp.js');
