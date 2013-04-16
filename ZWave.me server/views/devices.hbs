@@ -16,6 +16,7 @@
     <!-- javascript -->
     <script src="/jquery/jquery-1.9.1.min.js"></script>
     <script src="/bootstrap/js/bootstrap.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -23,6 +24,7 @@
     <![endif]-->
     
     <script type="text/javascript">
+    	var socket = io.connect('/client');
     	var duration = 30000;
     	var timer;
     	
@@ -32,12 +34,15 @@
 		        var titleLabel = $('#modalLabel');
 		        var textLabel = $('p#text-placeholder');
 		
+				//set the title and text of the dialog based on the type
 		        if (type == 'include') {
 		            titleLabel.text('Include new devices');
 		            textLabel.text('Press and hold the tamper button on the device to include it in the network');
+					socket.emit('start_inclusion', { duration: duration });
 		        } else {
 		            titleLabel.text('Exclude device');
 		            textLabel.text('Press and hold the tamper button on the device to exclude it from the network');
+		            socket.emit('start_exclusion', { duration: duration });
 		        }
 		
 				var proggresBar = $('#progressbar');
@@ -52,11 +57,14 @@
 		    });
 		
 		    $('#deviceModal').on('hide', function () {
-		        var type = $(this).data('type');
-				console.log('..?');
 		        stopTimer();
-		
-		        console.log('hide');
+
+		        var type = $(this).data('type');
+		        if (type=='include') {
+					socket.emit('stop_inclusion');
+				} else {
+					socket.emit('stop_exclusion');
+				}
 		    });
 		});
 		
@@ -86,7 +94,6 @@
 			clearInterval(timer);
 			timer = null;
 		}
-    	
     	
     	function showExclusionDialog() {
 			$('#deviceModal')

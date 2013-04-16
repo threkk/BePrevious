@@ -4,6 +4,8 @@ var path = require("path");
 var async = require('async');
 var fs = require('fs');
 var app = express();
+var io = require('socket.io');
+
 log4js = require('log4js');
 var logger = log4js.getLogger("app");
 var cronJob = require('cron').CronJob;
@@ -63,7 +65,8 @@ app.map = function (a, route) {
 };
 
 var http = require('http');
-var server = http.createServer(app);
+var server = http.createServer(app),
+	io = io.listen(server);
 
 function registerPartialSync(hbs, partialName, filename) {
     var encoding = 'utf8'
@@ -102,6 +105,24 @@ client.on('update', function (message) {
     writer.write(message, function (err, status) {
         logger.debug('wrote to file: ' + JSON.stringify(message));
     });
+});
+
+
+//bind socket io to the client
+var clientsocket = io.of('/client')
+    .on('connection', function (socket) {
+        socket.on('start_inclusion', function(data) {
+           console.log('i want to start the inclusion mode with duration: ' + data.duration);
+        });
+        socket.on('start_exclusion', function(data) {
+           console.log('i want to start the exclusion mode with duration: ' + data.duration);
+        });
+        socket.on('stop_inclusion', function(data) {
+           console.log('i want to stop inclusion');
+        });
+        socket.on('stop_exclusion', function(data) {
+           console.log('i want to stop exclusion');
+        });
 });
 
 // Launch server
