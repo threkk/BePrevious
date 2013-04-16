@@ -10,7 +10,9 @@ var job = new cronJob({
 });
 var logger = log4js.getLogger("io");
 
-function Writer() {}
+function Writer() {
+	this.init();
+}
 
 Writer.prototype = {
     directory: './data',
@@ -26,8 +28,7 @@ Writer.prototype = {
                     throw new Error('Failed to create data directory');
                 }
             }
-
-        })
+        });
     },
 
     write: function (json, callback) {
@@ -45,7 +46,6 @@ Writer.prototype = {
 
     compressFiles: function () {
         fs.readdir(this.directory, function (err, files) {
-
             files.map(function (file) {
                 if (file.substr(-5) != '.json') {
                     return;
@@ -86,4 +86,4 @@ Writer.prototype = {
 
 var w = new Writer();
 
-module.exports = w;
+module.exports.writer = w;

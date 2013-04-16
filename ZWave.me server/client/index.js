@@ -10,20 +10,20 @@ var apiCommandPath = '/ZWaveAPI/Run/';
 
 function Client(restClient) {
     this.restClient = restClient;
+    
+    this.updateRate = 500;
+    this.updateTime = 0;
+    
+    this.controllerData = {};
+    this.devices = [];
+    this.updates = [];
 }
 
 Client.prototype = {
-    updateRate: 500,
-    updateTime: 0,
-    
-    controllerData: {},
-    devices: [],
-    updates: [],
-    pathRegex : null,
+   
+    pathRegex : new RegExp(/^devices\.(\d+)\.instances\.(\d+)\.commandClasses\.(\d+)\.(.*)$/),
 
     init: function () {
-    	this.pathRegex = new RegExp(/^devices\.(\d+)\.instances\.(\d+)\.commandClasses\.(\d+)\.(.*)$/);
-        
         setTimeout(function () {
             client._update();
         }, this.updateRate);

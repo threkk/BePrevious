@@ -8,7 +8,7 @@ log4js = require('log4js');
 var logger = log4js.getLogger("app");
 
 var client = require('./client').client;
-var io = require('./io');
+var writer = require('./io').writer;
 
 fs.mkdir('logs', 0777, function(err) {
 	if (!err) {
@@ -81,10 +81,8 @@ app.map(require('./client').routes, '/client/');
 app.map(require('./dashboard').routes, '/');
 
 //start client
-io.init();
-client.init();
 client.on('update', function(message) {
-	io.write(message, function(err,status){
+	writer.write(message, function(err,status){
 		logger.debug('wrote to file: ' + JSON.stringify(message));
 	});	
 });
