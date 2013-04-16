@@ -55,7 +55,7 @@ Writer.prototype = {
                             if (err) {
                                 logger.error(err);
                             } else {
-                                logger.debug('deleted file ' + file);
+                                logger.debug('compressed and deleted file ' + file);
                             }
                         }.bind(this));
                     } else {

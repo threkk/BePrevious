@@ -11,22 +11,22 @@ var client = require('./client').client;
 var writer = require('./io').writer;
 var ftp = require('./io').ftp;
 writer.compressFiles();
-//var compressJob = new cronJob({
-  //  cronTime: '00 00 02 * * *',
-    //onTick: function () {
-      //  writer.compressFiles();
-    //},
-    //start: false
-//});
-//compressJob.start();
-//var ftpJob = new cronJob({
-  //  cronTime: '00 00 03 * * *',
-   // onTick: function () {
-   //   ftp.send();  
-  //  },
-  //  start: false
-//});
-//ftpJob.start();
+var compressJob = new cronJob({
+    cronTime: '00 00 02 * * *',
+    onTick: function () {
+        writer.compressFiles();
+    },
+    start: false
+});
+compressJob.start();
+var ftpJob = new cronJob({
+    cronTime: '00 00 03 * * *',
+    onTick: function () {
+      ftp.send();  
+    },
+    start: false
+});
+ftpJob.start();
 
 fs.mkdir('logs', 0777, function (err) {
     if (!err) {
