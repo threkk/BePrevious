@@ -10,63 +10,95 @@ var apiCommandPath = '/ZWaveAPI/Run/';
 
 function Client(restClient) {
     this.restClient = restClient;
-    
+
     this.updateRate = 500;
     this.updateTime = 0;
-    
+
     this.controllerData = {};
     this.devices = [];
     this.updates = [];
+    
+    this.init();
 }
 
 Client.prototype = {
-   
-    pathRegex : new RegExp(/^devices\.(\d+)\.instances\.(\d+)\.commandClasses\.(\d+)\.(.*)$/),
+
+    pathRegex: new RegExp(/^devices\.(\d+)\.instances\.(\d+)\.commandClasses\.(\d+)\.(.*)$/),
 
     init: function () {
         setTimeout(function () {
             client._update();
         }, this.updateRate);
-        
+
         this.emit('initialized');
     },
-    
-    getDevice: function(nodeId) {
-    	for (var key in this.devices) {
-    		var device = this.devices[key];
-    		if (device.id==nodeId) {
-    			return device;
-    		}
-    	}
-    	return null;
+
+    getDevice: function (nodeId) {
+        for (var key in this.devices) {
+            var device = this.devices[key];
+            if (device.id == nodeId) {
+                return device;
+            }
+        }
+        return null;
     },
-    
-    getControllerData: function() {
-    	return this.controllerData;
+
+    getControllerData: function () {
+        return this.controllerData;
     },
-    
-    startInclusionMode: function(duration, callback) {
-    	var self = this;
-    	self._runCommand('controller.AddNodeToNetwork(1)', function(err,json) {
-    		if (err) {
-    			logger.error('failed to start inclusion mode');
-    		} else {
-    	 		setTimeout(function() {
-    	 			self._runCommand('controller.AddNodeToNetwork(0)', function(err,json) {
-    	 				if (err) {
-    	 			    	logger.error('failed to stop inclusion mode');
-    	 				}
-    	 			});
-    	 		},duration);
-    		}
-    	});
+
+    startInclusionMode: function (duration, callback) {
+        var self = this;
+        this._runCommand('controller.AddNodeToNetwork(1)', function (err, json) {
+            if (err) {
+                logger.error('failed to start inclusion mode');
+            } else {
+                setTimeout(function () {
+                    self._runCommand('controller.AddNodeToNetwork(0)', function (err, json) {
+                        if (err) {
+                            logger.error('failed to stop inclusion mode');
+                        }
+                    });
+                }, duration);
+            }
+        });
     },
-    
-    _runCommand : function(command, callback) {
-        this.restClient.post(apiCommandPath + command, 
-    		function (err, req, res, json) {
-    		callback && callback(err, json);
-    	});
+
+    stopInclusionMode: function (callback) {
+        this._runCommand('controller.AddNodeToNetwork(0)', function (err, json) {
+            callback && callback(err, json);
+        });
+    },
+
+    startExclusionMode: function (duration, callback) {
+        var self = this;
+        this._runCommand('controller.RemoveNodeFromNetwork(1)', function (err, json) {
+            if (err) {
+                logger.error('failed to start inclusion mode');
+            } else {
+                setTimeout(function () {
+                    self._runCommand('controller.RemoveNodeFromNetwork(0)', function (err, json) {
+                        if (err) {
+                            logger.error('failed to stop inclusion mode');
+                        }
+                    });
+                }, duration);
+            }
+        });
+    },
+
+    stopExclusionMode: function (callback) {
+        this._runCommand('controller.RemoveNodeFromNetwork(0)', function (err, json) {
+            callback && callback(err, json);
+        });
+    },
+
+    _runCommand: function (command, callback) {
+        logger.debug('wat is deze: '+(apiCommandPath + command));
+        this.restClient.get(apiCommandPath + command, function (err, req, res, json) {
+            logger.debug('running command: ' + command);
+            callback && callback(err, json);
+        });
     },
 
     _update: function () {
@@ -84,30 +116,30 @@ Client.prototype = {
     },
 
     _handleUpdate: function (data) {
-        if (this.updateTime>0) {     
-	        for(var key in data) {
-	        	var match = this.pathRegex.exec(key);
-	        	if (match) {
-	        		var nodeId = match[1];
-	        		var instanceId = match[2];
-	        		var commandId = match[3];
-	        		var json= data[key];
-	        		
-	        		if (nodeId == this.controllerData.nodeId.value) {
-	        			continue;
-	        		}
-	        		
-	        		this._handleCommandUpdate(nodeId,instanceId,commandId,json);
-	        	}
-	        }
+        if (this.updateTime > 0) {
+            for (var key in data) {
+                var match = this.pathRegex.exec(key);
+                if (match) {
+                    var nodeId = match[1];
+                    var instanceId = match[2];
+                    var commandId = match[3];
+                    var json = data[key];
+
+                    if (nodeId == this.controllerData.nodeId.value) {
+                        continue;
+                    }
+
+                    this._handleCommandUpdate(nodeId, instanceId, commandId, json);
+                }
+            }
         } else if (data.devices) {
-        	this.controllerData = data.controller.data;
-        	var devices = data.devices;
+            this.controllerData = data.controller.data;
+            var devices = data.devices;
             for (var nodeId in devices) {
-            	if (nodeId == 255 || nodeId == this.controllerData.nodeId.value) {
-					// We skip broadcase and self
-					continue;
-				}
+                if (nodeId == 255 || nodeId == this.controllerData.nodeId.value) {
+                    // We skip broadcase and self
+                    continue;
+                }
                 var device = devices[nodeId];
                 this.devices.push({
                     id: nodeId,
@@ -115,8 +147,8 @@ Client.prototype = {
                     genericType: device.data.genericType.value,
                     specificType: device.data.specificType.value,
                     isListening: device.data.isListening.value,
-                    isFLiRS: !device.data.isListening.value && 
-                    	(device.data.sensor250.value || device.data.sensor1000.value),
+                    isFLiRS: !device.data.isListening.value &&
+                        (device.data.sensor250.value || device.data.sensor1000.value),
                     hasWakeup: 0x84 in device.instances[0].commandClasses,
                     hasBattery: 0x80 in device.instances[0].commandClasses
                 });
@@ -126,47 +158,47 @@ Client.prototype = {
                 logger.debug('devices found: ' + JSON.stringify(device));
             });
         }
-    }, 
-    
-    _handleCommandUpdate: function(nodeId,instanceId,commandId, json) {
-    	var device = this.getDevice(nodeId);
-    	var timestamp = json.updateTime;
-    	var commandUpdate = {
-    		device: device,
-    		instance: instanceId,
-    		timestamp: timestamp,
-    		command: {
-    			id: commandId,
-    			name: json.name,
-    			value: json.value,
-    			type: json.type
-    		}
-    	}
-    	
-    	for(var key in this.updates) {
-    		if (_.isEqual(this.updates[key],commandUpdate)) {
-    			return;
-    		}
-    	}
-    	
-    	this.updates.splice(0,0,commandUpdate);
-    	this.updates = this.updates.slice(-50);
-    	this.emit('update', commandUpdate);
+    },
+
+    _handleCommandUpdate: function (nodeId, instanceId, commandId, json) {
+        var device = this.getDevice(nodeId);
+        var timestamp = json.updateTime;
+        var commandUpdate = {
+            device: device,
+            instance: instanceId,
+            timestamp: timestamp,
+            command: {
+                id: commandId,
+                name: json.name,
+                value: json.value,
+                type: json.type
+            }
+        }
+
+        for (var key in this.updates) {
+            if (_.isEqual(this.updates[key], commandUpdate)) {
+                return;
+            }
+        }
+
+        this.updates.splice(0, 0, commandUpdate);
+        this.updates = this.updates.slice(-50);
+        this.emit('update', commandUpdate);
     }
 };
 
 Client.prototype.__proto__ = EventEmitter.prototype;
 
 function getDevices(req, res) {
-	res.jsonp(client.devices);
+    res.jsonp(client.devices);
 }
 
-function getDevice(req,res) {
-	res.jsonp(client.getDevice(req.params.id));
+function getDevice(req, res) {
+    res.jsonp(client.getDevice(req.params.id));
 }
 
-function getControllerData(req,res) {
-	res.jsonp(client.controllerData);
+function getControllerData(req, res) {
+    res.jsonp(client.controllerData);
 }
 
 var client = new Client(restify.createJsonClient({
@@ -176,18 +208,18 @@ var client = new Client(restify.createJsonClient({
 
 
 var routes = {
-	'devices' : {
-		get: getDevices,
-		'/:id' : {
-			get: getDevice
-		}
-	},
-	'controller' : {
-		get: getControllerData
-	}
+    'devices': {
+        get: getDevices,
+        '/:id': {
+            get: getDevice
+        }
+    },
+    'controller': {
+        get: getControllerData
+    }
 };
 
 module.exports = {
-	client: client,
-	routes: routes
+    client: client,
+    routes: routes
 };

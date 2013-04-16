@@ -12,22 +12,6 @@ var cronJob = require('cron').CronJob;
 var client = require('./client').client;
 var writer = require('./io').writer;
 var ftp = require('./io').ftp;
-var compressJob = new cronJob({
-    cronTime: '00 00 02 * * *',
-    onTick: function () {
-        writer.compressFiles();
-    },
-    start: false
-});
-compressJob.start();
-var ftpJob = new cronJob({
-    cronTime: '00 00 03 * * *',
-    onTick: function () {
-      ftp.send();  
-    },
-    start: false
-});
-ftpJob.start();
 
 fs.mkdir('logs', 0777, function (err) {
     if (!err) {
@@ -100,6 +84,23 @@ app.configure(function () {
 app.map(require('./client').routes, '/client/');
 app.map(require('./dashboard').routes, '/');
 
+var compressJob = new cronJob({
+    cronTime: '00 00 02 * * *',
+    onTick: function () {
+        writer.compressFiles();
+    },
+    start: false
+});
+compressJob.start();
+var ftpJob = new cronJob({
+    cronTime: '00 00 03 * * *',
+    onTick: function () {
+      ftp.send();  
+    },
+    start: false
+});
+ftpJob.start();
+
 //start client
 client.on('update', function (message) {
     writer.write(message, function (err, status) {
@@ -107,21 +108,20 @@ client.on('update', function (message) {
     });
 });
 
-
 //bind socket io to the client
 var clientsocket = io.of('/client')
     .on('connection', function (socket) {
         socket.on('start_inclusion', function(data) {
-           console.log('i want to start the inclusion mode with duration: ' + data.duration);
+           client.startInclusionMode(data.duration);
         });
         socket.on('start_exclusion', function(data) {
-           console.log('i want to start the exclusion mode with duration: ' + data.duration);
+           client.startExclusionMode(data.duration);
         });
         socket.on('stop_inclusion', function(data) {
-           console.log('i want to stop inclusion');
+           client.stopInclusionMode();
         });
         socket.on('stop_exclusion', function(data) {
-           console.log('i want to stop exclusion');
+           client.stopExclusionMode();
         });
 });
 

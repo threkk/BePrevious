@@ -3,9 +3,7 @@
     var fs = require('fs');
     var logger = log4js.getLogger("io");
     var configuration = require('../configuration.js');
-    var ftpconnection = new jsftp({
-		configuration.ftp
-    });
+    var ftpconnection = new jsftp(configuration.ftp);
 
     function Ftp() {}
 
