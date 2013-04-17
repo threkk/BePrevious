@@ -122,14 +122,14 @@ client.on('update', function (message) {
     writer.write(message, function (err, status) {
         logger.debug('wrote to file: ' + JSON.stringify(message));
     });
-    clientsocket.sockets.emit('update', message);
+    clientsocket.emit('update', message);
 });
 
 client.on('device_added', function(device){
-	clientsocket.sockets.emit('device_added', device);
+	clientsocket.emit('device_added', device);
 });
 client.on('device_removed', function(device){
-	clientsocket.sockets.emit('device_removed', device);
+	clientsocket.emit('device_removed', device);
 });
 
 // Launch server

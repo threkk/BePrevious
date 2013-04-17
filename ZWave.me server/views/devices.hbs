@@ -28,6 +28,21 @@
     	var duration = 30000;
     	var timer;
     	
+	 	socket.on('device_added', function (device) {
+	    	console.log('device added: ');
+	    	console.dir(device);
+	 	});
+	 	
+	 	socket.on('device_removed', function (device) {
+	    	console.log('device removed: ');
+	    	console.dir(device);
+	 	});
+	 	
+	 	socket.on('update', function (update) {
+	    	console.log('device update: ');
+	    	console.dir(update);
+	 	});
+    	
     	$(document).ready(function () {
 		    $('#deviceModal').on('show', function () {
 		        var type = $(this).data('type');

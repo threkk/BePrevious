@@ -58,15 +58,19 @@ Client.prototype = {
                         if (err) {
                             logger.error('failed to stop inclusion mode');
                         }
+                        self.updateTime = 0;
                     });
                 }, duration);
+                console.log('run command callback finished');
             }
         });
     },
 
     stopInclusionMode: function (callback) {
+        var self = this;
         this._runCommand('controller.AddNodeToNetwork(0)', function (err, json) {
             callback && callback(err, json);
+	        self.updateTime = 0;
         });
     },
 
@@ -81,6 +85,7 @@ Client.prototype = {
                         if (err) {
                             logger.error('failed to stop inclusion mode');
                         }
+                        self.updateTime = 0;
                     });
                 }, duration);
             }
@@ -88,27 +93,31 @@ Client.prototype = {
     },
 
     stopExclusionMode: function (callback) {
+    	var self = this;
         this._runCommand('controller.RemoveNodeFromNetwork(0)', function (err, json) {
             callback && callback(err, json);
+            self.updateTime = 0;
         });
     },
 
     _runCommand: function (command, callback) {
-        logger.debug('wat is deze: ' + (apiCommandPath + command));
+        logger.debug('executing command: ' + command);
         this.restClient.get(apiCommandPath + command, function (err, req, res, json) {
-            logger.debug('running command: ' + command);
+            logger.debug('finished executing command: ' + command);
             callback && callback(err, json);
+            logger.debug('callback executed');
         });
     },
 
     _update: function () {
+    	var self = this;
         this.restClient.get(apiDataPath + this.updateTime, function (err, req, res, json) {
             if (err) {
                 logger.error('client failed to retrieve data');
             } else {
                 this._handleUpdate(json);
             }
-            this.updateTime = Math.round((new Date()).getTime() / 1000);
+            self.updateTime = Math.round((new Date()).getTime() / 1000);
             setTimeout(function () {
                 client._update();
             }, this.updateRate);
