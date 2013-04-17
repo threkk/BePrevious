@@ -101,28 +101,35 @@ var ftpJob = new cronJob({
 });
 ftpJob.start();
 
+//bind socket io to the client
+var clientsocket = io.of('/client').on('connection', function (socket) {
+    socket.on('start_inclusion', function(data) {
+       client.startInclusionMode(data.duration);
+    });
+    socket.on('start_exclusion', function(data) {
+       client.startExclusionMode(data.duration);
+    });
+    socket.on('stop_inclusion', function(data) {
+       client.stopInclusionMode();
+    });
+    socket.on('stop_exclusion', function(data) {
+       client.stopExclusionMode();
+    });
+});
+
 //start client
 client.on('update', function (message) {
     writer.write(message, function (err, status) {
         logger.debug('wrote to file: ' + JSON.stringify(message));
     });
+    clientsocket.sockets.emit('update', message);
 });
 
-//bind socket io to the client
-var clientsocket = io.of('/client')
-    .on('connection', function (socket) {
-        socket.on('start_inclusion', function(data) {
-           client.startInclusionMode(data.duration);
-        });
-        socket.on('start_exclusion', function(data) {
-           client.startExclusionMode(data.duration);
-        });
-        socket.on('stop_inclusion', function(data) {
-           client.stopInclusionMode();
-        });
-        socket.on('stop_exclusion', function(data) {
-           client.stopExclusionMode();
-        });
+client.on('device_added', function(device){
+	clientsocket.sockets.emit('device_added', device);
+});
+client.on('device_removed', function(device){
+	clientsocket.sockets.emit('device_removed', device);
 });
 
 // Launch server

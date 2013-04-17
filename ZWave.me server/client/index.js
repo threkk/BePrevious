@@ -17,7 +17,7 @@ function Client(restClient) {
     this.controllerData = {};
     this.devices = [];
     this.updates = [];
-    
+
     this.init();
 }
 
@@ -94,7 +94,7 @@ Client.prototype = {
     },
 
     _runCommand: function (command, callback) {
-        logger.debug('wat is deze: '+(apiCommandPath + command));
+        logger.debug('wat is deze: ' + (apiCommandPath + command));
         this.restClient.get(apiCommandPath + command, function (err, req, res, json) {
             logger.debug('running command: ' + command);
             callback && callback(err, json);
@@ -133,31 +133,57 @@ Client.prototype = {
                 }
             }
         } else if (data.devices) {
-            this.controllerData = data.controller.data;
-            var devices = data.devices;
-            for (var nodeId in devices) {
+            var newDevices = [];
+            for (var nodeId in data.devices) {
+                this.controllerData = data.controller.data;
                 if (nodeId == 255 || nodeId == this.controllerData.nodeId.value) {
                     // We skip broadcase and self
                     continue;
                 }
-                var device = devices[nodeId];
-                this.devices.push({
-                    id: nodeId,
-                    basicType: device.data.basicType.value,
-                    genericType: device.data.genericType.value,
-                    specificType: device.data.specificType.value,
-                    isListening: device.data.isListening.value,
-                    isFLiRS: !device.data.isListening.value &&
-                        (device.data.sensor250.value || device.data.sensor1000.value),
-                    hasWakeup: 0x84 in device.instances[0].commandClasses,
-                    hasBattery: 0x80 in device.instances[0].commandClasses
-                });
-            }
 
-            this.devices.map(function (device) {
-                logger.debug('devices found: ' + JSON.stringify(device));
-            });
+                var deviceData = data.devices[nodeId];
+                var newDevice = {
+                    id: nodeId,
+                    basicType: deviceData.data.basicType.value,
+                    genericType: deviceData.data.genericType.value,
+                    specificType: deviceData.data.specificType.value,
+                    isListening: deviceData.data.isListening.value,
+                    isFLiRS: !deviceData.data.isListening.value &&
+                        (deviceData.data.sensor250.value || deviceData.data.sensor1000.value),
+                    hasWakeup: 0x84 in deviceData.instances[0].commandClasses,
+                    hasBattery: 0x80 in deviceData.instances[0].commandClasses
+                };
+
+                newDevices.push(newDevice);
+            }
+            this._handleDeviceUpdate(newDevices);
         }
+    },
+
+    _handleDeviceUpdate: function (newDevices) {
+        for (var index in newDevices) {
+            var newDevice = newDevices[index];
+            if (_.findIndex(this.devices, function (device) {
+                return device.id == newDevice.id;
+            }) < 0) {
+                this.emit('device_added', newDevice);
+                this.devices.push(newDevice);
+            }
+        }
+
+        for (var index in this.devices) {
+            var oldDevice = this.devices[index];
+            if (_.findIndex(newDevices, function (newDevice) {
+                return oldDevice.id == newDevice.id;
+            }) < 0) {
+                this.emit('device_removed', oldDevice);
+                this.devices.splice(index, 1);
+            }
+        }
+
+        this.devices.map(function (device) {
+            logger.debug('devices found: ' + JSON.stringify(device));
+        });
     },
 
     _handleCommandUpdate: function (nodeId, instanceId, commandId, json) {
@@ -174,6 +200,7 @@ Client.prototype = {
                 type: json.type
             }
         }
+
 
         for (var key in this.updates) {
             if (_.isEqual(this.updates[key], commandUpdate)) {
