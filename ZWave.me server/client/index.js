@@ -8,6 +8,7 @@ var _ = require('lodash');
 
 var apiDataPath = '/ZWaveAPI/Data/';
 var apiCommandPath = '/ZWaveAPI/Run/';
+var descriptors = require('./descriptors.js');
 
 function Client(restClient) {
     this.restClient = restClient;

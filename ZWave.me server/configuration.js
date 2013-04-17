@@ -1,8 +1,8 @@
 module.exports = {
 	host: "http://localhost:8083/",
-	ftp:{ 
+	ftp: { 
 		host: "145.92.76.82",
         user: "ftpclient",
         port: 21
-        }	
+    }	
 };

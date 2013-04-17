@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ZWaveDevice xmlns="http://www.pepper1.net/zwavedb/xml-schemata/z-wave" schemaVersion="2">
+
+  <descriptorVersion>1</descriptorVersion>
+
+  <deviceData>
+            <manufacturerId value="0109"/>
+        <productType value="2005"/>
+    <productId value="0503"/>
+    <libType value="06"/>
+    <protoVersion value="03"/>
+    <protoSubVersion value="2a"/>
+    <appVersion value="01"/>
+    <appSubVersion value="41"/>
+        <basicClass value="04"/>
+            <genericClass value="10"/>
+            <specificClass value="00"/>
+        <optional value="false"/>
+    <listening value="false"/>
+    <routing value="true"/>
+        <beamSensor>1000</beamSensor>
+                    
+      </deviceData>
+
+  <deviceDescription>
+                <description>
+            <lang xml:lang="en">Battery Operated Siren</lang>
+          </description>
+            <wakeupNote>
+            <lang xml:lang="en">Hit button behind battery cover</lang>
+          </wakeupNote>
+            <inclusionNote>
+            <lang xml:lang="en">Hit button behind battery cover</lang>
+          </inclusionNote>
+            <productName>ZM1601</productName>
+            <brandName>Vision Security</brandName>
+                        <batteryType>AA</batteryType>
+            <batteryCount>4</batteryCount>
+            </deviceDescription>
+
+    <commandClasses>
+        <commandClass id="0080"/>
+        <commandClass id="0020" inNIF="false"/>
+        <commandClass id="0025"/>
+        <commandClass id="0086"/>
+        <commandClass id="0070"/>
+        <commandClass id="0072"/>
+      </commandClasses>
+  
+  
+  
+    
+  
+    <resourceLinks>
+     
+    <deviceImage url="http://www.pepper1.net/zwavedb/uploads/resources/8b96769ed7bd3385ab4c70f719c687824a4bb0aa.jpg" />
+      </resourceLinks>
+    
+  </ZWaveDevice>
+
+
