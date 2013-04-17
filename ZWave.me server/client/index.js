@@ -4,6 +4,7 @@ var configuration = require('../configuration.js');
 var restify = require('restify');
 var logger = log4js.getLogger("client");
 var _ = require('lodash');
+ var moment = require('moment');
 
 var apiDataPath = '/ZWaveAPI/Data/';
 var apiCommandPath = '/ZWaveAPI/Run/';
@@ -70,7 +71,7 @@ Client.prototype = {
         var self = this;
         this._runCommand('controller.AddNodeToNetwork(0)', function (err, json) {
             callback && callback(err, json);
-	        self.updateTime = 0;
+            self.updateTime = 0;
         });
     },
 
@@ -93,7 +94,7 @@ Client.prototype = {
     },
 
     stopExclusionMode: function (callback) {
-    	var self = this;
+        var self = this;
         this._runCommand('controller.RemoveNodeFromNetwork(0)', function (err, json) {
             callback && callback(err, json);
             self.updateTime = 0;
@@ -110,7 +111,7 @@ Client.prototype = {
     },
 
     _update: function () {
-    	var self = this;
+        var self = this;
         this.restClient.get(apiDataPath + this.updateTime, function (err, req, res, json) {
             if (err) {
                 logger.error('client failed to retrieve data');
@@ -156,15 +157,23 @@ Client.prototype = {
                     basicType: deviceData.data.basicType.value,
                     genericType: deviceData.data.genericType.value,
                     specificType: deviceData.data.specificType.value,
+                    manufacturerId:deviceData.data.manufacturerId.value,
+                    manufacturerProductId: deviceData.data.manufacturerProductId.value,
+                    manufacturerProductType: deviceData.data.manufacturerProductType.value,
                     isListening: deviceData.data.isListening.value,
                     isFLiRS: !deviceData.data.isListening.value &&
                         (deviceData.data.sensor250.value || deviceData.data.sensor1000.value),
                     hasWakeup: 0x84 in deviceData.instances[0].commandClasses,
                     hasBattery: 0x80 in deviceData.instances[0].commandClasses
                 };
-				if(newDevice.hasBattery){
-					newDevice.batteryLevel = deviceData.instances[0].commandClasses[0x80].data.last.value
-				}
+               	if(newDevice.hasWakeup){
+               	 	var lastWakeUp = deviceData.instances[0].commandClasses[0x84].data.lastWakeup.value;           
+                	var d = moment(parseInt(lastWakeUp, 10)*1000).fromNow();
+                	newDevice.lastWakeup = d;
+            	}
+                if (newDevice.hasBattery) {
+                    newDevice.batteryLevel = deviceData.instances[0].commandClasses[0x80].data.last.value
+                }
                 newDevices.push(newDevice);
             }
             this._handleDeviceUpdate(newDevices);
