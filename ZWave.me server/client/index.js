@@ -162,7 +162,9 @@ Client.prototype = {
                     hasWakeup: 0x84 in deviceData.instances[0].commandClasses,
                     hasBattery: 0x80 in deviceData.instances[0].commandClasses
                 };
-
+				if(newDevice.hasBattery){
+					newDevice.batteryLevel = deviceData.instances[0].commandClasses[0x80].data.last.value
+				}
                 newDevices.push(newDevice);
             }
             this._handleDeviceUpdate(newDevices);
