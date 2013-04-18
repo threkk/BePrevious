@@ -169,6 +169,8 @@
 			      <th>Node ID</th>
 			      <th>Basic type</th>
 			      <th>Generic type</th>
+			      <th>Battery level</th>
+			      <th>Sleeping since</th>
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -177,6 +179,8 @@
 			      <td>{{id}}</td>
 			      <td>{{basicType}}</td>
 			      <td>{{genericType}}</td>
+			      <td>{{batteryLevel}}{{#hasBattery}}%{{/hasBattery}}</td>
+			    	<td>{{#hasWakeup}}{{lastWakeup}}{{/hasWakeup}}</td>
 			    </tr>
 			    {{/devices}}
 			  </tbody>
