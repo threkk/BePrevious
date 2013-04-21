@@ -17,113 +17,12 @@
     <script src="/jquery/jquery-1.9.1.min.js"></script>
     <script src="/bootstrap/js/bootstrap.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/devices.js"></script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="/shiv/js/html5shiv.js"></script>
     <![endif]-->
-    
-    <script type="text/javascript">
-    	var socket = io.connect('/client');
-    	var duration = 30000;
-    	var timer;
-    	
-	 	socket.on('device_added', function (device) {
-	    	console.log('device added: ');
-	    	console.dir(device);
-	 	});
-	 	
-	 	socket.on('device_removed', function (device) {
-	    	console.log('device removed: ');
-	    	console.dir(device);
-	 	});
-	 	
-	 	socket.on('update', function (update) {
-	    	console.log('device update: ');
-	    	console.dir(update);
-	 	});
-    	
-    	$(document).ready(function () {
-		    $('#deviceModal').on('show', function () {
-		        var type = $(this).data('type');
-		        var titleLabel = $('#modalLabel');
-		        var textLabel = $('p#text-placeholder');
-		
-				//set the title and text of the dialog based on the type
-		        if (type == 'include') {
-		            titleLabel.text('Include new devices');
-		            textLabel.text('Press and hold the tamper button on the device to include it in the network');
-					socket.emit('start_inclusion', { duration: duration });
-		        } else {
-		            titleLabel.text('Exclude device');
-		            textLabel.text('Press and hold the tamper button on the device to exclude it from the network');
-		            socket.emit('start_exclusion', { duration: duration });
-		        }
-		
-				var proggresBar = $('#progressbar');
-				proggresBar.css('width', '0%');
-		        startTimer(function(val){
-		        	if (val=='stop') {
-		        		$('#deviceModal').modal('hide');
-		        	} else {
-		        		proggresBar.css('width', val);
-		        	}
-		        });
-		    });
-		
-		    $('#deviceModal').on('hide', function () {
-		        stopTimer();
-
-		        var type = $(this).data('type');
-		        if (type=='include') {
-					socket.emit('stop_inclusion');
-				} else {
-					socket.emit('stop_exclusion');
-				}
-		    });
-		});
-		
-		function startTimer(callback) {
-			var progress = 0;
-			var interval = 1000;
-			
-			if (timer) {
-				stopTimer();
-			}			
-			
-			timer = setInterval(function(){
-				progress += interval;
-				
-				var percentage = Math.round((progress / duration) * 100) + '%';
-				
-				callback && callback(percentage);
-								
-				if (progress >= duration) {
-					stopTimer();
-					callback('stop');
-				}
-			},interval);
-		}
-		
-		function stopTimer() {
-			clearInterval(timer);
-			timer = null;
-		}
-    	
-    	function showExclusionDialog() {
-			$('#deviceModal')
-				.data('type', 'exclude')
-				.data('duration',duration)
-				.modal('show');
-		}
-    	
-    	function showInclusionDialog() {
-			$('#deviceModal')
-				.data('type', 'include')
-				.data('duration',duration)
-				.modal('show');
-		}
-    </script>
   </head>
 
   <body>
@@ -143,8 +42,7 @@
 			<button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Stop</button>
 		</div>
 	</div>
-  
-  
+ 
     <div class="container">
      
       {{>header}}
@@ -160,12 +58,14 @@
       <div class="row-fluid">
       	<div class="span10 offset1">
       		<div align="center">
-      		 	<button class="btn btn-primary" onclick="showInclusionDialog();">Include devices</button>
-  				<button class="btn btn-danger" onclick="showExclusionDialog();">Exclude devices</button>
-      		</div>
+      		 	<button class="btn btn-primary" onclick="startMode('inclusion');">Include devices</button>
+  				<button class="btn btn-danger" onclick="startMode('exclusion');">Exclude devices</button>
+      		</div>      		
+      		
 			<table class="table">
 			  <thead>
 			    <tr>
+			      <th></th>
 			      <th>Node ID</th>
 			      <th>Basic type</th>
 			      <th>Generic type</th>
@@ -176,6 +76,7 @@
 			  <tbody>
 			    {{#devices}}
 			    <tr>
+			      <td><img src="{{imageURL}}" width="128" height="96"></td>
 			      <td>{{id}}</td>
 			      <td>{{basicType}}</td>
 			      <td>{{genericType}}</td>

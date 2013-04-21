@@ -3,267 +3,121 @@ var emitter = new EventEmitter();
 var configuration = require('../configuration.js');
 var restify = require('restify');
 var logger = log4js.getLogger("client");
-var _ = require('lodash');
- var moment = require('moment');
+
+var DeviceManager = require('./devicemanager.js').DeviceManager;
+var CommandManager = require('./commandmanager.js').CommandManager;
 
 var apiDataPath = '/ZWaveAPI/Data/';
 var apiCommandPath = '/ZWaveAPI/Run/';
-var descriptors = require('./descriptors.js');
 
-function Client(restClient) {
-    this.restClient = restClient;
+function Client() {
+    this.restClient = restify.createJsonClient({
+        url: configuration.host,
+        version: '*'
+    });
 
-    this.updateRate = 500;
-    this.updateTime = 0;
-
-    this.controllerData = {};
-    this.devices = [];
-    this.updates = [];
-
-    this.init();
+    this.deviceManager = new DeviceManager(this);
+    this.commandManager = new CommandManager(this);
+    
+    this.deviceManager.update();
 }
 
 Client.prototype = {
-
-    pathRegex: new RegExp(/^devices\.(\d+)\.instances\.(\d+)\.commandClasses\.(\d+)\.(.*)$/),
-
-    init: function () {
-        setTimeout(function () {
-            client._update();
-        }, this.updateRate);
-
-        this.emit('initialized');
-    },
-
-    getDevice: function (nodeId) {
-        for (var key in this.devices) {
-            var device = this.devices[key];
-            if (device.id == nodeId) {
-                return device;
-            }
-        }
-        return null;
-    },
-
-    getControllerData: function () {
-        return this.controllerData;
-    },
-
-    startInclusionMode: function (duration, callback) {
-        var self = this;
-        this._runCommand('controller.AddNodeToNetwork(1)', function (err, json) {
-            if (err) {
-                logger.error('failed to start inclusion mode');
-            } else {
-                setTimeout(function () {
-                    self._runCommand('controller.AddNodeToNetwork(0)', function (err, json) {
-                        if (err) {
-                            logger.error('failed to stop inclusion mode');
-                        }
-                        self.updateTime = 0;
-                    });
-                }, duration);
-                console.log('run command callback finished');
-            }
-        });
-    },
-
-    stopInclusionMode: function (callback) {
-        var self = this;
-        this._runCommand('controller.AddNodeToNetwork(0)', function (err, json) {
-            callback && callback(err, json);
-            self.updateTime = 0;
-        });
-    },
-
-    startExclusionMode: function (duration, callback) {
-        var self = this;
-        this._runCommand('controller.RemoveNodeFromNetwork(1)', function (err, json) {
-            if (err) {
-                logger.error('failed to start inclusion mode');
-            } else {
-                setTimeout(function () {
-                    self._runCommand('controller.RemoveNodeFromNetwork(0)', function (err, json) {
-                        if (err) {
-                            logger.error('failed to stop inclusion mode');
-                        }
-                        self.updateTime = 0;
-                    });
-                }, duration);
-            }
-        });
-    },
-
-    stopExclusionMode: function (callback) {
-        var self = this;
-        this._runCommand('controller.RemoveNodeFromNetwork(0)', function (err, json) {
-            callback && callback(err, json);
-            self.updateTime = 0;
-        });
-    },
-
-    _runCommand: function (command, callback) {
-        logger.debug('executing command: ' + command);
+    runCommand: function (command, callback) {
         this.restClient.get(apiCommandPath + command, function (err, req, res, json) {
-            logger.debug('finished executing command: ' + command);
+         	logger.debug('command executed: ' + command);
             callback && callback(err, json);
-            logger.debug('callback executed');
         });
     },
 
-    _update: function () {
-        var self = this;
-        this.restClient.get(apiDataPath + this.updateTime, function (err, req, res, json) {
-            if (err) {
-                logger.error('client failed to retrieve data');
-            } else {
-                this._handleUpdate(json);
-            }
-            self.updateTime = Math.round((new Date()).getTime() / 1000);
-            setTimeout(function () {
-                client._update();
-            }, this.updateRate);
-        }.bind(this));
-    },
-
-    _handleUpdate: function (data) {
-        if (this.updateTime > 0) {
-            for (var key in data) {
-                var match = this.pathRegex.exec(key);
-                if (match) {
-                    var nodeId = match[1];
-                    var instanceId = match[2];
-                    var commandId = match[3];
-                    var json = data[key];
-
-                    if (nodeId == this.controllerData.nodeId.value) {
-                        continue;
-                    }
-
-                    this._handleCommandUpdate(nodeId, instanceId, commandId, json);
-                }
-            }
-        } else if (data.devices) {
-            var newDevices = [];
-            for (var nodeId in data.devices) {
-                this.controllerData = data.controller.data;
-                if (nodeId == 255 || nodeId == this.controllerData.nodeId.value) {
-                    // We skip broadcase and self
-                    continue;
-                }
-
-                var deviceData = data.devices[nodeId];
-                var newDevice = {
-                    id: nodeId,
-                    basicType: deviceData.data.basicType.value,
-                    genericType: deviceData.data.genericType.value,
-                    specificType: deviceData.data.specificType.value,
-                    manufacturerId:deviceData.data.manufacturerId.value,
-                    manufacturerProductId: deviceData.data.manufacturerProductId.value,
-                    manufacturerProductType: deviceData.data.manufacturerProductType.value,
-                    isListening: deviceData.data.isListening.value,
-                    isFLiRS: !deviceData.data.isListening.value &&
-                        (deviceData.data.sensor250.value || deviceData.data.sensor1000.value),
-                    hasWakeup: 0x84 in deviceData.instances[0].commandClasses,
-                    hasBattery: 0x80 in deviceData.instances[0].commandClasses
-                };
-               	if(newDevice.hasWakeup){
-               	 	var lastWakeUp = deviceData.instances[0].commandClasses[0x84].data.lastWakeup.value;           
-                	var d = moment(parseInt(lastWakeUp, 10)*1000).fromNow();
-                	newDevice.lastWakeup = d;
-            	}
-                if (newDevice.hasBattery) {
-                    newDevice.batteryLevel = deviceData.instances[0].commandClasses[0x80].data.last.value
-                }
-                newDevices.push(newDevice);
-            }
-            this._handleDeviceUpdate(newDevices);
-        }
-    },
-
-    _handleDeviceUpdate: function (newDevices) {
-        for (var index in newDevices) {
-            var newDevice = newDevices[index];
-            if (_.findIndex(this.devices, function (device) {
-                return device.id == newDevice.id;
-            }) < 0) {
-                this.emit('device_added', newDevice);
-                this.devices.push(newDevice);
-            }
-        }
-
-        for (var index in this.devices) {
-            var oldDevice = this.devices[index];
-            if (_.findIndex(newDevices, function (newDevice) {
-                return oldDevice.id == newDevice.id;
-            }) < 0) {
-                this.emit('device_removed', oldDevice);
-                this.devices.splice(index, 1);
-            }
-        }
-
-        this.devices.map(function (device) {
-            logger.debug('devices found: ' + JSON.stringify(device));
+    getApiData: function (timestamp, callback) {
+        this.restClient.get(apiDataPath + timestamp, function (err, req, res, json) {
+            callback(err, json);
         });
-    },
-
-    _handleCommandUpdate: function (nodeId, instanceId, commandId, json) {
-        var device = this.getDevice(nodeId);
-        var timestamp = json.updateTime;
-        var commandUpdate = {
-            device: device,
-            instance: instanceId,
-            timestamp: timestamp,
-            command: {
-                id: commandId,
-                name: json.name,
-                value: json.value,
-                type: json.type
-            }
-        }
-
-
-        for (var key in this.updates) {
-            if (_.isEqual(this.updates[key], commandUpdate)) {
-                return;
-            }
-        }
-
-        this.updates.splice(0, 0, commandUpdate);
-        this.updates = this.updates.slice(-50);
-        this.emit('update', commandUpdate);
     }
 };
 
 Client.prototype.__proto__ = EventEmitter.prototype;
 
+var client = new Client();
+
+function startInclude(req, res) {
+	var duration = getDuration(req);
+	client.deviceManager.startInclusionMode(duration, function(err) {
+		handleResponse(err,res);
+	});
+}
+
+function stopInclude(req, res) {
+	client.deviceManager.stopInclusionMode(function(err) {
+		handleResponse(err,res);
+	});
+}
+
+function startExclude(req, res) {
+	var duration = getDuration(req);
+	client.deviceManager.startExclusionMode(duration, function(err) {
+		handleResponse(err,res);
+	});
+}
+
+function stopExclude(req, res) {
+	client.deviceManager.stopExclusionMode(function(err) {
+		handleResponse(err,res);
+	});
+}
+
+function getController(req, res) {
+	res.jsonp(client.deviceManager.controller);
+}
+
 function getDevices(req, res) {
-    res.jsonp(client.devices);
+	res.jsonp(client.deviceManager.devices);
 }
 
-function getDevice(req, res) {
-    res.jsonp(client.getDevice(req.params.id));
+function getDuration(req) {
+	var duration = (req.query.duration || req.body.duration);
+	var min = configuration.minDuration;
+	var max = configuration.maxDuration;
+	
+	return Math.max(min, Math.min(max, (parseInt(duration) || min)))
 }
 
-function getControllerData(req, res) {
-    res.jsonp(client.controllerData);
+function handleResponse(err, res) {
+	if (err) {
+		throw new Error();
+	} else {
+		res.jsonp({message: 'succes'});
+	}
 }
-
-var client = new Client(restify.createJsonClient({
-    url: configuration.host,
-    version: '*'
-}));
 
 
 var routes = {
-    'devices': {
-        get: getDevices,
-        '/:id': {
-            get: getDevice
+	'controller' : {
+		get: getController
+	}, 
+	'devices': {
+		get: getDevices
+	},
+    'devices/inclusion/': {
+        'start': {
+            get: startInclude,
+            post: startInclude
+        },
+        'stop': {
+            get: stopInclude,
+            post: stopInclude
         }
     },
-    'controller': {
-        get: getControllerData
+    'devices/exclusion/': {
+        'start': {
+            get: startExclude,
+            post: startExclude
+        },
+        'stop': {
+            get: stopExclude,
+            post: stopExclude
+        }
     }
 };
 

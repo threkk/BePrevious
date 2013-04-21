@@ -2,13 +2,13 @@ var client = require('../client').client;
 
 function getHome(req,res) {
 	res.render('home.hbs', {
-		controllerData: client.getControllerData()
+		controllerData: client.deviceManager.controller
 	});
 }
 
 function getDevices(req,res) {
 	res.render('devices.hbs', {
-		devices: client.devices
+		devices: client.deviceManager.devices
 	});
 }
 

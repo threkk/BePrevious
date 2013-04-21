@@ -50,7 +50,7 @@ app.map = function (a, route) {
 
 var http = require('http');
 var server = http.createServer(app),
-	io = io.listen(server);
+	io = io.listen(server, {log: false});
 
 function registerPartialSync(hbs, partialName, filename) {
     var encoding = 'utf8'
@@ -102,23 +102,10 @@ var ftpJob = new cronJob({
 ftpJob.start();
 
 //bind socket io to the client
-var clientsocket = io.of('/client').on('connection', function (socket) {
-    socket.on('start_inclusion', function(data) {
-       client.startInclusionMode(data.duration);
-    });
-    socket.on('start_exclusion', function(data) {
-       client.startExclusionMode(data.duration);
-    });
-    socket.on('stop_inclusion', function(data) {
-       client.stopInclusionMode();
-    });
-    socket.on('stop_exclusion', function(data) {
-       client.stopExclusionMode();
-    });
-});
+var clientsocket = io.of('/client');
 
 //start client
-client.on('update', function (message) {
+client.on('commandupdate', function (message) {
     writer.write(message, function (err, status) {
         logger.debug('wrote to file: ' + JSON.stringify(message));
     });
