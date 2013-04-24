@@ -19,7 +19,9 @@ function editDevice(req, res) {
 	if (!device) {
 		throw new Error('device not found');
 	} else {
-		res.jsonp(device);
+		res.render('editDevice.hbs', {
+		device: device
+	});
 	}
 }
 
