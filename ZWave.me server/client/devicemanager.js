@@ -41,6 +41,7 @@ DeviceManager.prototype = {
                     basicType: deviceData.data.basicType.value,
                     genericType: deviceData.data.genericType.value,
                     specificType: deviceData.data.specificType.value,
+                    isFailed: deviceData.data.isFailed.value,
                     manufacturerId:deviceData.data.manufacturerId.value,
                     manufacturerProductId: deviceData.data.manufacturerProductId.value,
                     manufacturerProductType: deviceData.data.manufacturerProductType.value,
