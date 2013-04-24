@@ -25,8 +25,8 @@ DescriptionRepository.prototype = {
     updateDeviceDescription: function (device) {
         var descriptor = this._findDescription(
             device.manufacturerId,
-            device.manufacturerProductType,
-            device.manufacturerProductId)
+            device.productType,
+            device.productId)
 
         if (!descriptor) {
             return;

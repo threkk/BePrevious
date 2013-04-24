@@ -7,8 +7,15 @@ function getHome(req,res) {
 }
 
 function getDevices(req,res) {
+	var deviceData = [];
+	
+	for(var key in client.deviceManager.devices) {
+		var device = client.deviceManager.devices[key];
+		deviceData.push(device.data);
+	}
+	
 	res.render('devices.hbs', {
-		devices: client.deviceManager.devices
+		devices: deviceData
 	});
 }
 
