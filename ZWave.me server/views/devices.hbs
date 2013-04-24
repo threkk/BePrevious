@@ -56,32 +56,35 @@
       <hr>
       
       <div class="row-fluid">
-      	<div class="span10 offset1">
+      	<div class="span12">
       		<div align="center">
       		 	<button class="btn btn-primary" onclick="startMode('inclusion');">Include devices</button>
   				<button class="btn btn-danger" onclick="startMode('exclusion');">Exclude devices</button>
-      		</div>      		
+      		</div> 
+     		
       		
 			<table class="table">
 			  <thead>
 			    <tr>
 			      <th></th>
+			      <th>activity</th>
 			      <th>Node ID</th>
-			      <th>Basic type</th>
-			      <th>Generic type</th>
+			      <th>Name</th>
 			      <th>Battery level</th>
 			      <th>Sleeping since</th>
+			      <th></th>
 			    </tr>
 			  </thead>
 			  <tbody>
 			    {{#devices}}
 			    <tr>
-			      <td><img src="{{imageURL}}" width="128" height="96"></td>
+			      <td><img src="{{description.imageURL}}" width="128" height="96"></td>
+			      <td><img src="images/no_activity.png"></td>
 			      <td>{{id}}</td>
-			      <td>{{basicType}}</td>
-			      <td>{{genericType}}</td>
+			      <td>{{description.name}}</td>
 			      <td>{{batteryLevel}}{{#hasBattery}}%{{/hasBattery}}</td>
-			    	<td>{{#hasWakeup}}{{lastWakeup}}{{/hasWakeup}}</td>
+			      <td>{{#hasWakeup}}{{lastWakeup}}{{/hasWakeup}}</td>
+			      <td><a class="btn" href="devices/edit/{{id}}">Edit settings</a></td>
 			    </tr>
 			    {{/devices}}
 			  </tbody>

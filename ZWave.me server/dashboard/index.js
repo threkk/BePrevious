@@ -12,9 +12,23 @@ function getDevices(req,res) {
 	});
 }
 
+function editDevice(req, res) {
+	var nodeId = req.params.id;
+	var device = client.deviceManager.getDevice(nodeId);
+	
+	if (!device) {
+		throw new Error('device not found');
+	} else {
+		res.jsonp(device);
+	}
+}
+
 exports.routes = {
 	get: getHome,
 	'devices' : {
-		get: getDevices
+		get: getDevices,
+		'/edit/:id': {
+			get: editDevice
+		}
 	}
 }

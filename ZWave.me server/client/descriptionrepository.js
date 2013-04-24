@@ -47,10 +47,14 @@ DescriptionRepository.prototype = {
 
         var deviceData = json.ZWaveDevice.deviceData;
         var deviceDescription = json.ZWaveDevice.deviceDescription;
-        var resourceLinks = deviceData.resourceLinks;
+        var resourceLinks = json.ZWaveDevice.resourceLinks;
+        var imageURL = resourceLinks && resourceLinks.deviceImage && resourceLinks.deviceImage.url;
+        
         var descriptorManufacturerId = deviceData.manufacturerId && deviceData.manufacturerId.value;
         var descriptorProductType = deviceData.productType && deviceData.productType.value;
         var descriptorProductId = deviceData.productId && deviceData.productId.value;
+
+		//console.log(JSON.stringify(json));
 
         this.descriptors.push({
             manufacturerId: (parseInt(descriptorManufacturerId, 16) || -1),
@@ -58,7 +62,7 @@ DescriptionRepository.prototype = {
             productId: (parseInt(descriptorProductId, 16) || -1),
             name: deviceDescription.productName['$t'],
             description: deviceDescription.description.lang['$t'],
-            imageURL: ((resourceLinks && resourceLinks.deviceImage.url) || this.unknownImageURL)
+            imageURL: (imageURL || this.unknownImageURL)
         });
     },
 

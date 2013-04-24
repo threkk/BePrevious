@@ -93,8 +93,9 @@ DeviceManager.prototype = {
         if (self.mode != 'including') {
         	return;
 		}
-        this.client.runCommand(command_stop_exclusion, function (err, json) {
+        this.client.runCommand(command_stop_inclusion, function (err, json) {
             self.mode = 'idle';
+            self.update();
             callback && callback(err, json);
         });
     },
@@ -129,6 +130,7 @@ DeviceManager.prototype = {
 		}
         this.client.runCommand(command_stop_exclusion, function (err, json) {
             self.mode = 'idle';
+            self.update();
             callback && callback(err, json);
         });
     },
