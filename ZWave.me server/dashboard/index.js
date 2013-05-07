@@ -20,15 +20,15 @@ function getDevices(req,res) {
 }
 
 function editDevice(req, res) {
-	var nodeId = req.params.id;
-	var device = client.deviceManager.getDevice(nodeId);
+	var id = req.params.id;
+	var device = client.deviceManager.getDevice(id);
 	
 	if (!device) {
-		throw new Error('device not found');
+		throw new Error('device '+id+' not found');
 	} else {
 		res.render('editDevice.hbs', {
-		device: device
-	});
+			device: device
+		});
 	}
 }
 

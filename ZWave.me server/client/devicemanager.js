@@ -148,10 +148,11 @@ DeviceManager.prototype = {
         return this.controller;
     },
 
-    getDevice: function (nodeId) {
+    getDevice: function (id) {
         for (var key in this.devices) {
             var device = this.devices[key];
-            if (device.id == nodeId) {
+            
+            if (device.data.id == id) {
                 return device;
             }
         }
