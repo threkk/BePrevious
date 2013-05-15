@@ -113,10 +113,10 @@ client.on('commandupdate', function (message) {
 });
 
 client.on('device_added', function(device){
-	console.log('device added');
+	clientsocket.emit('device_added', device);
 });
 client.on('device_removed', function(device){
-	console.log('device removed');
+	clientsocket.emit('device_removed', device);
 });
 
 // Launch server

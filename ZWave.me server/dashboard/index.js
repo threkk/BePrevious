@@ -7,15 +7,24 @@ function getHome(req,res) {
 }
 
 function getDevices(req,res) {
-	var deviceData = [];
+	var devices = [];
 	
 	for(var key in client.deviceManager.devices) {
 		var device = client.deviceManager.devices[key];
-		deviceData.push(device.data);
+		var deviceData = JSON.parse(JSON.stringify(device.data));
+		
+		var status = 'Ok';
+		if (deviceData.batteryLevel<25) {
+			status = 'Low battery';
+		} else if (deviceData.isFailed) {
+			status = 'Failed';
+		}
+		deviceData.status = status;
+		devices.push(deviceData);
 	}
 	
 	res.render('devices.hbs', {
-		devices: deviceData
+		devices: devices
 	});
 }
 

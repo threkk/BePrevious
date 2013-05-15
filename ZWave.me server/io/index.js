@@ -84,5 +84,7 @@ Writer.prototype = {
 
 var w = new Writer();
 
-module.exports.writer = w;
-module.exports.ftp = require('./ftp.js');
+module.exports = {
+	writer: w,
+	ftp: require('./ftp.js')
+}

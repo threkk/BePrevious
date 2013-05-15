@@ -1,0 +1,347 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@1.2.14
+3 info using node@v0.10.0
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\package.json
+6 warn package.json ZWaveMeserver@0.0.1 No README.md file found!
+7 verbose readDependencies using package.json deps
+8 verbose install where, deps [ 'C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server',
+8 verbose install   [ 'express',
+8 verbose install     'async',
+8 verbose install     'hbs',
+8 verbose install     'log4js',
+8 verbose install     'lodash',
+8 verbose install     'restify',
+8 verbose install     'cron',
+8 verbose install     'jsftp',
+8 verbose install     'moment',
+8 verbose install     'socket.io',
+8 verbose install     'xml-mapping',
+8 verbose install     'bluetooth-serial-port' ] ]
+9 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\package.json
+10 info preinstall ZWaveMeserver@0.0.1
+11 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\async\package.json
+12 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\cron\package.json
+13 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\express\package.json
+14 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\ftp\package.json
+15 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\hbs\package.json
+16 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\hulk-hogan\package.json
+17 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\jsftp\package.json
+18 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\lodash\package.json
+19 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\log4js\package.json
+20 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\moment\package.json
+21 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\mongodb\package.json
+22 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\mongoose\package.json
+23 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\restify\package.json
+24 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\restler\package.json
+25 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\socket.io\package.json
+26 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\xml-mapping\package.json
+27 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\package.json
+28 verbose readDependencies using package.json deps
+29 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\async\package.json
+30 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\cron\package.json
+31 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\express\package.json
+32 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\ftp\package.json
+33 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\hbs\package.json
+34 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\hulk-hogan\package.json
+35 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\jsftp\package.json
+36 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\lodash\package.json
+37 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\log4js\package.json
+38 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\moment\package.json
+39 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\mongodb\package.json
+40 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\mongoose\package.json
+41 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\restify\package.json
+42 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\restler\package.json
+43 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\socket.io\package.json
+44 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\xml-mapping\package.json
+45 verbose already installed skipping express@3.0.3 C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+46 verbose already installed skipping async@0.1.22 C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+47 verbose already installed skipping hbs@2.1.0 C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+48 verbose already installed skipping log4js@0.6.0 C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+49 verbose already installed skipping lodash@1.2.0 C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+50 verbose already installed skipping restify@2.3.4 C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+51 verbose already installed skipping cron@1.0.1 C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+52 verbose already installed skipping jsftp@0.5.9 C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+53 verbose already installed skipping moment@2.0.0 C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+54 verbose already installed skipping socket.io@0.9.14 C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+55 verbose already installed skipping xml-mapping@1.2.0 C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+56 verbose cache add [ 'bluetooth-serial-port@0.1.11', null ]
+57 verbose cache add name=undefined spec="bluetooth-serial-port@0.1.11" args=["bluetooth-serial-port@0.1.11",null]
+58 verbose parsed url { protocol: null,
+58 verbose parsed url   slashes: null,
+58 verbose parsed url   auth: null,
+58 verbose parsed url   host: null,
+58 verbose parsed url   port: null,
+58 verbose parsed url   hostname: null,
+58 verbose parsed url   hash: null,
+58 verbose parsed url   search: null,
+58 verbose parsed url   query: null,
+58 verbose parsed url   pathname: 'bluetooth-serial-port@0.1.11',
+58 verbose parsed url   path: 'bluetooth-serial-port@0.1.11',
+58 verbose parsed url   href: 'bluetooth-serial-port@0.1.11' }
+59 verbose cache add name="bluetooth-serial-port" spec="0.1.11" args=["bluetooth-serial-port","0.1.11"]
+60 verbose parsed url { protocol: null,
+60 verbose parsed url   slashes: null,
+60 verbose parsed url   auth: null,
+60 verbose parsed url   host: null,
+60 verbose parsed url   port: null,
+60 verbose parsed url   hostname: null,
+60 verbose parsed url   hash: null,
+60 verbose parsed url   search: null,
+60 verbose parsed url   query: null,
+60 verbose parsed url   pathname: '0.1.11',
+60 verbose parsed url   path: '0.1.11',
+60 verbose parsed url   href: '0.1.11' }
+61 verbose addNamed [ 'bluetooth-serial-port', '0.1.11' ]
+62 verbose addNamed [ '0.1.11', '0.1.11' ]
+63 silly lockFile d1b2b2cd-bluetooth-serial-port-0-1-11 bluetooth-serial-port@0.1.11
+64 verbose lock bluetooth-serial-port@0.1.11 C:\Users\Maarten\AppData\Roaming\npm-cache\d1b2b2cd-bluetooth-serial-port-0-1-11.lock
+65 verbose url raw bluetooth-serial-port/0.1.11
+66 verbose url resolving [ 'https://registry.npmjs.org/',
+66 verbose url resolving   './bluetooth-serial-port/0.1.11' ]
+67 verbose url resolved https://registry.npmjs.org/bluetooth-serial-port/0.1.11
+68 info trying registry request attempt 1 at 13:28:37
+69 verbose etag "5FP5NZG4D6NIS4BWH2VS0N6SY"
+70 http GET https://registry.npmjs.org/bluetooth-serial-port/0.1.11
+71 http 304 https://registry.npmjs.org/bluetooth-serial-port/0.1.11
+72 silly registry.get cb [ 304,
+72 silly registry.get   { server: 'CouchDB/1.3.0 (Erlang OTP/R15B03)',
+72 silly registry.get     etag: '"5FP5NZG4D6NIS4BWH2VS0N6SY"',
+72 silly registry.get     date: 'Tue, 07 May 2013 11:28:39 GMT',
+72 silly registry.get     'content-length': '0' } ]
+73 verbose etag bluetooth-serial-port/0.1.11 from cache
+74 verbose read json C:\Users\Maarten\AppData\Roaming\npm-cache\bluetooth-serial-port\0.1.11\package\package.json
+75 silly lockFile d1b2b2cd-bluetooth-serial-port-0-1-11 bluetooth-serial-port@0.1.11
+76 silly lockFile d1b2b2cd-bluetooth-serial-port-0-1-11 bluetooth-serial-port@0.1.11
+77 silly resolved [ { name: 'bluetooth-serial-port',
+77 silly resolved     version: '0.1.11',
+77 silly resolved     description: 'Bluetooth serial port communication for Node.js',
+77 silly resolved     author: { name: 'Eelco Cramer', email: 'eelco@hailendal.org' },
+77 silly resolved     keywords: [ 'bluetooth', 'serial port', 'linux' ],
+77 silly resolved     homepage: 'https://github.com/eelcocramer/node-bluetooth-serial-port',
+77 silly resolved     bugs: 'https://github.com/eelcocramer/node-bluetooth-serial-port/issues',
+77 silly resolved     repository:
+77 silly resolved      { type: 'git',
+77 silly resolved        url: 'https://github.com/eelcocramer/node-bluetooth-serial-port' },
+77 silly resolved     directories: { lib: './lib' },
+77 silly resolved     main: './lib/bluetooth-serial-port.js',
+77 silly resolved     dependencies: { bindings: '1.1.x' },
+77 silly resolved     engines: { node: '>= 0.8.x', npm: '>= 1.1.x' },
+77 silly resolved     scripts: { install: 'node-gyp configure build' },
+77 silly resolved     license: 'FreeBSD',
+77 silly resolved     contributors: [ [Object], [Object] ],
+77 silly resolved     readme: '# Bluetooth serial port communication for Node.js\n\nThis node module lets you communicate over Bluetooth serial port with devices using Node.js. The goal is have an easy to use API. This module is great for communicating with Bluetooth enabled Arduino devices.\n\n# Limitations\n\n* Tested on Linux\n* Available for Linux and BSD like systems\n* Not available (yet) for Windows and Mac OS X\n* Data is passed as strings\n\n# Pre-requests\n\n* Needs Bluetooth development packages to build\n\n`apt-get install libbluetooth-dev`\n\n# Install\n\n`npm install bluetooth-serial-port`\n\n# Documentation\n\n## Basic usage\n\n```javascript\n\nvar btSerial = new (require(\'bluetooth-serial-port\')).BluetoothSerialPort();\n\nbtSerial.on(\'found\', function(address, name) {\n\tbtSerial.findSerialPortChannel(address, function(channel) {\n\t\tbtSerial.connect(address, channel, function() {\n\t\t\tconsole.log(\'connected\');\n\n\t\t\tbtSerial.write(\'my data\');\n\n\t\t\tbtSerial.on(\'data\', function(data) {\n\t\t\t\tconsole.log(data);\n\t\t\t});\n\t\t}, function () {\n\t\t\tconsole.log(\'cannot connect\');\n\t\t});\n\n\t\t// close the connection when you\'re ready\n\t\tbtSerial.close();\t\t\n\t});\n});\n\nbtSerial.inquire();\n```\n\n## API\n\n### BluetoothSerialPort\n\n#### Event: (\'data\', data)\n\nEmitted when data is read from the serial port connection.\n\n* data - the data that was read\n\n#### Event: (\'failure\', message)\n\nEmitted when reading form the serial port connection results in an error. The connection is closed.\n\n* message - an message describing the failure.\n\n#### Event: (\'found\', address, name)\n\nEmitted when a bluetooth device was found.\n\n* address - the address of the device\n* name - the name of the device\n\n#### Event: (\'finished\')\n\nEmitted when the device inquiry execution did finish.\n\n#### BluetoothSerialPort.inquire()\n\nStarts searching for bluetooth devices. When a device is found a \'found\' event will be emitted.\n\n#### BluetoothSerialPort.findSerialPortChannel(address, callback)\n\nChecks if a device has a serial port service running and if it is found it passes the channel id to use for the RFCOMM connection.\n\n* callback(channel) - called when finished looking for a serial port on the device. channel === -1 if no channel was found.\n\n#### BluetoothSerialPort.connect(bluetoothAddress[, successCallback, errorCallback])\n\nConnects to a remote bluetooth device.\n\n* bluetoothAddress - the address of the remote Bluetooth device.\n* [successCallback] - called when a connection has been established.\n* [errorCallback(msg)] - called when the connection attempt results in an error.\n\n#### BluetoothSerialPort.close()\n\nCloses the connection.\n\n#### BluetoothSerialPort.isOpen()\n\nCheck whether the connection is open or not.\n\n#### BluetoothSerialPort.write(data)\n\nWrites a string to the serial port connection.\n\n* data - the data string to be written.\n\n* Throws an exception when is called before a connection has been established.\n\n## LICENSE\n\nThis module is available under a [FreeBSD license](http://opensource.org/licenses/BSD-2-Clause), see the [LICENSE file](https://raw.github.com/eelcocramer/node-bluetooth-serial-port/master/LICENSE) for details.\n',
+77 silly resolved     readmeFilename: 'README.md',
+77 silly resolved     _id: 'bluetooth-serial-port@0.1.11',
+77 silly resolved     _from: 'bluetooth-serial-port@0.1.11' } ]
+78 info install bluetooth-serial-port@0.1.11 into C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+79 info installOne bluetooth-serial-port@0.1.11
+80 verbose from cache C:\Users\Maarten\AppData\Roaming\npm-cache\bluetooth-serial-port\0.1.11\package\package.json
+81 info C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port unbuild
+82 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\package.json
+83 verbose tar unpack C:\Users\Maarten\AppData\Roaming\npm-cache\bluetooth-serial-port\0.1.11\package.tgz
+84 silly lockFile 99ef304c-de-modules-bluetooth-serial-port C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port
+85 verbose lock C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port C:\Users\Maarten\AppData\Roaming\npm-cache\99ef304c-de-modules-bluetooth-serial-port.lock
+86 silly lockFile 1cfa44a1-h-serial-port-0-1-11-package-tgz C:\Users\Maarten\AppData\Roaming\npm-cache\bluetooth-serial-port\0.1.11\package.tgz
+87 verbose lock C:\Users\Maarten\AppData\Roaming\npm-cache\bluetooth-serial-port\0.1.11\package.tgz C:\Users\Maarten\AppData\Roaming\npm-cache\1cfa44a1-h-serial-port-0-1-11-package-tgz.lock
+88 silly gunzTarPerm modes [ '755', '644' ]
+89 silly gunzTarPerm extractEntry package.json
+90 silly gunzTarPerm modified mode [ 'package.json', 438, 420 ]
+91 silly gunzTarPerm extractEntry README.md
+92 silly gunzTarPerm modified mode [ 'README.md', 438, 420 ]
+93 silly gunzTarPerm extractEntry LICENSE
+94 silly gunzTarPerm modified mode [ 'LICENSE', 438, 420 ]
+95 silly gunzTarPerm extractEntry binding.gyp
+96 silly gunzTarPerm modified mode [ 'binding.gyp', 438, 420 ]
+97 silly gunzTarPerm extractEntry lib/bluetooth-serial-port.js
+98 silly gunzTarPerm modified mode [ 'lib/bluetooth-serial-port.js', 438, 420 ]
+99 silly gunzTarPerm extractEntry lib/device-inquiry.js
+100 silly gunzTarPerm modified mode [ 'lib/device-inquiry.js', 438, 420 ]
+101 silly gunzTarPerm extractEntry src/BluetoothSerialPort.cc
+102 silly gunzTarPerm modified mode [ 'src/BluetoothSerialPort.cc', 438, 420 ]
+103 silly gunzTarPerm extractEntry src/BTSerialPortBinding.cc
+104 silly gunzTarPerm modified mode [ 'src/BTSerialPortBinding.cc', 438, 420 ]
+105 silly gunzTarPerm extractEntry src/BTSerialPortBinding.h
+106 silly gunzTarPerm modified mode [ 'src/BTSerialPortBinding.h', 438, 420 ]
+107 silly gunzTarPerm extractEntry src/DeviceINQ.cc
+108 silly gunzTarPerm modified mode [ 'src/DeviceINQ.cc', 438, 420 ]
+109 silly gunzTarPerm extractEntry src/DeviceINQ.h
+110 silly gunzTarPerm modified mode [ 'src/DeviceINQ.h', 438, 420 ]
+111 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\package.json
+112 silly lockFile 99ef304c-de-modules-bluetooth-serial-port C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port
+113 silly lockFile 99ef304c-de-modules-bluetooth-serial-port C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port
+114 silly lockFile 1cfa44a1-h-serial-port-0-1-11-package-tgz C:\Users\Maarten\AppData\Roaming\npm-cache\bluetooth-serial-port\0.1.11\package.tgz
+115 silly lockFile 1cfa44a1-h-serial-port-0-1-11-package-tgz C:\Users\Maarten\AppData\Roaming\npm-cache\bluetooth-serial-port\0.1.11\package.tgz
+116 info preinstall bluetooth-serial-port@0.1.11
+117 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\package.json
+118 verbose readDependencies using package.json deps
+119 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\package.json
+120 verbose readDependencies using package.json deps
+121 verbose cache add [ 'bindings@1.1.x', null ]
+122 verbose cache add name=undefined spec="bindings@1.1.x" args=["bindings@1.1.x",null]
+123 verbose parsed url { protocol: null,
+123 verbose parsed url   slashes: null,
+123 verbose parsed url   auth: null,
+123 verbose parsed url   host: null,
+123 verbose parsed url   port: null,
+123 verbose parsed url   hostname: null,
+123 verbose parsed url   hash: null,
+123 verbose parsed url   search: null,
+123 verbose parsed url   query: null,
+123 verbose parsed url   pathname: 'bindings@1.1.x',
+123 verbose parsed url   path: 'bindings@1.1.x',
+123 verbose parsed url   href: 'bindings@1.1.x' }
+124 verbose cache add name="bindings" spec="1.1.x" args=["bindings","1.1.x"]
+125 verbose parsed url { protocol: null,
+125 verbose parsed url   slashes: null,
+125 verbose parsed url   auth: null,
+125 verbose parsed url   host: null,
+125 verbose parsed url   port: null,
+125 verbose parsed url   hostname: null,
+125 verbose parsed url   hash: null,
+125 verbose parsed url   search: null,
+125 verbose parsed url   query: null,
+125 verbose parsed url   pathname: '1.1.x',
+125 verbose parsed url   path: '1.1.x',
+125 verbose parsed url   href: '1.1.x' }
+126 verbose addNamed [ 'bindings', '1.1.x' ]
+127 verbose addNamed [ null, '>=1.1.0- <1.2.0-' ]
+128 silly lockFile 890fc5a9-bindings-1-1-x bindings@1.1.x
+129 verbose lock bindings@1.1.x C:\Users\Maarten\AppData\Roaming\npm-cache\890fc5a9-bindings-1-1-x.lock
+130 silly addNameRange { name: 'bindings', range: '>=1.1.0- <1.2.0-', hasData: false }
+131 verbose url raw bindings
+132 verbose url resolving [ 'https://registry.npmjs.org/', './bindings' ]
+133 verbose url resolved https://registry.npmjs.org/bindings
+134 info trying registry request attempt 1 at 13:28:39
+135 verbose etag "CFVJVT1GCZS3UUVQEXZASBJH7"
+136 http GET https://registry.npmjs.org/bindings
+137 http 304 https://registry.npmjs.org/bindings
+138 silly registry.get cb [ 304,
+138 silly registry.get   { server: 'CouchDB/1.3.0 (Erlang OTP/R15B03)',
+138 silly registry.get     etag: '"CFVJVT1GCZS3UUVQEXZASBJH7"',
+138 silly registry.get     date: 'Tue, 07 May 2013 11:28:40 GMT',
+138 silly registry.get     'content-length': '0' } ]
+139 verbose etag bindings from cache
+140 silly addNameRange number 2 { name: 'bindings', range: '>=1.1.0- <1.2.0-', hasData: true }
+141 silly addNameRange versions [ 'bindings',
+141 silly addNameRange   [ '0.0.1',
+141 silly addNameRange     '0.1.0',
+141 silly addNameRange     '0.1.1',
+141 silly addNameRange     '0.2.0',
+141 silly addNameRange     '0.2.1',
+141 silly addNameRange     '0.2.2',
+141 silly addNameRange     '0.2.3',
+141 silly addNameRange     '0.2.4',
+141 silly addNameRange     '0.3.0',
+141 silly addNameRange     '0.4.0',
+141 silly addNameRange     '1.0.0',
+141 silly addNameRange     '1.1.0' ] ]
+142 verbose addNamed [ 'bindings', '1.1.0' ]
+143 verbose addNamed [ '1.1.0', '1.1.0' ]
+144 silly lockFile ff2d1960-bindings-1-1-0 bindings@1.1.0
+145 verbose lock bindings@1.1.0 C:\Users\Maarten\AppData\Roaming\npm-cache\ff2d1960-bindings-1-1-0.lock
+146 verbose read json C:\Users\Maarten\AppData\Roaming\npm-cache\bindings\1.1.0\package\package.json
+147 silly lockFile ff2d1960-bindings-1-1-0 bindings@1.1.0
+148 silly lockFile ff2d1960-bindings-1-1-0 bindings@1.1.0
+149 silly lockFile 890fc5a9-bindings-1-1-x bindings@1.1.x
+150 silly lockFile 890fc5a9-bindings-1-1-x bindings@1.1.x
+151 silly resolved [ { name: 'bindings',
+151 silly resolved     description: 'Helper module for loading your native module\'s .node file',
+151 silly resolved     keywords: [ 'native', 'addon', 'bindings', 'gyp', 'waf', 'c', 'c++' ],
+151 silly resolved     version: '1.1.0',
+151 silly resolved     author:
+151 silly resolved      { name: 'Nathan Rajlich',
+151 silly resolved        email: 'nathan@tootallnate.net',
+151 silly resolved        url: 'http://tootallnate.net' },
+151 silly resolved     repository:
+151 silly resolved      { type: 'git',
+151 silly resolved        url: 'git://github.com/TooTallNate/node-bindings.git' },
+151 silly resolved     main: './bindings.js',
+151 silly resolved     readme: 'node-bindings\n=============\n### Helper module for loading your native module\'s .node file\n\nThis is a helper module for authors of Node.js native addon modules.\nIt is basically the "swiss army knife" of `require()`ing your native module\'s\n`.node` file.\n\nThroughout the course of Node\'s native addon history, addons have ended up being\ncompiled in a variety of different places, depending on which build tool and which\nversion of node was used. To make matters worse, now the _gyp_ build tool can\nproduce either a _Release_ or _Debug_ build, each being built into different\nlocations.\n\nThis module checks _all_ the possible locations that a native addon would be built\nat, and returns the first one that loads successfully.\n\n\nInstallation\n------------\n\nInstall with `npm`:\n\n``` bash\n$ npm install bindings\n```\n\nOr add it to the `"dependencies"` section of your _package.json_ file.\n\n\nExample\n-------\n\n`require()`ing the proper bindings file for the current node version, platform\nand architecture is as simple as:\n\n``` js\nvar bindings = require(\'bindings\')(\'binding.node\')\n\n// Use your bindings defined in your C files\nbindings.your_c_function()\n```\n\n\nNice Error Output\n-----------------\n\nWhen the `.node` file could not be loaded, `node-bindings` throws an Error with\na nice error message telling you exactly what was tried. You can also check the\n`err.tries` Array property.\n\n```\nError: Could not load the bindings file. Tried:\n → /Users/nrajlich/ref/build/binding.node\n → /Users/nrajlich/ref/build/Debug/binding.node\n → /Users/nrajlich/ref/build/Release/binding.node\n → /Users/nrajlich/ref/out/Debug/binding.node\n → /Users/nrajlich/ref/Debug/binding.node\n → /Users/nrajlich/ref/out/Release/binding.node\n → /Users/nrajlich/ref/Release/binding.node\n → /Users/nrajlich/ref/build/default/binding.node\n → /Users/nrajlich/ref/compiled/0.8.2/darwin/x64/binding.node\n    at bindings (/Users/nrajlich/ref/node_modules/bindings/bindings.js:84:13)\n    at Object.<anonymous> (/Users/nrajlich/ref/lib/ref.js:5:47)\n    at Module._compile (module.js:449:26)\n    at Object.Module._extensions..js (module.js:467:10)\n    at Module.load (module.js:356:32)\n    at Function.Module._load (module.js:312:12)\n    ...\n```\n\n\nLicense\n-------\n\n(The MIT License)\n\nCopyright (c) 2012 Nathan Rajlich &lt;nathan@tootallnate.net&gt;\n\nPermission is hereby granted, free of charge, to any person obtaining\na copy of this software and associated documentation files (the\n\'Software\'), to deal in the Software without restriction, including\nwithout limitation the rights to use, copy, modify, merge, publish,\ndistribute, sublicense, and/or sell copies of the Software, and to\npermit persons to whom the Software is furnished to do so, subject to\nthe following conditions:\n\nThe above copyright notice and this permission notice shall be\nincluded in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \'AS IS\', WITHOUT WARRANTY OF ANY KIND,\nEXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\nMERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\nIN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY\nCLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,\nTORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE\nSOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n',
+151 silly resolved     readmeFilename: 'README.md',
+151 silly resolved     _id: 'bindings@1.1.0',
+151 silly resolved     _from: 'bindings@1.1.x' } ]
+152 info install bindings@1.1.0 into C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port
+153 info installOne bindings@1.1.0
+154 verbose from cache C:\Users\Maarten\AppData\Roaming\npm-cache\bindings\1.1.0\package\package.json
+155 info C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings unbuild
+156 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings\package.json
+157 verbose tar unpack C:\Users\Maarten\AppData\Roaming\npm-cache\bindings\1.1.0\package.tgz
+158 silly lockFile ed799157-erial-port-node-modules-bindings C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings
+159 verbose lock C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings C:\Users\Maarten\AppData\Roaming\npm-cache\ed799157-erial-port-node-modules-bindings.lock
+160 silly lockFile d51ae177-cache-bindings-1-1-0-package-tgz C:\Users\Maarten\AppData\Roaming\npm-cache\bindings\1.1.0\package.tgz
+161 verbose lock C:\Users\Maarten\AppData\Roaming\npm-cache\bindings\1.1.0\package.tgz C:\Users\Maarten\AppData\Roaming\npm-cache\d51ae177-cache-bindings-1-1-0-package-tgz.lock
+162 silly gunzTarPerm modes [ '755', '644' ]
+163 silly gunzTarPerm extractEntry package.json
+164 silly gunzTarPerm modified mode [ 'package.json', 438, 420 ]
+165 silly gunzTarPerm extractEntry README.md
+166 silly gunzTarPerm modified mode [ 'README.md', 438, 420 ]
+167 silly gunzTarPerm extractEntry bindings.js
+168 silly gunzTarPerm modified mode [ 'bindings.js', 438, 420 ]
+169 verbose read json C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings\package.json
+170 silly lockFile ed799157-erial-port-node-modules-bindings C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings
+171 silly lockFile ed799157-erial-port-node-modules-bindings C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings
+172 silly lockFile d51ae177-cache-bindings-1-1-0-package-tgz C:\Users\Maarten\AppData\Roaming\npm-cache\bindings\1.1.0\package.tgz
+173 silly lockFile d51ae177-cache-bindings-1-1-0-package-tgz C:\Users\Maarten\AppData\Roaming\npm-cache\bindings\1.1.0\package.tgz
+174 info preinstall bindings@1.1.0
+175 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings\package.json
+176 verbose readDependencies using package.json deps
+177 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings\package.json
+178 verbose readDependencies using package.json deps
+179 silly resolved []
+180 verbose about to build C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings
+181 info build C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings
+182 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\node_modules\bindings\package.json
+183 verbose linkStuff [ false,
+183 verbose linkStuff   false,
+183 verbose linkStuff   false,
+183 verbose linkStuff   'C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\node_modules\\bluetooth-serial-port\\node_modules' ]
+184 info linkStuff bindings@1.1.0
+185 verbose linkBins bindings@1.1.0
+186 verbose linkMans bindings@1.1.0
+187 verbose rebuildBundles bindings@1.1.0
+188 info install bindings@1.1.0
+189 info postinstall bindings@1.1.0
+190 verbose about to build C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port
+191 info build C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port
+192 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\package.json
+193 verbose linkStuff [ false,
+193 verbose linkStuff   false,
+193 verbose linkStuff   false,
+193 verbose linkStuff   'C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\node_modules' ]
+194 info linkStuff bluetooth-serial-port@0.1.11
+195 verbose linkBins bluetooth-serial-port@0.1.11
+196 verbose linkMans bluetooth-serial-port@0.1.11
+197 verbose rebuildBundles bluetooth-serial-port@0.1.11
+198 verbose rebuildBundles [ 'bindings' ]
+199 info install bluetooth-serial-port@0.1.11
+200 verbose unsafe-perm in lifecycle true
+201 silly exec cmd "/c" "node-gyp configure build"
+202 silly cmd,/c,node-gyp configure build,C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port spawning
+203 info bluetooth-serial-port@0.1.11 Failed to exec install script
+204 info C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port unbuild
+205 verbose from cache C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules\bluetooth-serial-port\package.json
+206 info preuninstall bluetooth-serial-port@0.1.11
+207 info uninstall bluetooth-serial-port@0.1.11
+208 verbose true,C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules,C:\Users\Maarten\workspace\BePrevious\ZWave.me server\node_modules unbuild bluetooth-serial-port@0.1.11
+209 info postuninstall bluetooth-serial-port@0.1.11
+210 error bluetooth-serial-port@0.1.11 install: `node-gyp configure build`
+210 error `cmd "/c" "node-gyp configure build"` failed with 1
+211 error Failed at the bluetooth-serial-port@0.1.11 install script.
+211 error This is most likely a problem with the bluetooth-serial-port package,
+211 error not with npm itself.
+211 error Tell the author that this fails on your system:
+211 error     node-gyp configure build
+211 error You can get their info via:
+211 error     npm owner ls bluetooth-serial-port
+211 error There is likely additional logging output above.
+212 error System Windows_NT 6.1.7601
+213 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+214 error cwd C:\Users\Maarten\workspace\BePrevious\ZWave.me server
+215 error node -v v0.10.0
+216 error npm -v 1.2.14
+217 error code ELIFECYCLE
+218 verbose exit [ 1, true ]

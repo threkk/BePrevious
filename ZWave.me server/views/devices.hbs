@@ -12,12 +12,17 @@
     <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/jquery/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
     
     <!-- javascript -->
     <script src="/jquery/jquery-1.9.1.min.js"></script>
+    <script src="/jquery/jquery-ui-1.9.2.min.js"></script>
     <script src="/bootstrap/js/bootstrap.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/devices.js"></script>
+    <script>
+		 
+  	</script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -36,6 +41,12 @@
 			<p id="text-placeholder"></p>
 			<div class="progress progress-striped active">
   				<div id="progressbar" class="bar" style="width: 0%;"></div>
+			</div>
+			<div>
+				<p>Time remaining: <span id="timerspan"></span> seconds</p>
+			</div>
+			<div>
+				<p><span id="devicesLabel"></span> device(s) <span id="suffixLabel"></span></p>
 			</div>
 		</div>
 		<div class="modal-footer">
@@ -57,11 +68,18 @@
       
       <div class="row-fluid">
       	<div class="span12">
-      		<div align="center">
-      		 	<button class="btn btn-primary" onclick="startMode('inclusion');">Include devices</button>
-  				<button class="btn btn-danger" onclick="startMode('exclusion');">Exclude devices</button>
-      		</div> 
-     		
+      		<div class="span4 offset4">
+	      		<p align="center">
+	      			<p>Drag the slider to increase or decrease the amount of time you have to include or exclude devices</p>
+	      			<p>Include/exclude duration: <span id="sleeptime">30</span> second(s).</p>
+				</p>
+				<div id="slider"></div>
+				<br>				
+	      		<div align="center">
+	      		 	<button class="btn btn-primary" onclick="startMode('inclusion');">Include devices</button>
+	  				<button class="btn btn-danger" onclick="startMode('exclusion');">Exclude devices</button>
+	      		</div> 
+			</div>
       		
 			<table class="table">
 			  <thead>
@@ -71,7 +89,7 @@
 			      <th>Node ID</th>
 			      <th>Name</th>
 			      <th>Battery level</th>
-			      <th>Sleeping since</th>
+			      <th>Status</th>
 			      <th></th>
 			    </tr>
 			  </thead>
@@ -83,7 +101,7 @@
 			      <td>{{id}}</td>
 			      <td>{{description.name}}</td>
 			      <td>{{batteryLevel}}{{#hasBattery}}%{{/hasBattery}}</td>
-			      <td>{{#hasWakeup}}{{lastWakeup}}{{/hasWakeup}}</td>
+			      <td>{{status}}</td>
 			      <td><a class="btn" href="devices/edit/{{id}}">Edit settings</a></td>
 			    </tr>
 			    {{/devices}}
