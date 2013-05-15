@@ -65,6 +65,9 @@ DeviceManager.prototype = {
                 if (newDevice.hasBattery) {
                     newDevice.batteryLevel = commandClasses[0x80].data.last.value
                 }
+                if(newDevice.hasWakeup){
+                	newDevice.wakeupInterval= commandClasses[0x84].data.interval.value
+                }
                 newDevices.push(newDevice);
             }
 

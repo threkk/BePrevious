@@ -59,7 +59,6 @@ Device.prototype = {
             if (err) {
                 return logger.error(err);
             }
-            logger.debug('json: ' + JSON.stringify(json));
             if (!json) {
                 return;
             }

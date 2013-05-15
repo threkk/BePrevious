@@ -27,7 +27,7 @@ function editDevice(req, res) {
 		throw new Error('device '+id+' not found');
 	} else {
 		res.render('editDevice.hbs', {
-			device: device
+			device: device.data
 		});
 	}
 }

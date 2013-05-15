@@ -27,15 +27,17 @@
             <div class="row-fluid">
                 <form class="form-horizontal" id="editForm">
                  <input type="hidden" id="deviceId" value={{device.id}}>
+                 	{{#device.hasWakeup}}
                     <div class="control-group">
                         <label class="control-label" for="inputTimeout">Timeout</label>
                         <div class="controls">
                             <div class="input-append">
-                                <input class="span3" id="inputTimeout" type="text">	<span class="add-on">Seconds</span>
+                                <input class="span3" id="inputTimeout" type="text" placeholder= "{{device.wakeupInterval}}">	<span class="add-on">Seconds</span>
 
                             </div>
                         </div>
                     </div>
+                    {{/device.hasWakeup}}
                     <div class="control-group">
                         <div class="controls">
                             <button type="submit" class="btn">Save configuration</button>
