@@ -38,6 +38,17 @@
                         </div>
                     </div>
                     {{/device.hasWakeup}}
+                    {{#device.multilevel.Temperature}}
+                      <div class="control-group">
+                        <label class="control-label" for="tempOffset">Temperature offset</label>
+                        <div class="controls">
+                            <div class="input-append">
+                                <input class="span3" id="tempOffset" type="text"><span class="add-on">Celsius</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    {{/device.multilevel.Temperature}}
                     <div class="control-group">
                         <div class="controls">
                             <button type="submit" class="btn">Save configuration</button>

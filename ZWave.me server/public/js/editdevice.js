@@ -1,6 +1,8 @@
 $(document).ready(function () {
     $("#editForm").submit(function (e) {
         var inputTimeout = $("#inputTimeout");
+        var tempOffset = $("#tempOffset").val();
+        console.log(tempOffset);
         if (inputTimeout.length != 0) {
             var deviceId = $("#deviceId").val()
             var timeout = $("#inputTimeout").val();
