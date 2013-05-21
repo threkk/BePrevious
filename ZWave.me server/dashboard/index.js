@@ -1,4 +1,5 @@
 var client = require('../client').client;
+var logger = log4js.getLogger("client");
 
 function getHome(req,res) {
 	res.render('home.hbs', {
@@ -41,12 +42,28 @@ function editDevice(req, res) {
 	}
 }
 
+function updateDevice(req,res) {
+	var deviceId = req.params.id;
+	var device = client.deviceManager.getDevice(deviceId);
+	var data = req.body;
+	var timeout = data.sleeptime;
+	var command = 'devices[' + deviceId + '].instances[0].commandClasses[0x84].Set(' + timeout + ',1)'
+	device.manager.client.runCommand(command, function (err, json) {
+	 if(err){
+	 logger.error(err);
+	 return;
+	 }
+	 logger.debug(JSON.stringify(json));
+	});
+}
+
 exports.routes = {
 	get: getHome,
 	'devices' : {
 		get: getDevices,
 		'/edit/:id': {
-			get: editDevice
+			get: editDevice,
+			post: updateDevice
 		}
 	}
 }

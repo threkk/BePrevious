@@ -1,18 +1,26 @@
 $(document).ready(function () {
     $("#editForm").submit(function (e) {
+        e.preventDefault();
         var inputTimeout = $("#inputTimeout");
         var tempOffset = $("#tempOffset").val();
-        console.log(tempOffset);
+
+        var deviceId = $("#deviceId").val()
+        var data = {
+        	id: deviceId,
+        }
+
         if (inputTimeout.length != 0) {
-            var deviceId = $("#deviceId").val()
-            var timeout = $("#inputTimeout").val();
-            var url = 'http://localhost:8083/ZWaveAPI/Run/devices[' + deviceId + '].instances[0].commandClasses[0x84].Set(' + timeout + ',1)'
-            $.post(url)
-                .done(function (data) {
-                alert("Data Loaded: " + data);
+			data.sleeptime = $("#inputTimeout").val();            
+            var url = 'http://localhost:8080/devices/edit/' + data.id
+            $.post(url,data)
+                .done(function (done) {
+                alert("Data Loaded: " + done);
             });
 
         }
+        
+        console.log('edit device.js');
+        
         return false;
     });
 });

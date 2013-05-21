@@ -20,10 +20,7 @@ function Device(manager) {
         multiLevel: {},
         description: {}
     }
-
-
 }
-
 
 Device.prototype = {
     update: function (deviceData) {

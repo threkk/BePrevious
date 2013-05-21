@@ -25,7 +25,7 @@
             <h2>Node ID : {{device.id}}</h2>
             <h3>Device name : {{device.description.name}}</h3>
             <div class="row-fluid">
-                <form class="form-horizontal" id="editForm">
+                <form method="post" class="form-horizontal" id="editForm">
                  <input type="hidden" id="deviceId" value={{device.id}}>
                  	{{#device.hasWakeup}}
                     <div class="control-group">
@@ -40,7 +40,7 @@
                     {{/device.hasWakeup}}
                     {{#device.multilevel.Temperature}}
                       <div class="control-group">
-                        <label class="control-label" for="tempOffset">Temperature offset</label>
+                        <label class="control-label" for="tempOffset">Temperature calibration</label>
                         <div class="controls">
                             <div class="input-append">
                                 <input class="span3" id="tempOffset" type="text"><span class="add-on">Celsius</span>
