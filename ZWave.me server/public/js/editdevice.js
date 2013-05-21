@@ -1,6 +1,8 @@
 $(document).ready(function () {
-    $("#editForm").submit(function (e) {
-        e.preventDefault();
+    $(':submit').click(function(){
+       // e.preventDefault();
+       var value = $(this).val();
+        alert(value);
         var inputTimeout = $("#inputTimeout");
         var tempOffset = $("#tempOffset").val();
 
