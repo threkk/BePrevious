@@ -1,8 +1,8 @@
 $(document).ready(function () {
     $(':submit').click(function(){
        // e.preventDefault();
-       var value = $(this).val();
-        alert(value);
+       var valueSubmit = $(this).val();
+       
         var inputTimeout = $("#inputTimeout");
         var tempOffset = $("#tempOffset").val();
 
@@ -12,8 +12,13 @@ $(document).ready(function () {
         }
 
         if (inputTimeout.length != 0) {
-			data.sleeptime = $("#inputTimeout").val();            
-            var url = 'http://localhost:8080/devices/edit/' + data.id
+			data.sleeptime = $("#inputTimeout").val();
+			var url;
+			if(valueSubmit == 'saveAll'){            
+        	 url = 'http://localhost:8080/devices/edit/all/' + data.id
+            } else {
+             url = 'http://localhost:8080/devices/edit/' + data.id
+            }
             $.post(url,data)
                 .done(function (done) {
                 alert("Data Loaded: " + done);

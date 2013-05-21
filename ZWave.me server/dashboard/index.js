@@ -57,6 +57,11 @@ function updateDevice(req,res) {
 	});
 }
 
+function updateAllDevices(req,res) {
+logger.debug('update all called');
+	
+}
+
 exports.routes = {
 	get: getHome,
 	'devices' : {
@@ -64,6 +69,9 @@ exports.routes = {
 		'/edit/:id': {
 			get: editDevice,
 			post: updateDevice
+		},
+		'/edit/all/:id': {
+			post: updateAllDevices
 		}
 	}
 }
