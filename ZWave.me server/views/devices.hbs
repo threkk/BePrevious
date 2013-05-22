@@ -87,7 +87,9 @@
 			      <th></th>
 			      <th>activity</th>
 			      <th>Node ID</th>
-			      <th>Name</th>
+			      <th>Name</th>			      
+				  <th>Luminiscence</th>	
+				  <th>Temperature</th>
 			      <th>Battery level</th>
 			      <th>Status</th>
 			      <th></th>
@@ -100,6 +102,8 @@
 			      <td><img src="images/no_activity.png"></td>
 			      <td>{{id}}</td>
 			      <td>{{description.name}}</td>
+			      <td>{{multilevel.Luminiscence}}</td>
+			      <td>{{multilevel.Temperature}}</td>
 			      <td>{{batteryLevel}}{{#hasBattery}}%{{/hasBattery}}</td>
 			      <td>{{status}}</td>
 			      <td><a class="btn" href="devices/edit/{{id}}">Edit settings</a></td>

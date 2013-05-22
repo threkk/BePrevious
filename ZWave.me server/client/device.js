@@ -71,10 +71,10 @@ Device.prototype = {
                     
                     // adjust the read value with the stored temperature offset
                     if (sensorType == 'Temperature') {
+                    	value = Math.round(value);
                     	value = value + localDB.getTempOffset(nodeid);
                     }
                     
-                    multilevel[sensorType] = instance.val.value;
                 }
             
             }
