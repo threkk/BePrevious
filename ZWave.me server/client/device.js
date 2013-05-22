@@ -1,6 +1,6 @@
 var logger = log4js.getLogger("client");
 var _ = require('lodash');
-var localDB = require('../io');
+var localDB = require('../io').localDB;
 
 function Device(manager) {
     this.manager = manager;
@@ -47,13 +47,14 @@ Device.prototype = {
         return dirty
     },
 
-    updateMultiLevel: function () {
+    updateMultiLevel: function (callback) {
     	var nodeid = this.data.id;
         var command = 'devices[' + nodeid + '].instances[0].commandClasses[49]';
 		var self = this;
         
         this.manager.client.runCommand(command, function (err, json) {
             if (err) {
+            	callback && callback(err);
                 return logger.error(err);
             }
             if (!json) {
@@ -78,7 +79,10 @@ Device.prototype = {
                 }
             
             }
+            
             self._merge(self.data, {multilevel:multilevel});
+            
+            callback && callback(null, multilevel);
         });
     }
 };

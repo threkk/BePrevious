@@ -37,14 +37,16 @@ LocalDatabase.prototype = {
         })
 
         offsets = offsets.slice(0);
-
+		
+		var newOffset = {
+	        nodeid: nodeid,
+	        offsetValue: offsetValue
+        };
+        
         if (index < 0) {
-            offsets.push({
-                nodeid: nodeid,
-                offsetValue: offsetValue
-            });
+            offsets.push(newOffset);
         } else {
-            offsets[index].offsetValue = offsetValue;
+            offsets[index] = newOffset;
         }
 
         this.update({
@@ -53,7 +55,8 @@ LocalDatabase.prototype = {
     },
 
     update: function (data) {
-        if (this._merge(this.data, data)) {
+    	var dirty = this._merge(this.data, data);
+        if (dirty) {
             this.save(function (err) {
                 if (err) {
                     logger.debug("failed to persist local database: " + JSON.stringify(err));

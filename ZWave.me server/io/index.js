@@ -87,5 +87,5 @@ var w = new Writer();
 module.exports = {
 	writer: w,
 	ftp: require('./ftp.js'),
-	localDB: require('./localdatabase.js')
+	localDB: require('./localdatabase.js').localDB
 }

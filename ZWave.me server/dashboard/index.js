@@ -1,11 +1,20 @@
-var client = require('../client').client;
 var logger = log4js.getLogger("client");
+var client = require('../client').client;
+var localDB = require('../io').localDB;
+
+/**
+ *	renders the home page
+ */
 
 function getHome(req, res) {
     res.render('home.hbs', {
         controllerData: client.deviceManager.controller
     });
 }
+
+/**
+ *	renders the devices page
+ */
 
 function getDevices(req, res) {
     var devices = [];
@@ -29,6 +38,10 @@ function getDevices(req, res) {
     });
 }
 
+/**
+ *	renders the edit device page
+ */
+
 function editDevice(req, res) {
     var id = req.params.id;
     var device = client.deviceManager.getDevice(id);
@@ -42,41 +55,78 @@ function editDevice(req, res) {
     }
 }
 
+/**
+ *	receives the post from the edit device page
+ */
+
 function updateDevice(req, res) {
-    var deviceId = req.params.id;
-
-    var data = req.body;
-    var timeout = data.sleeptime;
-    setSleepTime(timeout, deviceId);
-
+	var nodeid = parseInt(req.params.id, 10) || -1;
+    updateDevices(nodeid, req.body);
 }
 
-function setSleepTime(sleeptime, deviceId) {
-    logger.debug("setting sleeptime for ", deviceId);
-    var command = 'devices[' + deviceId + '].instances[0].commandClasses[0x84].Set(' + sleeptime + ',1)'
-    client.runCommand(command, function (err, json) {
-        if (err) {
-            logger.error(err);
-            return;
-        }
-        logger.debug(json);
-    });
 
-}
 
 function updateAllDevices(req, res) {
-
-    var timeout = req.body.data.sleeptime;
-    var deviceId = req.params.id;
-    var device = client.deviceManager.getDevice(deviceId);
+	var nodeid = parseInt(req.params.id, 10) || -1;
     var devices = client.deviceManager.devices;
+    var device = client.deviceManager.getDevice(nodeid);
+    var nodeids = [];
     for (var key in devices) {
-        if (key.data.productType == device.data.productType &&
-            key.data.manufacturerId == device.data.manufacturerId) {
-            setSleepTime(timeout, key.data.id);
+        var deviceData = devices[key].data;
+
+        if ((device.data.productType == deviceData.productType) 
+            && device.data.manufacturerId == deviceData.manufacturerId) {
+            nodeids.push(deviceData.id);
         }
     }
+    updateDevices(nodeids, req.body);
+}
 
+function updateDevices(nodeids, options) {
+	console.log(typeof nodeids)
+    if (typeof nodeids == "number") {
+        nodeids = [nodeids]
+    }
+
+    nodeids.forEach(function (nodeid) {
+        if (options.sleeptime) {
+            setSleepTime(nodeid, options.sleeptime);
+        }
+
+        if (options.calibratedTemp) {
+            setCalibratedTemp(nodeid, options.calibratedTemp);
+        }
+        
+		var device = client.deviceManager.getDevice(nodeid);
+        device.update();
+    });
+}
+
+function setSleepTime(nodeid, sleeptime) {
+    logger.debug("setting sleeptime for ", nodeid);
+    var command = 'devices[' + nodeid + '].instances[0].commandClasses[0x84].Set(' + sleeptime + ',1)'
+    client.runCommand(command, function (err, json) {
+        if (err) {
+            return logger.error(err);
+        }
+    });
+}
+
+function setCalibratedTemp(nodeid, calibratedTemp) {
+    var device = client.deviceManager.getDevice(nodeid);
+    if (!device) {
+        return logger.error('no device with id ' + nodeid + ' was found');
+    }
+
+    device.updateMultiLevel(function (err, multilevel) {
+        if (err) {
+            return logger.error('failed to update device ' + nodeid + ' multilevel');
+        }
+
+        var temp = multilevel.Temperature;
+        var offset = temp - calibratedTemp;
+        localDB.setTempOffset(nodeid, offset);
+    });
 }
 
 exports.routes = {

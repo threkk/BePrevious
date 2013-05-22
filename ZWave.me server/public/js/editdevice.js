@@ -1,33 +1,36 @@
 $(document).ready(function () {
-    $(':submit').click(function(){
-       // e.preventDefault();
-       var valueSubmit = $(this).val();
-       
+    $(':submit').click(function () {
         var inputTimeout = $("#inputTimeout");
-        var tempOffset = $("#tempOffset").val();
+        var inputCalibratedTemp = $("#inputCalibratedTemp");
 
         var deviceId = $("#deviceId").val()
-        var data = {
-        	id: deviceId,
-        }
+        var data = {};
 
         if (inputTimeout.length != 0) {
-			data.sleeptime = $("#inputTimeout").val();
-			var url;
-			if(valueSubmit == 'saveAll'){            
-        	 url = 'http://localhost:8080/devices/edit/all/' + data.id
-            } else {
-             url = 'http://localhost:8080/devices/edit/' + data.id
+        	var sleeptime = $("#inputTimeout").val();
+        	if (sleeptime) {
+            	data.sleeptime = sleeptime;
             }
-            $.post(url,data)
-                .done(function (done) {
-                alert("Data Loaded: " + done);
-            });
+        }
 
+        if (inputCalibratedTemp.length != 0) {
+        	var calibratedTemp = $("#inputCalibratedTemp").val();
+        	if (calibratedTemp) {
+            	data.calibratedTemp = calibratedTemp;
+            }
         }
         
-        console.log('edit device.js');
+        var url;
+        if ($(this).val() == 'saveAll') {
+            url = 'http://localhost:8080/devices/edit/all/' + deviceId
+        } else {
+            url = 'http://localhost:8080/devices/edit/' + deviceId
+        }
         
+        $.post(url, data).done(function (done) {
+            alert("Data Loaded: " + done);
+        });
+
         return false;
     });
 });
