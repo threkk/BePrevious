@@ -75,6 +75,7 @@ Device.prototype = {
                     	value = Math.round(value);
                     	value = value + localDB.getTempOffset(nodeid);
                     }
+                    multilevel[sensorType] = instance.val.value;
                     
                 }
             
