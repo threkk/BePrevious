@@ -22,9 +22,9 @@ $(document).ready(function () {
         
         var url;
         if ($(this).val() == 'saveAll') {
-            url = 'http://localhost:8080/devices/edit/all/' + deviceId
+            url = 'http://145.92.3.184:8080/devices/edit/all/' + deviceId
         } else {
-            url = 'http://localhost:8080/devices/edit/' + deviceId
+            url = 'http://145.92.3.184:8080/devices/edit/' + deviceId
         }
         
         $.post(url, data).done(function (done) {
