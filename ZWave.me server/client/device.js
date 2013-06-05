@@ -39,6 +39,7 @@ Device.prototype = {
             	dirty = true;
                 oldData[property] = newValue;
                 this.manager.client.emit('device_updated', {
+                	property: property,
                     oldValue: oldValue,
                     newValue: newValue
                 });
