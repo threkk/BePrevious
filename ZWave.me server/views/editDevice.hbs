@@ -17,32 +17,13 @@
         <!--[if lt IE 9]>
             <script src="/shiv/js/html5shiv.js"></script>
         <![endif]-->
-        
-        <style type="text/css">
-			div#alert-succes {
-		    	display:none;
-		  	}
-		  	div#alert-error {
-		    	display:none;
-		  	}
-		</style>
     </head>
     
     <body>
         <div class="container">{{>header}}
             <hr>
             
-            <div id="alert-succes" class="alert alert-success" data-dismiss="alert">
-            	<button type="button" class="close" data-dismiss="alert">&times;</button>
-            	<h4>Succes</h4>
-  				Your settings were sent to the sensor(s)
-			</div>
-			
-			<div id="alert-error" class="alert alert-error" data-dismiss="alert">
-            	<button type="button" class="close" data-dismiss="alert">&times;</button>
-            	<h4>Failure</h4>
-  				Failed to push your settings to the sensor(s)
-			</div>
+            <div id="alertDiv"></div>
 			
             <h2>Node ID : {{device.id}}</h2>
             <h3>Device name : {{device.description.name}}</h3>
@@ -87,6 +68,7 @@
         <!-- /container -->
         <script src="/jquery/jquery-1.9.1.min.js"></script>
         <script src="/bootstrap/js/bootstrap.js"></script>
+        <script src="/js/alerts.js"></script>
         <script src="/js/editdevice.js"></script>
     </body>
 

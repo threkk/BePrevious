@@ -32,10 +32,10 @@ $(document).ready(function () {
                 url: url,
                 data: data,
                 success: function (msg) {
-                	console.log('pre succes')
                     displaySuccesAlert();
                 },
                 error: function (xhr, textStatus, errorThrown) {
+                    console.log('error: ' + textStatus);
                     displayErrorAlert();
                 }
             });
@@ -45,9 +45,11 @@ $(document).ready(function () {
 });
 
 function displaySuccesAlert() {
-	console.log('succes alert');
+	var alert = new Alert('Succes', 'A command to change the settings was sent to the sensors');
+	alert.render('alertDiv');
 }
 
 function displayErrorAlert() {
-	console.log('error alert');
+	var alert = new Alert('Error', 'Failed to push changes to the sensors, please see the console of your browser for more info', 'error');
+	alert.render('alertDiv');
 }
