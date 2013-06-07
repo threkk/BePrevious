@@ -8,6 +8,13 @@ function DescriptionRepository() {
     this.directory = './ZDDX/';
     this.descriptors = [];
 
+	for(var key in process.argv) {
+		if (process.argv[key] == '-skipdescriptors') {
+			//skip the parsing of descriptors
+			return;
+		}
+	}
+
     var files = fs.readdirSync(this.directory);
     for (var index in files) {
     	var filename = files[index];
@@ -16,9 +23,7 @@ function DescriptionRepository() {
         }
 
         this._parseDescription(filename);
-    }
-    
-    
+    }    
 }
 
 DescriptionRepository.prototype = {

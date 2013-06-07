@@ -23,7 +23,7 @@ var data = {
 };
 
 $(document).ready(function () {
-	var socket = io.connect('http://localhost/client');
+	var socket = io.connect('/client');
 	socket.on('device_added', function (data) {
 	    console.log('device added');
 	    devices++;
