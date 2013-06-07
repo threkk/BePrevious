@@ -2,12 +2,15 @@
 var logger = log4js.getLogger("client");
 var _ = require('lodash');
 
+var updateDelay = 5;
 var updateRate = 500;
+var commandQueueSize = 25;
 
 function CommandManager(client) {
     this.client = client;
     
     this.updates = [];
+
     
     this.init();
 }
@@ -18,7 +21,8 @@ CommandManager.prototype = {
     init: function () {
         var self = this;
         this.timer = setInterval(function () {
-            self.client.getApiData(Math.round(+new Date()/1000), function (err, data) {
+        	var timestamp = Math.round(+new Date()/1000);
+            self.client.getApiData((timestamp - updateDelay), function (err, data) {
                 if (err) {
                     return logger.error('failed to retrieve data from api: ' + JSON.stringify(err));
                 }
@@ -60,11 +64,10 @@ CommandManager.prototype = {
     		return _.isEqual(handledCommand, commandUpdate);
     	});
     	
-    	if (index < 0) {
-	        this.updates.splice(0, 0, commandUpdate);
+    	if (index < 0) {	        this.updates.splice(0, 0, commandUpdate);
 	        if (this.updates.length>50) {
 	       		this.updates.pop();
-	        }
+	        };
 	        
 	        this.client.emit('commandupdate', commandUpdate);
         }
