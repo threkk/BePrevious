@@ -34,7 +34,7 @@ LocalDatabase.prototype = {
         var offsets = this.data.temperatureOffsets || [];
         var index = _.findIndex(offsets, function (offset) {
             return offset.nodeid == nodeid;
-        })
+        });
 
         offsets = offsets.slice(0);
 		
@@ -46,6 +46,8 @@ LocalDatabase.prototype = {
         if (index < 0) {
             offsets.push(newOffset);
         } else {
+        	var oldOffset = parseInt(offsets[index].offsetValue,10) || 0;
+        	newOffset.offsetValue += oldOffset;
             offsets[index] = newOffset;
         }
 

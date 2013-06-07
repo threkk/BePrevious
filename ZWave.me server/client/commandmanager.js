@@ -32,7 +32,6 @@ CommandManager.prototype = {
     },
 
     update: function (data) {
-    	console.log("command json: " + JSON.stringify(data));
         for (var key in data) {
             var match = this.pathRegex.exec(key);
             if (match) {

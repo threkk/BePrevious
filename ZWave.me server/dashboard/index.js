@@ -89,7 +89,7 @@ function updateAllDevices(req, res) {
     });
 }
 
-function _updateDevices(nodeids, options, callback) {
+function _updateDevices(nodeids, options, fn) {
     if (typeof nodeids == "number") {
         nodeids = [nodeids]
     }
@@ -109,14 +109,20 @@ function _updateDevices(nodeids, options, callback) {
             }
         },
         function (callback) {
-            if (options.calibratedTemp) {
+            if (!options.calibratedTemp) {
             	callback(null);
             } else {
-            	setSleepTime(nodeids, options.calibratedTemp);
+            	setCalibratedTemp(nodeids, options.calibratedTemp, function(err) {
+            		callback(err);
+            		nodeids.forEach(function(nodeid){
+            			var device = client.deviceManager.getDevice(nodeid);
+            			device.updateMultiLevel();
+            		});
+            	});
             }
         }
     ], function (err, results) {
-    	callback(err);
+    	fn(err, results);
     });
 }
 
@@ -168,10 +174,10 @@ function setCalibratedTemp(nodeids, calibratedTemp, callback) {
 	        		return callback('failed to update device ' + nodeid + ' multilevel');
 	        	}
 	        	var temp = multilevel.Temperature;
-        		var offset = temp - calibratedTemp;
+        		var offset = calibratedTemp - temp;
         		localDB.setTempOffset(nodeid, offset);
         		
-        		logger.debug('setting temp offset to ' + offset + 'c) for ' + nodeid);
+        		logger.debug('setting temp offset to (' + offset + 'c) for ' + nodeid);
         		
         		return callback(null);
 	        });	        

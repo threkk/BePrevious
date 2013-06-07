@@ -45,11 +45,11 @@ $(document).ready(function () {
 });
 
 function displaySuccesAlert() {
-	var alert = new Alert('Succes', 'A command to change the settings was sent to the sensors');
+	var alert = new Alert('Succes', 'A command to change the settings was sent to the sensor(s)');
 	alert.render('alertDiv');
 }
 
 function displayErrorAlert() {
-	var alert = new Alert('Error', 'Failed to push changes to the sensors, please see the console of your browser for more info', 'error');
+	var alert = new Alert('Error', 'Failed to push changes to the sensor(s), please see the console of your browser for more info', 'error');
 	alert.render('alertDiv');
 }

@@ -200,13 +200,15 @@ DeviceManager.prototype = {
     _insertDevice: function (deviceData) {
         this.descriptions.updateDeviceDescription(deviceData);
         var device = new Device(this);
-
         for (var key in deviceData) {
             device.data[key] = deviceData[key];
         }
-
-        this.client.emit('device_added', device.data);
-        this.devices.push(device);
+        
+        var self = this;
+        device.updateMultiLevel(function(err) {
+        	self.client.emit('device_added', device.data);
+       	 	self.devices.push(device);
+        });
     },
 
     _removeDevice: function (index) {
