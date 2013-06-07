@@ -7,30 +7,47 @@ $(document).ready(function () {
         var data = {};
 
         if (inputTimeout.length != 0) {
-        	var sleeptime = $("#inputTimeout").val();
-        	if (sleeptime) {
-            	data.sleeptime = sleeptime;
+            var sleeptime = $("#inputTimeout").val();
+            if (sleeptime) {
+                data.sleeptime = sleeptime;
             }
         }
 
         if (inputCalibratedTemp.length != 0) {
-        	var calibratedTemp = $("#inputCalibratedTemp").val();
-        	if (calibratedTemp) {
-            	data.calibratedTemp = calibratedTemp;
+            var calibratedTemp = $("#inputCalibratedTemp").val();
+            if (calibratedTemp) {
+                data.calibratedTemp = calibratedTemp;
             }
         }
-        
+		
         var url;
         if ($(this).val() == 'saveAll') {
-            url = 'http://localhost:8080/devices/edit/all/' + deviceId
+            url = '/devices/edit/all/' + deviceId
         } else {
-            url = 'http://localhost:8080/devices/edit/' + deviceId
+            url = '/devices/edit/' + deviceId
         }
-        
-        $.post(url, data).done(function (done) {
-            alert("Data Loaded: " + done);
-        });
+
+        $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (msg) {
+                	console.log('pre succes')
+                    displaySuccesAlert();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    displayErrorAlert();
+                }
+            });
 
         return false;
     });
 });
+
+function displaySuccesAlert() {
+	console.log('succes alert');
+}
+
+function displayErrorAlert() {
+	console.log('error alert');
+}

@@ -17,11 +17,33 @@
         <!--[if lt IE 9]>
             <script src="/shiv/js/html5shiv.js"></script>
         <![endif]-->
+        
+        <style type="text/css">
+			div#alert-succes {
+		    	display:none;
+		  	}
+		  	div#alert-error {
+		    	display:none;
+		  	}
+		</style>
     </head>
     
     <body>
         <div class="container">{{>header}}
             <hr>
+            
+            <div id="alert-succes" class="alert alert-success" data-dismiss="alert">
+            	<button type="button" class="close" data-dismiss="alert">&times;</button>
+            	<h4>Succes</h4>
+  				Your settings were sent to the sensor(s)
+			</div>
+			
+			<div id="alert-error" class="alert alert-error" data-dismiss="alert">
+            	<button type="button" class="close" data-dismiss="alert">&times;</button>
+            	<h4>Failure</h4>
+  				Failed to push your settings to the sensor(s)
+			</div>
+			
             <h2>Node ID : {{device.id}}</h2>
             <h3>Device name : {{device.description.name}}</h3>
             <div class="row-fluid">
@@ -50,8 +72,8 @@
                     {{/device.multilevel.Temperature}}
                     <div class="control-group">
                         <div class="controls">
-                            <button type="submit" class="btn" value = "saveSingle">Save configuration</button>
-                            <button type="submit" class="btn"  value = "saveAll">Save configuration to devices of same type</button>
+                            <button class="btn" value="saveSingle">Save configuration</button>
+                            <button class="btn" value="saveAll">Save configuration to devices of same type</button>
                         </div>
                     </div>
                 </form>

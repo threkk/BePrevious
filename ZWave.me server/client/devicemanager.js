@@ -77,23 +77,24 @@ DeviceManager.prototype = {
 
     startInclusionMode: function (duration, callback) {
         var self = this;
-
         if (self.mode == 'including') {
             return;
         }
+        
+        self.mode = 'including';
         self.client.runCommand(command_start_inclusion, function (err, json) {
             if (err) {
                 return callback(err);
             }
 			
-            self.mode = 'including';
 			self._startUpdateTimer(duration,1000);
-
-            callback(null, json);
+            callback && callback(null, json);
 
             setTimeout(function () {
                 self.stopInclusionMode(function (err) {
-                    logger.error('failed to stop inclusion mode');
+                	if (err) {
+                    	logger.error('failed to stop inclusion mode: ' + JSON.stringify(err));
+                    }
                 });
             }, duration);
         });
@@ -113,23 +114,24 @@ DeviceManager.prototype = {
 
     startExclusionMode: function (duration, callback) {
         var self = this;
-
         if (self.mode == 'excluding') {
             return;
         }
+        
+        self.mode = 'excluding';
         self.client.runCommand(command_start_exclusion, function (err, json) {
             if (err) {
                 return callback(err);
             }
 
-            self.mode = 'excluding';
 			self._startUpdateTimer(duration,1000);
-
-            callback(null, json);
+            callback && callback(null, json);
 
             setTimeout(function () {
                 self.stopExclusionMode(function (err) {
-                    logger.error('failed to stop exclusion mode');
+                    if (err) {
+                    	logger.error('failed to stop exclusion mode: ' + JSON.stringify(err));
+                    }
                 });
             }, duration);
         });
@@ -140,6 +142,7 @@ DeviceManager.prototype = {
         if (self.mode != 'excluding') {
             return;
         }
+        
         this.client.runCommand(command_stop_exclusion, function (err, json) {
             self.mode = 'idle';
             self.update();

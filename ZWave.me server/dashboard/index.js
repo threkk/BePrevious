@@ -1,6 +1,7 @@
 var logger = log4js.getLogger("client");
 var client = require('../client').client;
 var localDB = require('../io').localDB;
+var async = require('async');
 
 /**
  *	renders the home page
@@ -61,10 +62,10 @@ function editDevice(req, res) {
 
 function updateDevice(req, res) {
 	var nodeid = parseInt(req.params.id, 10) || -1;
-    updateDevices(nodeid, req.body);
+    _updateDevices(nodeid, req.body, function(err){
+    	res.end();
+    });
 }
-
-
 
 function updateAllDevices(req, res) {
 	var nodeid = parseInt(req.params.id, 10) || -1;
@@ -73,60 +74,109 @@ function updateAllDevices(req, res) {
     var nodeids = [];
     for (var key in devices) {
         var deviceData = devices[key].data;
-
         if ((device.data.productType == deviceData.productType) 
             && device.data.manufacturerId == deviceData.manufacturerId) {
             nodeids.push(deviceData.id);
         }
     }
-    updateDevices(nodeids, req.body);
+    _updateDevices(nodeids, req.body, function(err){
+    	res.end();
+    });
 }
 
-function updateDevices(nodeids, options) {
-	console.log(typeof nodeids)
+function _updateDevices(nodeids, options, callback) {
     if (typeof nodeids == "number") {
         nodeids = [nodeids]
     }
-
-    nodeids.forEach(function (nodeid) {
-        if (options.sleeptime) {
-            setSleepTime(nodeid, options.sleeptime);
-        }
-
-        if (options.calibratedTemp) {
-            setCalibratedTemp(nodeid, options.calibratedTemp);
-        }
-        
-		var device = client.deviceManager.getDevice(nodeid);
-        device.update();
-    });
-}
-
-function setSleepTime(nodeid, sleeptime) {
-    logger.debug("setting sleeptime for ", nodeid);
-    var command = 'devices[' + nodeid + '].instances[0].commandClasses[0x84].Set(' + sleeptime + ',1)'
-    client.runCommand(command, function (err, json) {
-        if (err) {
-            return logger.error(err);
-        }
-    });
-}
-
-function setCalibratedTemp(nodeid, calibratedTemp) {
-    var device = client.deviceManager.getDevice(nodeid);
-    if (!device) {
-        return logger.error('no device with id ' + nodeid + ' was found');
+    
+    if (!options.sleeptime && !options.calibratedTemp) {
+    	return;
     }
-
-    device.updateMultiLevel(function (err, multilevel) {
-        if (err) {
-            return logger.error('failed to update device ' + nodeid + ' multilevel');
+    
+    async.series([
+        function (callback) {
+        	if (!options.sleeptime) {
+        		callback(null);
+        	} else {
+	            setSleepTime(nodeids, options.sleeptime, function(err) {
+	            	callback(err);
+	            });
+            }
+        },
+        function (callback) {
+            if (options.calibratedTemp) {
+            	callback(null);
+            } else {
+            	setSleepTime(nodeids, options.calibratedTemp);
+            }
         }
-
-        var temp = multilevel.Temperature;
-        var offset = temp - calibratedTemp;
-        localDB.setTempOffset(nodeid, offset);
+    ], function (err, results) {
+    	callback(err);
     });
+}
+
+
+/**
+ * optional callback callback(err)
+ */
+function setSleepTime(nodeids, sleeptime, callback) {
+	if (typeof nodeids == "number") {
+        nodeids = [nodeids]
+    }
+    
+    var funcs = [];
+	nodeids.forEach(function (nodeid) {
+	    funcs.push(function (callback) {
+	        var command = 'devices[' + nodeid + '].instances[0].commandClasses[0x84].Set(' + sleeptime + ',1)'
+	        client.runCommand(command, function (err, json) {
+	            if (!err) {
+	            	logger.debug('setting sleeptime(' + sleeptime + 's) for ' + nodeid);
+	            }
+	        	return callback(err, json);
+	        });
+	    });
+	});
+	
+	async.series(funcs, function(err, results) {
+	    callback && callback(err);
+	});
+}
+
+/**
+ * optional callback callback(err)
+ */
+function setCalibratedTemp(nodeids, calibratedTemp, callback) {
+	if (typeof nodeids == "number") {
+        nodeids = [nodeids]
+    }
+    
+    var funcs = [];
+	nodeids.forEach(function (nodeid) {
+	    funcs.push(function (callback) {
+	        var device = client.deviceManager.getDevice(nodeid);
+	        if (!device) {
+	            return callback('no device with id ' + nodeid + ' was found');
+	        }
+	        
+	        device.updateMultiLevel(function (err, multilevel) {
+	        	if (err) {
+	        		return callback('failed to update device ' + nodeid + ' multilevel');
+	        	}
+	        	var temp = multilevel.Temperature;
+        		var offset = temp - calibratedTemp;
+        		localDB.setTempOffset(nodeid, offset);
+        		
+        		logger.debug('setting temp offset to ' + offset + 'c) for ' + nodeid);
+        		
+        		return callback(null);
+	        });	        
+	    });
+	});
+    
+    
+    async.series(funcs, function(err, results) {
+	    callback && callback(err);
+	});
 }
 
 exports.routes = {
