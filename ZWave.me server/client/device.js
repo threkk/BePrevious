@@ -26,9 +26,7 @@ function Device(manager) {
 Device.prototype = {
     update: function (deviceData, callback) {
         this._merge(this.data, deviceData);
-        this.updateMultiLevel(function(err){
-        	callback && callback(err);
-        });
+    	callback && callback(err);
     },
 
     _merge: function (oldData, newData) {

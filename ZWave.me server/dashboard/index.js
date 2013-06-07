@@ -16,7 +16,6 @@ function getHome(req, res) {
 /**
  *	renders the devices page
  */
-
 function getDevices(req, res) {
     var devices = [];
 
@@ -62,13 +61,19 @@ function editDevice(req, res) {
 
 function updateDevice(req, res) {
 	var nodeid = parseInt(req.params.id, 10) || -1;
-    _updateDevices(nodeid, req.body, function(err){
-    	res.end();
-    });
+	if (nodeid > 0) { 
+	    _updateDevices(nodeid, req.body, function(err){
+	    	res.end();
+	    });
+	}
 }
 
 function updateAllDevices(req, res) {
 	var nodeid = parseInt(req.params.id, 10) || -1;
+	if (nodeid < 0) {
+		return;
+	}
+	
     var devices = client.deviceManager.devices;
     var device = client.deviceManager.getDevice(nodeid);
     var nodeids = [];

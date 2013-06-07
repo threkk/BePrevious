@@ -20,16 +20,20 @@ function DeviceManager(client) {
     var self = this;
 
     //schedule the devicemanager to update every minute
-    var updateInterval = 60 * 1000;
-    setInterval(function () {
+    var updateInterval = 30 * 1000;
+    setInterval(function() {
         self.update();
+        
+        //update the multilevel values of every device
+        self.devices.forEach(function(device){
+        	device.updateMultiLevel();
+        });
     }, updateInterval);
 
     this.mode = 'idle';
 }
 
 DeviceManager.prototype = {
-
     update: function () {
         var self = this;
         this.client.getApiData(0, function (err, data) {
@@ -87,7 +91,7 @@ DeviceManager.prototype = {
                 return callback(err);
             }
 			
-			self._startUpdateTimer(duration,1000);
+			self._startUpdateTimer(duration, 1500);
             callback && callback(null, json);
 
             setTimeout(function () {
@@ -124,7 +128,7 @@ DeviceManager.prototype = {
                 return callback(err);
             }
 
-			self._startUpdateTimer(duration,1000);
+			self._startUpdateTimer(duration, 1500);
             callback && callback(null, json);
 
             setTimeout(function () {
@@ -157,7 +161,6 @@ DeviceManager.prototype = {
     getDevice: function (id) {
         for (var key in this.devices) {
             var device = this.devices[key];
-            
             if (device.data.id == id) {
                 return device;
             }
