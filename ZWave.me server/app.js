@@ -50,7 +50,9 @@ app.map = function (a, route) {
 
 var http = require('http');
 var server = http.createServer(app),
-	io = io.listen(server, {log: false});
+    io = io.listen(server, {
+        log: false
+    });
 
 function registerPartialSync(hbs, partialName, filename) {
     var encoding = 'utf8'
@@ -84,18 +86,15 @@ app.configure(function () {
 app.map(require('./client').routes, '/client/');
 app.map(require('./dashboard').routes, '/');
 
-var compressJob = new cronJob({
-    cronTime: '00 00 02 * * *',
-    onTick: function () {
-        writer.compressFiles();
-    },
-    start: false
-});
-compressJob.start();
 var ftpJob = new cronJob({
     cronTime: '00 00 03 * * *',
     onTick: function () {
-      ftp.send();  
+        writer.compressFiles(function (err) {
+            if (err) {
+                return logger.error('failed to compress files: ' + JSON.stringify(err));
+            }
+            ftp.send();
+        });
     },
     start: false
 });
@@ -112,11 +111,11 @@ client.on('commandupdate', function (message) {
     clientsocket.emit('update', message);
 });
 
-client.on('device_added', function(device){
-	clientsocket.emit('device_added', device);
+client.on('device_added', function (device) {
+    clientsocket.emit('device_added', device);
 });
-client.on('device_removed', function(device){
-	clientsocket.emit('device_removed', device);
+client.on('device_removed', function (device) {
+    clientsocket.emit('device_removed', device);
 });
 
 // Launch server

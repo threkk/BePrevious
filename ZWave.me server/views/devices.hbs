@@ -104,7 +104,10 @@
 			      <td>{{description.name}}</td>
 			      <td>{{multilevel.Luminiscence}}</td>
 			      <td>{{multilevel.Temperature}}</td>
-			      <td>{{batteryLevel}}{{#hasBattery}}%{{/hasBattery}}</td>
+			      <td>
+			      	{{#hasBattery}}<img src="{{batteryImage}}">{{/hasBattery}}
+			      	{{batteryLevel}}{{#hasBattery}}%{{/hasBattery}}
+			      </td>
 			      <td>{{status}}</td>
 			      <td><a class="btn" href="devices/edit/{{id}}">Edit settings</a></td>
 			    </tr>

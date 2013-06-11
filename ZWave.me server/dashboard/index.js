@@ -8,6 +8,8 @@ var async = require('async');
  */
 
 function getHome(req, res) {
+	console.log("controller: "+JSON.stringify(client.deviceManager.controller));
+	console.log("mode: "+JSON.stringify(client.deviceManager.mode));
     res.render('home.hbs', {
         controllerData: client.deviceManager.controller
     });
@@ -18,7 +20,7 @@ function getHome(req, res) {
  */
 function getDevices(req, res) {
     var devices = [];
-
+	
     for (var key in client.deviceManager.devices) {
         var device = client.deviceManager.devices[key];
         var deviceData = JSON.parse(JSON.stringify(device.data));
@@ -30,6 +32,10 @@ function getDevices(req, res) {
             status = 'Failed';
         }
         deviceData.status = status;
+        if (deviceData.batteryLevel) {
+        	var fraction = Math.round(deviceData.batteryLevel / 25) * 25;
+        	deviceData.batteryImage = '/images/battery/battery-' + fraction + '.png';
+        }
         devices.push(deviceData);
     }
 

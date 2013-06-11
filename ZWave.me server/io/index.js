@@ -1,7 +1,9 @@
 var exec = require('child_process').exec;
-var fs = require("fs");
+var fs = require('fs');
+var path = require('path');
 var cronJob = require('cron').CronJob;
 var moment = require('moment');
+var async = require('async');
 var logger = log4js.getLogger("io");
 
 function Writer() {
@@ -38,54 +40,78 @@ Writer.prototype = {
         });
     },
 
-    compressFiles: function () {
+    compressFiles: function (fn) {
+    	var self = this;
         fs.readdir(this.directory, function (err, files) {
-            files.map(function (file) {
-                if (file.substr(-5) != '.json') {
+            if (err) {
+                //failed to list files
+                return fn(err);
+            }
+
+            var funcs = [];
+            files.forEach(function (filename) {
+                if (filename.substr(-5) != '.json') {
+                    //file does not need compression, its not a json file
                     return;
                 }
 
-                if (file.substr(0, file.length - 5) == moment().format(this.dateFormat)) {
+                if (filename.substr(0, filename.length - 5) == moment().format(this.dateFormat)) {
+                    //file does not need compression, file is for today
                     return;
                 }
 
-                this._compressFile(this.directory + '/' + file, function (err) {
-                    if (!err) {
-                        fs.unlink(this.directory + '/' + file, function (err) {
-                            if (err) {
-                                logger.error(err);
-                            } else {
-                                logger.debug('compressed and deleted file ' + file);
-                            }
-                        }.bind(this));
-                    } else {
-                        logger.error('failed to compress file' + JSON.stringify(err));
-                    }
-                }.bind(this));
-            }.bind(this));
-        }.bind(this));
+                funcs.push(function (callback) {
+                    self._compressFile(filename, function (err) {
+                        if (err) {
+                            logger.error('failed to compress file: ' + JSON.stringify(err));
+                            return callback(err);
+                        }
+
+                        callback(null);
+                    });
+                });
+            });
+            
+            async.series(funcs, function(err, results) {
+			    fn && fn(err);
+			});
+        });
     },
 
-    _compressFile: function (filename, callback) {
+    _compressFile: function (filename, callback) {    
+        var dst = filename.substr(0, filename.length - 5) + '.tgz';
+        var command = "cd ./data && tar -zcf " + dst + " " + filename + " --remove-files";
 
-        var tarfile = filename.substr(filename.lastIndexOf('/') + 1);
-        tarfile = tarfile.substr(0, tarfile.length - 5);
-        var fileToTar = filename.substr(filename.lastIndexOf('/') + 1);
-        var command = "cd ./data && tar -zcf " + tarfile + ".tgz " + fileToTar;
         var child = exec(command, function (error, stdout, stderr) {
+        	if (error) {
+        		error = {
+        			errorMessage: error, 
+        			command: command
+        		};
+        	}
             callback(error, {
                 stdout: stdout,
                 stderr: stderr
             });
         });
+    },
 
+    _deleteFile: function (filename, callback) {
+        var location = path.join(this.directory, filename);
+        fs.unlink(location, function (err) {
+            if (err) {
+                return callback(err);
+            }
+
+            callback(null, filename + ' was deleted');
+        });
     }
 }
 
-var w = new Writer();
 
+var w = new Writer();
 module.exports = {
-	writer: w,
-	ftp: require('./ftp.js'),
-	localDB: require('./localdatabase.js').localDB
+    writer: w,
+    ftp: require('./ftp.js'),
+    localDB: require('./localdatabase.js').localDB
 }

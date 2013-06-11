@@ -36,14 +36,16 @@ function DeviceManager(client) {
 DeviceManager.prototype = {
     update: function () {
         var self = this;
-        this.client.getApiData(0, function (err, data) {
+        self.client.getApiData(0, function (err, data) {
             var newDevices = [];
             if (!data || !data.devices) {
                 return;
             }
+            
+            self.controller = data.controller.data;
+            
             for (var nodeId in data.devices) {
-                this.controller = data.controller.data;
-                if (nodeId == 255 || nodeId == this.controller.nodeId.value) {
+                if (nodeId == 255 || nodeId == self.controller.nodeId.value) {
                     // We skip broadcase and self
                     continue;
                 }
@@ -67,8 +69,13 @@ DeviceManager.prototype = {
                 };
 
                 if (newDevice.hasBattery) {
-                    newDevice.batteryLevel = commandClasses[0x80].data.last.value
+                	var batteryLevel = commandClasses[0x80].data.last.value;
+                    if (batteryLevel == 255) { 
+						batteryLevel = 0; // by CC Battery specs
+					}
+                    newDevice.batteryLevel = batteryLevel;
                 }
+                
                 if(newDevice.hasWakeup){
                 	newDevice.wakeupInterval= commandClasses[0x84].data.interval.value
                 }
