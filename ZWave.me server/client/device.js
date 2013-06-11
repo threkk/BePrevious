@@ -59,6 +59,7 @@ Device.prototype = {
                 return logger.error(err);
             }
             if (!json) {
+            	callback && callback(null);
                 return;
             }
 
