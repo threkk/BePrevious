@@ -2,19 +2,22 @@ var fs = require('fs');
 var path = require('path')
 var logger = log4js.getLogger("client");
 var xm = require('xml-mapping');
+var path = require('path');
 
 function DescriptionRepository() {
     this.unknownImageURL = 'images/unknown_device.png';
-    this.directory = './ZDDX/';
+    this.directory = path.join(__dirname, '../ZDDX/');
     this.descriptors = [];
 
 	for(var key in process.argv) {
 		if (process.argv[key] == '-skipdescriptors') {
 			//skip the parsing of descriptors
+			logger.debug('skipping parsing of descriptors');
 			return;
 		}
 	}
 
+	logger.debug('parsing descriptors from directory: ' + this.directory);
     var files = fs.readdirSync(this.directory);
     for (var index in files) {
     	var filename = files[index];
@@ -23,7 +26,8 @@ function DescriptionRepository() {
         }
 
         this._parseDescription(filename);
-    }    
+    }
+    logger.debug('descriptor parsing completed');  
 }
 
 DescriptionRepository.prototype = {
