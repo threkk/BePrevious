@@ -1,0 +1,106 @@
+[2013-06-11 13:57:55.669] [DEBUG] io - compress job failed
+[2013-06-11 13:57:55.669] [ERROR] io - failed to delete file: {"errno":34,"code":"ENOENT","path":"C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-21.json"}
+[2013-06-11 13:57:55.670] [DEBUG] io - compress job failed
+[2013-06-11 13:57:55.701] [ERROR] io - failed to delete file: {"errno":34,"code":"ENOENT","path":"C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-21.json"}
+[2013-06-11 13:57:55.702] [DEBUG] io - compress job failed
+[2013-06-11 13:57:55.729] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"cd ./data && tar -zcf 2013-04-21.tgz 2013-04-21.json"}
+[2013-06-11 13:57:55.729] [DEBUG] io - compress job failed
+[2013-06-11 13:57:55.740] [ERROR] io - failed to delete file: {"errno":34,"code":"ENOENT","path":"C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-21.json"}
+[2013-06-11 13:57:55.740] [DEBUG] io - compress job failed
+[2013-06-11 14:06:11.542] [DEBUG] io - local database loaded
+[2013-06-11 14:06:11.720] [ERROR] io - failed to delete file: {"errno":34,"code":"ENOENT","path":"C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-23.json"}
+[2013-06-11 14:06:11.720] [DEBUG] io - compress job failed
+[2013-06-11 14:06:11.720] [ERROR] io - failed to delete file: {"errno":34,"code":"ENOENT","path":"C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-23.json"}
+[2013-06-11 14:06:11.721] [DEBUG] io - compress job failed
+[2013-06-11 14:06:11.721] [ERROR] io - failed to delete file: {"errno":34,"code":"ENOENT","path":"C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-23.json"}
+[2013-06-11 14:06:11.721] [DEBUG] io - compress job failed
+[2013-06-11 14:06:11.743] [ERROR] io - failed to delete file: {"errno":34,"code":"ENOENT","path":"C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-23.json"}
+[2013-06-11 14:06:11.744] [DEBUG] io - compress job failed
+[2013-06-11 14:06:11.746] [ERROR] io - failed to delete file: {"errno":34,"code":"ENOENT","path":"C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-23.json"}
+[2013-06-11 14:06:11.747] [DEBUG] io - compress job failed
+[2013-06-11 14:06:11.748] [ERROR] io - failed to delete file: {"errno":34,"code":"ENOENT","path":"C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-23.json"}
+[2013-06-11 14:06:11.748] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.196] [DEBUG] io - local database loaded
+[2013-06-11 14:09:54.412] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.413] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.466] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.466] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.478] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.478] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.480] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.481] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.485] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.486] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.497] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.497] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.498] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.498] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.501] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.502] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.508] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.508] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.517] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.518] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.523] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.524] [DEBUG] io - compress job failed
+[2013-06-11 14:09:54.542] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf data\\2013-04-10.tgz data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:09:54.542] [DEBUG] io - compress job failed
+[2013-06-11 14:11:37.642] [DEBUG] io - local database loaded
+[2013-06-11 14:11:37.939] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:37.940] [DEBUG] io - compress job failed
+[2013-06-11 14:11:37.941] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:37.942] [DEBUG] io - compress job failed
+[2013-06-11 14:11:37.989] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:37.990] [DEBUG] io - compress job failed
+[2013-06-11 14:11:37.992] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:37.993] [DEBUG] io - compress job failed
+[2013-06-11 14:11:38.007] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:38.008] [DEBUG] io - compress job failed
+[2013-06-11 14:11:38.044] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:38.044] [DEBUG] io - compress job failed
+[2013-06-11 14:11:38.046] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:38.046] [DEBUG] io - compress job failed
+[2013-06-11 14:11:38.047] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:38.047] [DEBUG] io - compress job failed
+[2013-06-11 14:11:38.047] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:38.048] [DEBUG] io - compress job failed
+[2013-06-11 14:11:38.048] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:38.049] [DEBUG] io - compress job failed
+[2013-06-11 14:11:38.049] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:38.050] [DEBUG] io - compress job failed
+[2013-06-11 14:11:38.051] [ERROR] io - failed to compress file: {"errorMessage":{"killed":false,"code":2,"signal":null},"command":"tar -zcf C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.tgz C:\\Users\\Maarten\\workspace\\BePrevious\\ZWave.me server\\data\\2013-04-10.json --remove-files"}
+[2013-06-11 14:11:38.052] [DEBUG] io - compress job failed
+[2013-06-11 14:34:05.031] [DEBUG] io - local database loaded
+[2013-06-11 14:35:47.384] [DEBUG] io - local database loaded
+[2013-06-11 14:50:58.769] [DEBUG] io - local database loaded
+[2013-06-11 15:16:23.261] [DEBUG] io - local database loaded
+[2013-06-11 15:20:14.129] [DEBUG] io - local database loaded
+[2013-06-11 15:21:57.837] [DEBUG] io - local database loaded
+[2013-06-11 15:25:24.448] [DEBUG] io - local database loaded
+[2013-06-11 15:26:44.052] [DEBUG] io - local database loaded
+[2013-06-11 15:29:39.348] [DEBUG] io - local database loaded
+[2013-06-12 11:57:45.075] [DEBUG] io - local database loaded
+[2013-06-12 12:18:40.025] [DEBUG] io - local database loaded
+[2013-06-12 12:18:40.026] [DEBUG] io - succesfully persisted local database
+[2013-06-12 12:22:11.902] [DEBUG] io - loaded an empty local json database
+[2013-06-12 12:22:11.903] [DEBUG] io - source file: ./localdatabase.json
+[2013-06-12 12:22:11.903] [DEBUG] io - local database loaded
+[2013-06-12 12:22:11.903] [DEBUG] io - succesfully persisted local database
+[2013-06-12 12:24:47.557] [DEBUG] io - loaded an empty local json database
+[2013-06-12 12:24:47.558] [DEBUG] io - source file: C:\Users\Maarten\workspace\BePrevious\ZWave.me server\localdatabase.json
+[2013-06-12 12:24:47.558] [DEBUG] io - local database loaded
+[2013-06-12 12:24:47.559] [DEBUG] io - succesfully persisted local database
+[2013-06-12 12:25:11.455] [DEBUG] io - loaded an empty local json database
+[2013-06-12 12:25:11.456] [DEBUG] io - source file: C:\Users\Maarten\workspace\BePrevious\ZWave.me server\localdatabase.json
+[2013-06-12 12:25:11.456] [DEBUG] io - local database loaded
+[2013-06-12 12:25:11.456] [DEBUG] io - succesfully persisted local database
+[2013-06-12 12:26:02.529] [DEBUG] io - loaded an empty local json database
+[2013-06-12 12:26:02.530] [DEBUG] io - source file: C:\Users\Maarten\workspace\BePrevious\ZWave.me server\localdatabase.json
+[2013-06-12 12:26:02.530] [DEBUG] io - data: 
+[2013-06-12 12:26:02.530] [DEBUG] io - local database loaded
+[2013-06-12 12:26:02.530] [DEBUG] io - succesfully persisted local database
+[2013-06-12 12:31:05.864] [DEBUG] io - succesfully persisted local database
+[2013-06-12 12:33:01.044] [DEBUG] io - succesfully persisted local database
+[2013-06-12 12:42:49.038] [DEBUG] io - succesfully persisted local database
+[2013-06-18 11:33:09.762] [DEBUG] io - succesfully persisted local database
+[2013-06-18 11:33:09.872] [DEBUG] io - succesfully persisted local database
