@@ -96,10 +96,6 @@ function configureLogger(callback) {
             console.log('ERROR: Failed to create logging directory');
 			return callback('Failed to create logging directory');
         }
-        
-        if (err.code !== 'EEXIST') {
-		    logger.debug("created logging directory");
-		}	
 
 	    log4js.configure('log4js.json', {
 	        reloadSecs: 300
