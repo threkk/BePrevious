@@ -112,6 +112,6 @@ Writer.prototype = {
 var w = new Writer();
 module.exports = {
     writer: w,
-    ftp: require('./ftp.js'),
+    ftp: require('./ftp.js').ftp,
     localDB: require('./localdatabase.js').localDB
 }
