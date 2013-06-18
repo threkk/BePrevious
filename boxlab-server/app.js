@@ -97,7 +97,7 @@ function configureLogger(callback) {
 			return callback('Failed to create logging directory');
         }
 
-	    log4js.configure('log4js.json', {
+	    log4js.configure('./log4js.json', {
 	        reloadSecs: 300
 	    });
 	    
