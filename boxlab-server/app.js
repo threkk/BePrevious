@@ -91,13 +91,15 @@ app.configure(function () {
 });
 
 function configureLogger(callback) {
-	fs.mkdir('logs', 0777, function (err) {
+	var configDir  = path.join(application_root, './logs');
+	var configFile = path.join(application_root, './log4js.json');
+	fs.mkdir(configDir, 0777, function (err) {
 		if (err && err.code !== 'EEXIST') {
             console.log('ERROR: Failed to create logging directory');
 			return callback('Failed to create logging directory');
         }
-
-	    log4js.configure('./log4js.json', {
+        
+	    log4js.configure(configFile, {
 	        reloadSecs: 300
 	    });
 	    
