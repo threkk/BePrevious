@@ -8,8 +8,6 @@ var async = require('async');
  */
 
 function getHome(req, res) {
-	console.log("controller: "+JSON.stringify(client.deviceManager.controller));
-	console.log("mode: "+JSON.stringify(client.deviceManager.mode));
     res.render('home.hbs', {
         controllerData: client.deviceManager.controller
     });

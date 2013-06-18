@@ -53,3 +53,5 @@
 {"nodeId":"1","instanceId":"0","timestamp":1371549533,"command":{"id":"32","name":"level","value":255,"type":"int"}}
 {"nodeId":"6","instanceId":"0","timestamp":1371549533,"command":{"id":"48","name":"level","value":true,"type":"bool"}}
 {"nodeId":"10","instanceId":"0","timestamp":1371549533,"command":{"id":"48","name":"level","value":true,"type":"bool"}}
+{"nodeId":"6","instanceId":"0","timestamp":1371551944,"command":{"id":"132","name":"lastWakeup","value":1371551944,"type":"int"}}
+{"nodeId":"6","instanceId":"0","timestamp":1371551944,"command":{"id":"132","name":"lastSleep","value":1371551944,"type":"int"}}

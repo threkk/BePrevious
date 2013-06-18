@@ -1,5 +1,6 @@
 var logger = log4js.getLogger("client");
 var _ = require('lodash');
+var localDB = require('../io').localDB;
 
 var updateDelay = 5;
 var updateRate = 500;
@@ -7,10 +8,7 @@ var commandQueueSize = 25;
 
 function CommandManager(client) {
     this.client = client;
-    
     this.updates = [];
-
-    
     this.init();
 }
 
@@ -19,13 +17,15 @@ CommandManager.prototype = {
 
     init: function () {
         var self = this;
+        var timestamp = localDB.getLastCommandUpdate();
         this.timer = setInterval(function () {
-        	var timestamp = Math.round(+new Date()/1000);
-            self.client.getApiData((timestamp - updateDelay), function (err, data) {
+            self.client.getApiData(timestamp, function (err, data) {
                 if (err) {
                     return logger.error('failed to retrieve data from api: ' + JSON.stringify(err));
                 }
                 self.update(data);
+	        	timestamp = Math.round(+new Date()/1000) - updateDelay;
+                localDB.setLastCommandUpdate(timestamp);
             })
         }, updateRate);
     },

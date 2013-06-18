@@ -1,10 +1,4 @@
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
-/ZWave.me server/data
-/ZWave.me server/logs
-/ZWave.me server/node_modules
-ZWave.me server/localdatabase.json
+/boxlab-server/data
+/boxlab-server/logs
+/boxlab-server/node_modules
+/boxlab-server/localdatabase.json

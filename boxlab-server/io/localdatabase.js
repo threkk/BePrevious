@@ -21,6 +21,16 @@ function LocalDatabase() {
 }
 
 LocalDatabase.prototype = {
+	setLastCommandUpdate: function(lastCommandUpdate) {
+		this.update({
+			lastCommandUpdate: lastCommandUpdate
+		});
+	},
+	
+	getLastCommandUpdate: function() {
+		return this.data.lastCommandUpdate || 0;
+	},
+	
 	setIdentity: function(identity) {
 		if (this.getIdentity()) {
 			throw new Error('Identity is allready set');
@@ -78,8 +88,6 @@ LocalDatabase.prototype = {
             this._save(function (err) {
                 if (err) {
                     logger.debug("failed to persist local database: " + JSON.stringify(err));
-                } else {
-                    logger.debug("succesfully persisted local database");
                 }
             });
         }

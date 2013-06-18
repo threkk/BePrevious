@@ -163,3 +163,32 @@
 [2013-06-18 11:58:50.172] [DEBUG] client - command executed: devices[10].instances[0].commandClasses[49]
 [2013-06-18 11:58:50.279] [DEBUG] client - command executed: devices[11].instances[0].commandClasses[49]
 [2013-06-18 11:58:50.279] [DEBUG] client - updated multi level value of devices
+[2013-06-18 12:38:19.118] [DEBUG] client - updated devices list
+[2013-06-18 12:38:31.999] [DEBUG] client - command executed: devices[3].instances[0].commandClasses[49]
+[2013-06-18 12:38:32.122] [DEBUG] client - command executed: devices[4].instances[0].commandClasses[49]
+[2013-06-18 12:38:32.229] [DEBUG] client - command executed: devices[5].instances[0].commandClasses[49]
+[2013-06-18 12:38:32.334] [DEBUG] client - command executed: devices[6].instances[0].commandClasses[49]
+[2013-06-18 12:38:32.446] [DEBUG] client - command executed: devices[8].instances[0].commandClasses[49]
+[2013-06-18 12:38:32.566] [DEBUG] client - command executed: devices[9].instances[0].commandClasses[49]
+[2013-06-18 12:38:32.677] [DEBUG] client - command executed: devices[10].instances[0].commandClasses[49]
+[2013-06-18 12:38:32.787] [DEBUG] client - command executed: devices[11].instances[0].commandClasses[49]
+[2013-06-18 12:38:32.788] [DEBUG] client - updated multi level value of devices
+[2013-06-18 12:38:47.121] [DEBUG] client - command executed: devices[3].instances[0].commandClasses[49]
+[2013-06-18 12:38:47.277] [DEBUG] client - command executed: devices[4].instances[0].commandClasses[49]
+[2013-06-18 12:38:47.296] [DEBUG] client - updated devices list
+[2013-06-18 12:38:47.383] [DEBUG] client - command executed: devices[5].instances[0].commandClasses[49]
+[2013-06-18 12:38:47.492] [DEBUG] client - command executed: devices[6].instances[0].commandClasses[49]
+[2013-06-18 12:38:47.599] [DEBUG] client - command executed: devices[8].instances[0].commandClasses[49]
+[2013-06-18 12:38:47.707] [DEBUG] client - command executed: devices[9].instances[0].commandClasses[49]
+[2013-06-18 12:38:47.829] [DEBUG] client - command executed: devices[10].instances[0].commandClasses[49]
+[2013-06-18 12:38:47.936] [DEBUG] client - command executed: devices[11].instances[0].commandClasses[49]
+[2013-06-18 12:38:47.936] [DEBUG] client - updated multi level value of devices
+[2013-06-18 12:39:02.007] [DEBUG] client - command executed: devices[3].instances[0].commandClasses[49]
+[2013-06-18 12:39:02.113] [DEBUG] client - command executed: devices[4].instances[0].commandClasses[49]
+[2013-06-18 12:39:02.221] [DEBUG] client - command executed: devices[5].instances[0].commandClasses[49]
+[2013-06-18 12:39:02.328] [DEBUG] client - command executed: devices[6].instances[0].commandClasses[49]
+[2013-06-18 12:39:02.436] [DEBUG] client - command executed: devices[8].instances[0].commandClasses[49]
+[2013-06-18 12:39:02.547] [DEBUG] client - command executed: devices[9].instances[0].commandClasses[49]
+[2013-06-18 12:39:02.656] [DEBUG] client - command executed: devices[10].instances[0].commandClasses[49]
+[2013-06-18 12:39:02.764] [DEBUG] client - command executed: devices[11].instances[0].commandClasses[49]
+[2013-06-18 12:39:02.764] [DEBUG] client - updated multi level value of devices
