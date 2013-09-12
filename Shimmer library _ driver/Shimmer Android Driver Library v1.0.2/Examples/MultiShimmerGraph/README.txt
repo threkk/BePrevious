@@ -1,0 +1,1 @@
+Connects a two Shimmer units and displays uncalibrated data on the graph, and calibrated data in the text view.
