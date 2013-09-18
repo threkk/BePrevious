@@ -2,3 +2,4 @@
 /boxlab-server/logs
 /boxlab-server/node_modules
 /boxlab-server/localdatabase.json
+/.metadata
