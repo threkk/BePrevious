@@ -1,9 +1,0 @@
-INDEX VERSION 1.126+/Users/albertommr/Documents/Repositories/BePrevious/.metadata/.plugins/org.eclipse.jdt.core
-1525332438.index
-2802992197.index
-3442419946.index
-2040064081.index
-946959278.index
-2371744012.index
-3447488717.index
-960595793.index
