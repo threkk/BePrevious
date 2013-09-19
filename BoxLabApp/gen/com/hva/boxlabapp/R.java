@@ -88,29 +88,32 @@ containing a value of this type.
     }
     public static final class drawable {
         public static final int calendar_bg_selector=0x7f020000;
-        public static final int ic_action_about=0x7f020001;
-        public static final int ic_action_help=0x7f020002;
-        public static final int ic_action_overflow=0x7f020003;
-        public static final int ic_action_settings=0x7f020004;
-        public static final int ic_launcher=0x7f020005;
+        public static final int earthtruecolor_nasa_big=0x7f020001;
+        public static final int ic_action_about=0x7f020002;
+        public static final int ic_action_help=0x7f020003;
+        public static final int ic_action_overflow=0x7f020004;
+        public static final int ic_action_settings=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
     }
     public static final class id {
-        public static final int action_about=0x7f090005;
-        public static final int action_overflow=0x7f090006;
-        public static final int action_settings=0x7f090004;
+        public static final int action_about=0x7f090006;
+        public static final int action_overflow=0x7f090007;
+        public static final int action_settings=0x7f090005;
         public static final int activity_main=0x7f090000;
-        public static final int calendar_grid=0x7f090003;
-        public static final int description=0x7f090001;
-        public static final int menu_about=0x7f090007;
-        public static final int title=0x7f090002;
+        public static final int calendar_grid=0x7f090004;
+        public static final int description=0x7f090002;
+        public static final int fragment_exercise=0x7f090001;
+        public static final int menu_about=0x7f090008;
+        public static final int title=0x7f090003;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int fragment_exercises=0x7f030001;
-        public static final int fragment_library=0x7f030002;
-        public static final int fragment_schedule=0x7f030003;
-        public static final int month=0x7f030004;
-        public static final int week=0x7f030005;
+        public static final int exercise_3d_layout=0x7f030001;
+        public static final int fragment_exercises=0x7f030002;
+        public static final int fragment_library=0x7f030003;
+        public static final int fragment_schedule=0x7f030004;
+        public static final int month=0x7f030005;
+        public static final int week=0x7f030006;
     }
     public static final class menu {
         public static final int main=0x7f080000;
