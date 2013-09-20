@@ -3,3 +3,6 @@
 /boxlab-server/node_modules
 /boxlab-server/localdatabase.json
 /.metadata
+
+/BoxLabApp/bin
+/BoxLabApp/gen/
