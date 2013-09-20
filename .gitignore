@@ -2,6 +2,9 @@
 /boxlab-server/logs
 /boxlab-server/node_modules
 /boxlab-server/localdatabase.json
+
+/Shimmer Android Driver Library v1.0.2/Examples/MultiShimmerGraph/bin
+/Shimmer Android Driver Library v1.0.2/Examples/ShimmerGraphandLogService/bin
 /.metadata
 
 /BoxLabApp/bin
