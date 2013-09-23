@@ -24,9 +24,18 @@ public class SensorDevice implements Serializable {
 		public String getDescription() {
 			return description;
 		}
+
+		public static Type valueOf(int id) {
+			for (Type type : values()) {
+				if (type.id == id) {
+					return type;
+				}
+			}
+			return null;
+		}
 	}
 
-	private int id;
+	private long id;
 	private String name;
 	private Type type;
 
@@ -39,17 +48,17 @@ public class SensorDevice implements Serializable {
 		this.type = type;
 	}
 
-	public SensorDevice(int id, String name, Type type) {
+	public SensorDevice(long id, String name, Type type) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -73,7 +82,7 @@ public class SensorDevice implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;

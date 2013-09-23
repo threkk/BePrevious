@@ -18,6 +18,10 @@ public class ManageDevicesDialogFactory {
 	private Activity activity;
 	private FinishedCommand finishedCommand;
 
+	public SensorDevice getDevice() {
+		return device;
+	}
+
 	public void setDevice(SensorDevice device) {
 		this.device = device;
 	}
@@ -37,7 +41,7 @@ public class ManageDevicesDialogFactory {
 		View view = inflater.inflate(R.layout.device_manager_dialog, null);
 
 		Spinner spinnerType = (Spinner) view
-				.findViewById(R.id.device_dialog_type);
+				.findViewById(R.id.dialog_device_type);
 		spinnerType.setAdapter(new ArrayAdapter<SensorDevice.Type>(activity,
 				android.R.layout.simple_spinner_item, SensorDevice.Type
 						.values()));
@@ -74,15 +78,15 @@ public class ManageDevicesDialogFactory {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 
-			final EditText editID = (EditText) view
-					.findViewById(R.id.device_dialog_id);
-			final Spinner spinnerType = (Spinner) view
-					.findViewById(R.id.device_dialog_type);
+			final EditText fieldName = (EditText) view
+					.findViewById(R.id.dialog_device_name);
+			final Spinner fieldType = (Spinner) view
+					.findViewById(R.id.dialog_device_type);
 
-			String deviceID = editID.getEditableText().toString();
-			SensorDevice.Type type = (Type) spinnerType.getSelectedItem();
+			String name = fieldName.getEditableText().toString();
+			SensorDevice.Type type = (Type) fieldType.getSelectedItem();
 
-			device.setName(deviceID);
+			device.setName(name);
 			device.setType(type);
 
 			finish(false);
