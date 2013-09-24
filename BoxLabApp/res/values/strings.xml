@@ -3,25 +3,18 @@
 
     <string name="app_name">Box Lab App</string>
     <string name="title_main_activity">Box Lab App</string>
-<<<<<<< HEAD
     <string name="title_activity_exercise3_d">Exercise 3D Launcher</string><string name="menu_settings">Settings</string>
-=======
+    <string name="title_activity_manage_devices">Manage devices</string>
+    
     <string name="menu_settings">Settings</string>
->>>>>>> android-dev
     <string name="menu_overflow">Show more</string>
     <string name="menu_help">Help</string>
     <string name="menu_about">How to use this app</string>
     <string name="fragment_schedule">Schedule</string>
     <string name="fragment_exercises">Excercises</string>
     <string name="fragment_library">Library</string>
-<<<<<<< HEAD
-    
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-=======
-    <string name="title_activity_manage_devices">Manage devices</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+   
 
     <!-- device manager strings -->
     <string name="devicemanager_subtitle">Add, edit or remove devices</string>
@@ -31,6 +24,5 @@
     <string name="devicemanager_dialog_id">Device ID</string>
     <string name="devicemanager_dialog_id_hint">Please enter a device id</string>
     <string name="devicemanager_dialog_type">Device type</string>
->>>>>>> android-dev
 
 </resources>
