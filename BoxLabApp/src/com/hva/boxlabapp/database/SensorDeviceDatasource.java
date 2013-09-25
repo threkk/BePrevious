@@ -10,8 +10,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import android.widget.Toast;
 
 public class SensorDeviceDatasource {
+
+	public static final String TAG = SensorDeviceDatasource.class.getName();
 
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
@@ -23,47 +27,96 @@ public class SensorDeviceDatasource {
 		dbHelper = new DatabaseHelper(context);
 	}
 
-	public void open() throws SQLException {
+	private void open() throws SQLException {
 		database = dbHelper.getWritableDatabase();
 	}
 
-	public void close() {
+	private void close() {
 		database = null;
 		dbHelper.close();
 	}
 
 	public SensorDevice create(SensorDevice device) {
-		ContentValues values = new ContentValues();
-		values.put(DatabaseHelper.COLUMN_DEVICE_NAME, device.getName());
-		values.put(DatabaseHelper.COLUMN_DEVICE_TYPE, device.getType().getId());
+		try {
+			open();
+			ContentValues values = new ContentValues();
+			values.put(DatabaseHelper.COLUMN_DEVICE_NAME, device.getName());
+			values.put(DatabaseHelper.COLUMN_DEVICE_TYPE, device.getType()
+					.getId());
 
-		device.setId(database.insert(DatabaseHelper.TABLE_DEVICE, null, values));
+			long id = database
+					.insert(DatabaseHelper.TABLE_DEVICE, null, values);
+			device.setId(id);
+			Log.d(TAG, "device with id " + id + " was inserted");
+		} catch (SQLException e) {
+			Log.e(TAG, "Failed to create new device", e);
+		} finally {
+			close();
+		}
 
 		return device;
 	}
 
-	public void deleteDevice(SensorDevice comment) {
-		long id = comment.getId();
-		database.delete(DatabaseHelper.TABLE_DEVICE,
-				DatabaseHelper.COLUMN_DEVICE_ID + " = " + id, null);
-		System.out.println("Device deleted with id: " + id);
-	}
+	public void update(SensorDevice device) {
+		long id = device.getId();
+		String table = DatabaseHelper.TABLE_DEVICE;
+		String where = DatabaseHelper.COLUMN_DEVICE_ID + " = " + id;
+		try {
+			open();
+			ContentValues values = new ContentValues();
+			values.put(DatabaseHelper.COLUMN_DEVICE_NAME, device.getName());
+			values.put(DatabaseHelper.COLUMN_DEVICE_TYPE, device.getType().getId());
 
-	public List<SensorDevice> getAllDevices() {
-		List<SensorDevice> devices = new ArrayList<SensorDevice>();
-
-		Cursor cursor = database.query(DatabaseHelper.TABLE_DEVICE, allColumns,
-				null, null, null, null, null);
-		cursor.moveToFirst();
-
-		while (!cursor.isAfterLast()) {
-			SensorDevice device = cursorToDevice(cursor);
-			devices.add(device);
-			cursor.moveToNext();
+			database.update(table, values, where, null);
+			
+			Log.d(TAG, "device with id " + id + " was updated");
+		} catch (SQLException e) {
+			Log.e(TAG, "Failed to update device with id " + id, e);
+		} finally {
+			close();
 		}
 
-		// Make sure to close the cursor
-		cursor.close();
+	}
+
+	public void delete(SensorDevice device) {
+		long id = device.getId();
+		String table = DatabaseHelper.TABLE_DEVICE;
+		String where = DatabaseHelper.COLUMN_DEVICE_ID + " = " + id;
+		try {
+			open();
+			database.delete(table, where, null);
+			Log.d(TAG, "device with id " + id + " was deleted");
+		} catch (SQLException e) {
+			Log.e(TAG, "Failed to delete device with id " + id, e);
+		} finally {
+			close();
+		}
+	}
+
+	public List<SensorDevice> getDevices() {
+		List<SensorDevice> devices = null;
+		Cursor cursor = null;
+		try {
+			open();
+			devices = new ArrayList<SensorDevice>();
+			cursor = database.query(DatabaseHelper.TABLE_DEVICE, allColumns,
+					null, null, null, null, null);
+			cursor.moveToFirst();
+
+			while (!cursor.isAfterLast()) {
+				SensorDevice device = cursorToDevice(cursor);
+				devices.add(device);
+				cursor.moveToNext();
+			}
+		} catch (SQLException e) {
+			Log.e(TAG, "Failed to retrieve devices", e);
+		} finally {
+			close();
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+
 		return devices;
 	}
 
