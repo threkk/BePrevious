@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import com.hva.boxlabapp.devices.ManageDevicesActivity;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
 public class MainActivity extends Activity {

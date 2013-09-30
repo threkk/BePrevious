@@ -50,6 +50,7 @@ public class BobRenderer {
 		spriteBatch.end();
 	}
 
+	@SuppressWarnings("static-access")
 	private void drawBob() {
 		Bob bob = bobView.getBob();
 		spriteBatch.draw(bobTexture, bob.getPosition().x*ppuX, bob.getPosition().y*ppuY,bob.SIZE*ppuX,bob.SIZE*ppuY );

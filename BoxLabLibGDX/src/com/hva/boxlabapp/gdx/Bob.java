@@ -34,10 +34,6 @@ public class Bob {
 		return JUMP_VELOCITY;
 	}
 
-	public static float getSize() {
-		return SIZE;
-	}
-
 	public Vector2 getPosition() {
 		return position;
 	}

@@ -14,16 +14,6 @@ public class FragmentExercises extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	
 		View view = inflater.inflate(R.layout.fragment_exercises, container, false);
-
-//		Rajawali code
-//		Exercise3DFragment fragment = new Exercise3DFragment();
-//		
-//		getFragmentManager()
-//		.beginTransaction()
-//		.add(R.id.fragment_exercise, fragment)
-//		.commit();
-		
-//		LibGdx code
 		
 		Button launch = (Button)view.findViewById(R.id.launch);
 		launch.setOnClickListener(new View.OnClickListener() {
