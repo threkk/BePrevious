@@ -18,10 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hva.boxlabapp.R;
-import com.hva.boxlabapp.R.id;
-import com.hva.boxlabapp.R.layout;
-import com.hva.boxlabapp.R.menu;
-import com.hva.boxlabapp.R.string;
 import com.hva.boxlabapp.model.SensorDevice;
 
 public class ManageDevicesActivity extends ListActivity {
@@ -97,7 +93,7 @@ public class ManageDevicesActivity extends ListActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		int itemID = item.getItemId();
+		//int itemID = item.getItemId();
 		if (item.getItemId() == R.id.action_add) {
 			ManageDevicesDialogFactory factory = new ManageDevicesDialogFactory();
 			factory.setActivity(this);

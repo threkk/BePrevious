@@ -10,8 +10,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.hva.boxlabapp.R;
-import com.hva.boxlabapp.R.id;
-import com.hva.boxlabapp.R.layout;
 import com.hva.boxlabapp.model.SensorDevice;
 import com.hva.boxlabapp.model.SensorDevice.Type;
 
