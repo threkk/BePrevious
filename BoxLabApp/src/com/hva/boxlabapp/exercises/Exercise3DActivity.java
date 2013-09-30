@@ -6,9 +6,9 @@ import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.hva.boxlabapp.gdx.Exercise3DObject;
-import com.hva.boxlabapp.gdx.Position;
+import com.hva.boxlabapp.gdx.Exercise3DHandler;
 
-public class Exercise3DActivity extends AndroidApplication implements Position {
+public class Exercise3DActivity extends AndroidApplication implements Exercise3DHandler {
 	
     @Override 
     public void onCreate (Bundle savedInstanceState) {

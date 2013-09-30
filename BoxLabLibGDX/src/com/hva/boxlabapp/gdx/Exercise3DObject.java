@@ -4,17 +4,23 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g3d.model.Model;
 
 public class Exercise3DObject implements ApplicationListener, InputProcessor {
+	
+// 2D Bob
 	
 	private BobView bobView;
 	private BobRenderer renderer;
 	private BobController controller;
-	private Position pos;
+	private Exercise3DHandler pos;
 	private boolean way;
+//    private PerspectiveCamera cam;
+//    private Model model;
 	
-	public Exercise3DObject(Position pos){
+	public Exercise3DObject(Exercise3DHandler pos){
 		super();
 		this.pos = pos;
 	}
@@ -28,6 +34,17 @@ public class Exercise3DObject implements ApplicationListener, InputProcessor {
 		controller = new BobController(bobView);
 		Gdx.input.setInputProcessor(this);
 		way = true;
+		
+//		3D
+//		cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//      cam.position.set(10f, 10f, 10f);
+//      cam.lookAt(0,0,0);
+//      cam.near = 0.1f;
+//      cam.far = 300f;
+//      cam.update();
+        
+        
+       
 	}
 
 	@Override
