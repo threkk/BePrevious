@@ -1,6 +1,6 @@
 package com.hva.boxlabapp;
 
-
+import com.hva.boxlabapp.exercises.Exercise3DActivity;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.widget.Button;
 public class FragmentExercises extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	
+		View view = inflater.inflate(R.layout.fragment_exercises, container, false);
+
 //		Rajawali code
 //		Exercise3DFragment fragment = new Exercise3DFragment();
 //		
@@ -21,7 +23,8 @@ public class FragmentExercises extends Fragment{
 //		.add(R.id.fragment_exercise, fragment)
 //		.commit();
 		
-		View view = inflater.inflate(R.layout.fragment_exercises, container, false);
+//		LibGdx code
+		
 		Button launch = (Button)view.findViewById(R.id.launch);
 		launch.setOnClickListener(new View.OnClickListener() {
 			

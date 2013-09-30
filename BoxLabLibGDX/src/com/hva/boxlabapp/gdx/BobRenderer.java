@@ -36,6 +36,10 @@ public class BobRenderer {
 		this.ppuY = (float)this.height/CAMERA_HEIGHT;
 	}
 	
+	public int getWidth(){
+		return width;
+	}
+	
 	private void loadTextures(){
 		bobTexture = new Texture(Gdx.files.internal("bob.png"));
 	}

@@ -61,4 +61,8 @@ public class Bob {
 	public boolean isFacingLeft() {
 		return facingLeft;
 	}
+	
+	public void setPosition(Vector2 pos){
+		this.position = pos;
+	}
 }
