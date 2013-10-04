@@ -2,61 +2,50 @@ package com.hva.boxlabapp.gdx;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 
-public class Exercise3DObject implements ApplicationListener, InputProcessor {
-	
-// 2D Bob
-	
-	private BobView bobView;
-	private BobRenderer renderer;
-	private BobController controller;
-	private Exercise3DHandler pos;
+public class Exercise3DObject implements ApplicationListener {
+		
+	private ShipView shipView;
+	private ShipRenderer renderer;
+	private ShipController controller;
+	private Exercise3DHandler handler;
 	private boolean way;
-//    private PerspectiveCamera cam;
-//    private Model model;
+
+    private CameraInputController camController;
 	
-	public Exercise3DObject(Exercise3DHandler pos){
+	public Exercise3DObject(Exercise3DHandler handler){
 		super();
-		this.pos = pos;
+		this.handler = handler;
 	}
 	
 	@Override
 	public void create() {
 		// Fuck this shit.
 		Texture.setEnforcePotImages(false);
-		bobView = new BobView();
-		renderer = new BobRenderer(bobView);
-		controller = new BobController(bobView);
-		Gdx.input.setInputProcessor(this);
-		way = true;
 		
-//		3D
-//		cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//      cam.position.set(10f, 10f, 10f);
-//      cam.lookAt(0,0,0);
-//      cam.near = 0.1f;
-//      cam.far = 300f;
-//      cam.update();
-        
-        
-       
+		this.shipView = new ShipView();
+		this.renderer = new ShipRenderer(shipView);
+		this.controller = new ShipController(renderer.getInstance());
+		this.camController = new CameraInputController(renderer.getCamera());
+        Gdx.input.setInputProcessor(camController);
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		renderer.setSize(width, height);
+
 	}
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		this.moveBob(pos.getPosition(way));
+		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		controller.moveShip(handler.getPosition(way));
 		way = !way;
-		renderer.render();	
+		renderer.render();
+	    camController.update();
 	}
 
 	@Override
@@ -72,67 +61,7 @@ public class Exercise3DObject implements ApplicationListener, InputProcessor {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		
-		if(screenX < renderer.getWidth()/2){
-			controller.moveBob(-1);
-		} else {
-			controller.moveBob(1);
-		}
-		return true;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
+		renderer.dispose();
 	}
 	
-	public void moveBob(int x) {
-		if(x < 0){
-			controller.moveBob(-1);
-		} else {
-			controller.moveBob(1);
-		}
-	}
 }

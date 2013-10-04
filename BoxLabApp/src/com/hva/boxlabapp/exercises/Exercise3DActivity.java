@@ -27,7 +27,9 @@ public class Exercise3DActivity extends AndroidApplication implements Exercise3D
     }
 
 	@Override
-	public int getPosition(boolean way) {
-		return way ? 1 : -1;
+	public int[] getPosition(boolean way) {
+		int[] iT = {1,2,3};
+		int[] iF = {3,2,1};
+ 		return way ? iT : iF;
 	}
 }
