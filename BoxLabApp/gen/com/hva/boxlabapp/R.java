@@ -97,12 +97,13 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020007;
     }
     public static final class id {
-        public static final int action_about=0x7f0a000f;
-        public static final int action_add=0x7f0a0011;
-        public static final int action_overflow=0x7f0a0010;
-        public static final int action_settings=0x7f0a000e;
+        public static final int action_about=0x7f0a0010;
+        public static final int action_add=0x7f0a0012;
+        public static final int action_overflow=0x7f0a0011;
+        public static final int action_settings=0x7f0a000f;
         public static final int activity_main=0x7f0a0000;
-        public static final int calendar_grid=0x7f0a000d;
+        public static final int calendar_grid=0x7f0a000e;
+        public static final int calendar_view=0x7f0a000c;
         public static final int description=0x7f0a000b;
         public static final int device_dialog_id=0x7f0a0003;
         public static final int device_dialog_layout=0x7f0a0001;
@@ -111,11 +112,11 @@ containing a value of this type.
         public static final int launch=0x7f0a000a;
         public static final int layout=0x7f0a0006;
         public static final int lbl_device_id=0x7f0a0002;
-        public static final int menu_about=0x7f0a0012;
+        public static final int menu_about=0x7f0a0013;
         public static final int row_subtitle=0x7f0a0008;
         public static final int row_title=0x7f0a0007;
         public static final int textView2=0x7f0a0004;
-        public static final int title=0x7f0a000c;
+        public static final int title=0x7f0a000d;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

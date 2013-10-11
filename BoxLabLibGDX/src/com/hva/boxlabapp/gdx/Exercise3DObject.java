@@ -8,11 +8,10 @@ import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 
 public class Exercise3DObject implements ApplicationListener {
 		
-	private ShipView shipView;
-	private ShipRenderer renderer;
-	private ShipController controller;
+	private LegModel legModel;
+	private LegRenderer renderer;
+	private LegController controller;
 	private Exercise3DHandler handler;
-	private boolean way;
 
     private CameraInputController camController;
 	
@@ -26,9 +25,9 @@ public class Exercise3DObject implements ApplicationListener {
 		// Fuck this shit.
 		Texture.setEnforcePotImages(false);
 		
-		this.shipView = new ShipView();
-		this.renderer = new ShipRenderer(shipView);
-		this.controller = new ShipController(renderer.getInstance());
+		this.legModel = new LegModel();
+		this.renderer = new LegRenderer(legModel);
+		this.controller = new LegController(renderer.getInstance());
 		this.camController = new CameraInputController(renderer.getCamera());
         Gdx.input.setInputProcessor(camController);
 	}
@@ -42,8 +41,7 @@ public class Exercise3DObject implements ApplicationListener {
 	public void render() {
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		controller.moveShip(handler.getPosition(way));
-		way = !way;
+	    updateController();
 		renderer.render();
 	    camController.update();
 	}
@@ -62,6 +60,10 @@ public class Exercise3DObject implements ApplicationListener {
 	@Override
 	public void dispose() {
 		renderer.dispose();
+	}
+	
+	public void updateController(){
+		// It makes stuff here with the controller.
 	}
 	
 }
