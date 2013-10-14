@@ -1,37 +1,58 @@
 package com.hva.boxlabapp.devices;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Context;
+<<<<<<< HEAD:BoxLabApp/src/com/hva/boxlabapp/devices/ManageDevicesActivity.java
 import android.os.Bundle;
+=======
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+>>>>>>> android-dev:BoxLabApp/src/com/hva/boxlabapp/ManageDevicesActivity.java
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
+<<<<<<< HEAD:BoxLabApp/src/com/hva/boxlabapp/devices/ManageDevicesActivity.java
 import com.hva.boxlabapp.R;
+=======
+import com.hva.boxlabapp.database.SensorDeviceDatasource;
+>>>>>>> android-dev:BoxLabApp/src/com/hva/boxlabapp/ManageDevicesActivity.java
 import com.hva.boxlabapp.model.SensorDevice;
 
 public class ManageDevicesActivity extends ListActivity {
 
+	private SensorDeviceDatasource datasource;
+	private List<SensorDevice> devices;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		this.datasource = new SensorDeviceDatasource(this);
+
 		setupActionBar();
+		updateView();
+		registerForContextMenu(getListView());
+		getListView().setLongClickable(true);
+		getListView().setOnItemClickListener(new ItemClickListener());
+	}
 
-		List<SensorDevice> devices = new ArrayList<SensorDevice>();
-		devices.add(new SensorDevice("3B33", SensorDevice.Type.SHIMMER_2R));
-		devices.add(new SensorDevice("GB21", SensorDevice.Type.SHIMMER_2R));
-		devices.add(new SensorDevice("6B54", SensorDevice.Type.SHIMMER_2R));
-
+	private void updateView() {
+		this.devices = this.datasource.getDevices();
 		ListAdapter adapter = new SensorDeviceAdapter(this,
 				R.layout.device_manager_row, devices);
 
@@ -46,43 +67,61 @@ public class ManageDevicesActivity extends ListActivity {
 		getActionBar().setSubtitle(R.string.devicemanager_subtitle);
 	}
 
-	// private void editSensorDevice(SensorDevice device) {
-	// String title = "Edit device";
-	// if (device.getId() == null && device.getType() == null) {
-	// title = "Add a new device";
-	// }
-	//
-	// LayoutInflater inflater = getLayoutInflater();
-	// View view = inflater.inflate(R.layout.device_manager_dialog, null);
-	// final EditText editID = (EditText) view
-	// .findViewById(R.id.device_dialog_id);
-	// final Spinner spinnerType = (Spinner) view
-	// .findViewById(R.id.device_dialog_type);
-	//
-	// spinnerType.setAdapter(new ArrayAdapter<SensorDevice.Type>(this,
-	// android.R.layout.simple_spinner_item, SensorDevice.Type
-	// .values()));
-	//
-	// AlertDialog.Builder builder = new AlertDialog.Builder(this)
-	// .setTitle(title)
-	// .setView(view)
-	// .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-	// public void onClick(DialogInterface dialog, int whichButton) {
-	// Log.i("DEBUG", "id: "
-	// + editID.getEditableText().toString());
-	//
-	// }
-	// })
-	// .setNegativeButton("Cancel",
-	// new DialogInterface.OnClickListener() {
-	// public void onClick(DialogInterface dialog,
-	// int whichButton) {
-	// // Canceled.
-	// }
-	// });
-	//
-	// builder.show();
-	// }
+	private void addDevice() {
+		final ManageDevicesDialogFactory factory = new ManageDevicesDialogFactory();
+		factory.setActivity(this);
+		factory.showDialog();
+		factory.onFinish(new ManageDevicesDialogFactory.FinishedCommand() {
+
+			@Override
+			public void finished(boolean cancelled) {
+				if (cancelled) {
+					return;
+				}
+
+				datasource.create(factory.getDevice());
+				updateView();
+			}
+		});
+	}
+
+	private void editDevice(SensorDevice device) {
+		final ManageDevicesDialogFactory factory = new ManageDevicesDialogFactory();
+		factory.setDevice(device);
+		factory.setActivity(this);
+		factory.showDialog();
+		factory.onFinish(new ManageDevicesDialogFactory.FinishedCommand() {
+
+			@Override
+			public void finished(boolean cancelled) {
+				if (cancelled) {
+					return;
+				}
+
+				datasource.update(factory.getDevice());
+				updateView();
+			}
+		});
+	}
+
+	private void deleteDevice(final SensorDevice device) {
+		String title = "Deleting device";
+		String message = "Are you sure you want to delete device "
+				+ device.getName();
+
+		OnClickListener deleteListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				datasource.delete(device);
+				updateView();
+			}
+		};
+
+		new AlertDialog.Builder(this)
+				.setIcon(android.R.drawable.ic_dialog_alert).setTitle(title)
+				.setMessage(message).setPositiveButton("Yes", deleteListener)
+				.setNegativeButton("No", null).show();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,24 +132,47 @@ public class ManageDevicesActivity extends ListActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+<<<<<<< HEAD:BoxLabApp/src/com/hva/boxlabapp/devices/ManageDevicesActivity.java
 		//int itemID = item.getItemId();
+=======
+>>>>>>> android-dev:BoxLabApp/src/com/hva/boxlabapp/ManageDevicesActivity.java
 		if (item.getItemId() == R.id.action_add) {
-			ManageDevicesDialogFactory factory = new ManageDevicesDialogFactory();
-			factory.setActivity(this);
-			factory.showDialog();
-
-			factory.onFinish(new ManageDevicesDialogFactory.FinishedCommand() {
-
-				@Override
-				public void finished(boolean cancelled) {
-					Toast.makeText(ManageDevicesActivity.this,
-							"Cancelled: " + cancelled, Toast.LENGTH_SHORT)
-							.show();
-				}
-			});
-
+			addDevice();
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		if (v == getListView()) {
+			menu.setHeaderTitle("Select an option");
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.manage_devices_context, menu);
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		if (this.devices == null) {
+			return true;
+		}
+
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		SensorDevice device = this.devices.get(info.position);
+
+		switch (item.getItemId()) {
+		case R.id.action_edit:
+			editDevice(device);
+			return true;
+		case R.id.action_delete:
+			deleteDevice(device);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
 	}
 
 	protected class SensorDeviceAdapter extends ArrayAdapter<SensorDevice> {
@@ -145,6 +207,19 @@ public class ManageDevicesActivity extends ListActivity {
 			}
 
 			return view;
+		}
+	}
+
+	protected class ItemClickListener implements OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			if (devices == null) {
+				return;
+			}
+
+			editDevice(devices.get(position));
 		}
 	}
 }
