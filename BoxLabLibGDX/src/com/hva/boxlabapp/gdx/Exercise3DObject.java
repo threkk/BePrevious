@@ -34,7 +34,7 @@ public class Exercise3DObject implements ApplicationListener {
 
 	@Override
 	public void resize(int width, int height) {
-
+		
 	}
 
 	@Override

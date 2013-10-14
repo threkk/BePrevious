@@ -16,18 +16,14 @@ public class FragmentSchedule extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	
 		View view = inflater.inflate(R.layout.fragment_schedule, container, false);
-		
-		
-		// Testing the calendar model
-		// Dimensions defined in the layout. They should be done in execution time 
-		// in order to adapt to different screen sizes.
-		Calendar nextYear = Calendar.getInstance();
-		nextYear.add(Calendar.YEAR, 1);
+
+		Calendar next3Month = Calendar.getInstance();
+		next3Month.add(Calendar.MONTH, 2);
 
 		CalendarPickerView calendar = (CalendarPickerView)view.findViewById(R.id.calendar_view);
 		
 		Date today = new Date();
-		calendar.init(today, nextYear.getTime())
+		calendar.init(today, next3Month.getTime())
 		    .withSelectedDate(today);
 		
 		return view;

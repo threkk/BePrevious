@@ -2,11 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
    
     <com.squareup.timessquare.CalendarPickerView
         android:id="@+id/calendar_view"
-        android:layout_width="473dp"
-        android:layout_height="match_parent" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:layout_weight="1"
+        />
 
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="Example"
+        />
 </LinearLayout>
