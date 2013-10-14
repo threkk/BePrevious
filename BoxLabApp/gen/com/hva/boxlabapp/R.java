@@ -91,29 +91,33 @@ containing a value of this type.
         public static final int earthtruecolor_nasa_big=0x7f020001;
         public static final int ic_action_about=0x7f020002;
         public static final int ic_action_add=0x7f020003;
-        public static final int ic_action_help=0x7f020004;
-        public static final int ic_action_overflow=0x7f020005;
-        public static final int ic_action_settings=0x7f020006;
-        public static final int ic_launcher=0x7f020007;
+        public static final int ic_action_delete=0x7f020004;
+        public static final int ic_action_edit=0x7f020005;
+        public static final int ic_action_help=0x7f020006;
+        public static final int ic_action_overflow=0x7f020007;
+        public static final int ic_action_settings=0x7f020008;
+        public static final int ic_launcher=0x7f020009;
     }
     public static final class id {
         public static final int action_about=0x7f0a0012;
         public static final int action_add=0x7f0a0014;
+        public static final int action_delete=0x7f0a0016;
+        public static final int action_edit=0x7f0a0015;
         public static final int action_overflow=0x7f0a0013;
         public static final int action_settings=0x7f0a0011;
         public static final int activity_main=0x7f0a0000;
         public static final int calendar_grid=0x7f0a0010;
         public static final int calendar_view=0x7f0a000e;
         public static final int description=0x7f0a000d;
-        public static final int device_dialog_id=0x7f0a0003;
         public static final int device_dialog_layout=0x7f0a0001;
-        public static final int device_dialog_type=0x7f0a0005;
+        public static final int dialog_device_name=0x7f0a0003;
+        public static final int dialog_device_type=0x7f0a0005;
         public static final int exercise_3d_content=0x7f0a0009;
         public static final int fragment_exercise=0x7f0a000b;
         public static final int launch=0x7f0a000c;
         public static final int layout=0x7f0a0006;
         public static final int lbl_device_id=0x7f0a0002;
-        public static final int menu_about=0x7f0a0015;
+        public static final int menu_about=0x7f0a0017;
         public static final int row_subtitle=0x7f0a0008;
         public static final int row_title=0x7f0a0007;
         public static final int textView1=0x7f0a000a;
@@ -135,7 +139,8 @@ containing a value of this type.
         public static final int exercise3_d=0x7f090000;
         public static final int main=0x7f090001;
         public static final int manage_devices=0x7f090002;
-        public static final int popup=0x7f090003;
+        public static final int manage_devices_context=0x7f090003;
+        public static final int popup=0x7f090004;
     }
     public static final class raw {
         public static final int skeleton_mtl=0x7f040000;
@@ -143,6 +148,8 @@ containing a value of this type.
     }
     public static final class string {
         public static final int action_settings=0x7f07000e;
+        /**   main view 
+         */
         public static final int app_name=0x7f070003;
         public static final int day_name_format=0x7f070000;
         public static final int devicemanager_add_device=0x7f070010;
@@ -158,13 +165,15 @@ containing a value of this type.
         public static final int fragment_library=0x7f07000d;
         public static final int fragment_schedule=0x7f07000b;
         public static final int invalid_date=0x7f070001;
-        public static final int menu_about=0x7f07000a;
-        public static final int menu_help=0x7f070009;
-        public static final int menu_overflow=0x7f070008;
-        public static final int menu_settings=0x7f070006;
+        public static final int menu_about=0x7f070009;
+        public static final int menu_help=0x7f070008;
+        /**   nav bar 
+         */
+        public static final int menu_overflow=0x7f070007;
+        public static final int menu_settings=0x7f07000a;
         public static final int month_name_format=0x7f070002;
         public static final int title_activity_exercise3_d=0x7f070005;
-        public static final int title_activity_manage_devices=0x7f070007;
+        public static final int title_activity_manage_devices=0x7f070006;
         public static final int title_main_activity=0x7f070004;
     }
     public static final class style {

@@ -2,17 +2,14 @@ package com.hva.boxlabapp.devices;
 
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
-<<<<<<< HEAD:BoxLabApp/src/com/hva/boxlabapp/devices/ManageDevicesActivity.java
 import android.os.Bundle;
-=======
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
->>>>>>> android-dev:BoxLabApp/src/com/hva/boxlabapp/ManageDevicesActivity.java
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,11 +23,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-<<<<<<< HEAD:BoxLabApp/src/com/hva/boxlabapp/devices/ManageDevicesActivity.java
 import com.hva.boxlabapp.R;
-=======
 import com.hva.boxlabapp.database.SensorDeviceDatasource;
->>>>>>> android-dev:BoxLabApp/src/com/hva/boxlabapp/ManageDevicesActivity.java
 import com.hva.boxlabapp.model.SensorDevice;
 
 public class ManageDevicesActivity extends ListActivity {
@@ -132,10 +126,7 @@ public class ManageDevicesActivity extends ListActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-<<<<<<< HEAD:BoxLabApp/src/com/hva/boxlabapp/devices/ManageDevicesActivity.java
 		//int itemID = item.getItemId();
-=======
->>>>>>> android-dev:BoxLabApp/src/com/hva/boxlabapp/ManageDevicesActivity.java
 		if (item.getItemId() == R.id.action_add) {
 			addDevice();
 		}
