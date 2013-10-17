@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.math.Vector3;
 
 public class Exercise3DObject implements ApplicationListener {
 		
@@ -63,7 +64,23 @@ public class Exercise3DObject implements ApplicationListener {
 	}
 	
 	public void updateController(){
-		// It makes stuff here with the controller.
+		
+		// Accelerometer version
+		Vector3 hip, thigh, shin;
+		int[][] data = handler.getAccel();
+		
+		if(!(data[0][0] == 0 && data[0][1] == 0 && data[0][2] == 0)) { // Hip reading something
+			hip = new Vector3(data[0][0], data[0][1], data[0][2]);
+			controller.translateHip(hip);
+		} 
+		if(!(data[1][0] == 0 && data[1][1] == 0 && data[1][2] == 0)) { // Thigh reading something
+			thigh = new Vector3(data[1][0], data[1][1], data[1][2]);
+			controller.translateThigh(thigh);
+		}
+		if(!(data[2][0] == 0 && data[2][1] == 0 && data[2][2] == 0)) { // Shin reading something
+			shin = new Vector3(data[2][0], data[2][1], data[2][2]);
+			controller.translateShin(shin);
+		}
 	}
 	
 }

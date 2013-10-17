@@ -13,7 +13,6 @@ import com.shimmerresearch.tools.Logging;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
@@ -27,7 +26,7 @@ public class ShimmerService extends Service {
     public Shimmer shimmerDevice1 = null;
     public Logging shimmerLog1 = null;
     private boolean mEnableLogging=false;
-	private BluetoothAdapter mBluetoothAdapter = null;
+	//private BluetoothAdapter mBluetoothAdapter = null;
 	private final IBinder mBinder = new LocalBinder();
 	public HashMap<String, Object> mMultiShimmer = new HashMap<String, Object>(7);
 	public HashMap<String, Logging> mLogShimmer = new HashMap<String, Logging>(7);

@@ -6,12 +6,6 @@ package com.shimmerresearch.algorithms;
  */
 
 
-
-import javax.vecmath.AxisAngle4d;
-import javax.vecmath.Quat4d;
-import javax.vecmath.Tuple3d;
-import javax.vecmath.Vector3d;
-
 public class GradDes3DOrientation {
 
 	double mBeta = 1;

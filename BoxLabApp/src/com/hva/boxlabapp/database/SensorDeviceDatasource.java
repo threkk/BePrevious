@@ -11,20 +11,19 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
 
 public class SensorDeviceDatasource {
 
 	public static final String TAG = SensorDeviceDatasource.class.getName();
 
 	private SQLiteDatabase database;
-	private DatabaseHelper dbHelper;
-	private String[] allColumns = { DatabaseHelper.COLUMN_DEVICE_ID,
-			DatabaseHelper.COLUMN_DEVICE_NAME,
-			DatabaseHelper.COLUMN_DEVICE_TYPE };
+	private DatabaseDevices dbHelper;
+	private String[] allColumns = { DatabaseDevices.COLUMN_DEVICE_ID,
+			DatabaseDevices.COLUMN_DEVICE_NAME,
+			DatabaseDevices.COLUMN_DEVICE_TYPE };
 
 	public SensorDeviceDatasource(Context context) {
-		dbHelper = new DatabaseHelper(context);
+		dbHelper = new DatabaseDevices(context);
 	}
 
 	private void open() throws SQLException {
@@ -40,12 +39,12 @@ public class SensorDeviceDatasource {
 		try {
 			open();
 			ContentValues values = new ContentValues();
-			values.put(DatabaseHelper.COLUMN_DEVICE_NAME, device.getName());
-			values.put(DatabaseHelper.COLUMN_DEVICE_TYPE, device.getType()
+			values.put(DatabaseDevices.COLUMN_DEVICE_NAME, device.getName());
+			values.put(DatabaseDevices.COLUMN_DEVICE_TYPE, device.getType()
 					.getId());
 
 			long id = database
-					.insert(DatabaseHelper.TABLE_DEVICE, null, values);
+					.insert(DatabaseDevices.TABLE_DEVICE, null, values);
 			device.setId(id);
 			Log.d(TAG, "device with id " + id + " was inserted");
 		} catch (SQLException e) {
@@ -59,13 +58,13 @@ public class SensorDeviceDatasource {
 
 	public void update(SensorDevice device) {
 		long id = device.getId();
-		String table = DatabaseHelper.TABLE_DEVICE;
-		String where = DatabaseHelper.COLUMN_DEVICE_ID + " = " + id;
+		String table = DatabaseDevices.TABLE_DEVICE;
+		String where = DatabaseDevices.COLUMN_DEVICE_ID + " = " + id;
 		try {
 			open();
 			ContentValues values = new ContentValues();
-			values.put(DatabaseHelper.COLUMN_DEVICE_NAME, device.getName());
-			values.put(DatabaseHelper.COLUMN_DEVICE_TYPE, device.getType().getId());
+			values.put(DatabaseDevices.COLUMN_DEVICE_NAME, device.getName());
+			values.put(DatabaseDevices.COLUMN_DEVICE_TYPE, device.getType().getId());
 
 			database.update(table, values, where, null);
 			
@@ -80,8 +79,8 @@ public class SensorDeviceDatasource {
 
 	public void delete(SensorDevice device) {
 		long id = device.getId();
-		String table = DatabaseHelper.TABLE_DEVICE;
-		String where = DatabaseHelper.COLUMN_DEVICE_ID + " = " + id;
+		String table = DatabaseDevices.TABLE_DEVICE;
+		String where = DatabaseDevices.COLUMN_DEVICE_ID + " = " + id;
 		try {
 			open();
 			database.delete(table, where, null);
@@ -99,7 +98,7 @@ public class SensorDeviceDatasource {
 		try {
 			open();
 			devices = new ArrayList<SensorDevice>();
-			cursor = database.query(DatabaseHelper.TABLE_DEVICE, allColumns,
+			cursor = database.query(DatabaseDevices.TABLE_DEVICE, allColumns,
 					null, null, null, null, null);
 			cursor.moveToFirst();
 

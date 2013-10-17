@@ -7,19 +7,15 @@ import com.shimmerresearch.service.ShimmerService.LocalBinder;
 
 
 
-import android.os.Bundle;
 import android.os.IBinder;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
 
 public class ServiceActivity extends Activity {
 	static ShimmerService mService;

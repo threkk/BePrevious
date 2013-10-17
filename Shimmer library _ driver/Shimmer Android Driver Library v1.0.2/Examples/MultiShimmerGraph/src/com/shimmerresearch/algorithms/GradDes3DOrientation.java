@@ -5,13 +5,6 @@ package com.shimmerresearch.algorithms;
  * 3D orientation code modified from https://code.google.com/p/labview-quaternion-ahrs/ which is licensed under GNU_Lesser_GPL
  */
 
-
-
-import javax.vecmath.AxisAngle4d;
-import javax.vecmath.Quat4d;
-import javax.vecmath.Tuple3d;
-import javax.vecmath.Vector3d;
-
 public class GradDes3DOrientation {
 
 	double mBeta = 1;

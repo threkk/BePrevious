@@ -13,13 +13,10 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-<<<<<<< HEAD
 import com.hva.boxlabapp.devices.ManageDevicesActivity;
-=======
 import com.hva.boxlabapp.model.SensorDevice;
 import com.hva.boxlabapp.shimmer.driver.Shimmer;
 import com.hva.boxlabapp.shimmer.driver.ShimmerHandler;
->>>>>>> android-dev
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
 public class MainActivity extends Activity {

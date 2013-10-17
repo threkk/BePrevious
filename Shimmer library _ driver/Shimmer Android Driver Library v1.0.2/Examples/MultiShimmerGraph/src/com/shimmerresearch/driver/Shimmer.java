@@ -61,7 +61,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-import javax.vecmath.AxisAngle4d;
 import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
 
@@ -244,7 +243,7 @@ public class Shimmer{
 	protected double[][] SensitivityMatrixAccel2g = {{76,0,0},{0,76,0},{0,0,76}};
 	protected double[][] SensitivityMatrixAccel4g = {{38,0,0},{0,38,0},{0,0,38}};
 	protected double[][] SensitivityMatrixAccel6g = {{25,0,0},{0,25,0},{0,0,25}};
-	protected List mListofEnabledSensors = new  ArrayList<String>();
+	protected List<String> mListofEnabledSensors = new  ArrayList<String>();
 	protected List<byte []> mListofInstructions = new  ArrayList<byte[]>();
 	protected boolean mInstructionStackLock = false;
 	protected double OffsetECGRALL=2060;
