@@ -37,21 +37,37 @@ public class SensorDevice implements Serializable {
 
 	private long id;
 	private String name;
+	private String position;
 	private Type type;
+	private String mac;
 
 	public SensorDevice() {
 
 	}
 
-	public SensorDevice(String name, Type type) {
+	public SensorDevice(String name, Type type, String position) {
 		this.name = name;
+		this.position = position;
+		this.type = type;
+		
+	}
+
+	public SensorDevice(long id, String name, Type type, String position) {
+		this.id = id;
+		this.name = name;
+		this.position = position;
 		this.type = type;
 	}
 
-	public SensorDevice(long id, String name, Type type) {
+	
+	public SensorDevice(long id, String name, String position, Type type,
+			String mac) {
+		super();
 		this.id = id;
 		this.name = name;
+		this.position = position;
 		this.type = type;
+		this.mac = mac;
 	}
 
 	public long getId() {
@@ -70,6 +86,14 @@ public class SensorDevice implements Serializable {
 		this.name = name;
 	}
 
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
 	public Type getType() {
 		return type;
 	}
@@ -78,12 +102,23 @@ public class SensorDevice implements Serializable {
 		this.type = type;
 	}
 
+	
+	public String getMac() {
+		return mac;
+	}
+
+	public void setMac(String mac) {
+		this.mac = mac;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((position == null) ? 0 : position.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -104,6 +139,11 @@ public class SensorDevice implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (position == null) {
+			if (other.position != null)
+				return false;
+		} else if (!position.equals(other.position))
+			return false;
 		if (type != other.type)
 			return false;
 		return true;
@@ -111,7 +151,10 @@ public class SensorDevice implements Serializable {
 
 	@Override
 	public String toString() {
-		return "SensorDevice [id=" + id + ", name=" + name + ", type=" + type
-				+ "]";
+		return "SensorDevice [id=" + id + ", name=" + name + ", position="
+				+ position + ", type=" + type + "]";
 	}
+
+	
+
 }
