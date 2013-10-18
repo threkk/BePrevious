@@ -4,7 +4,7 @@
     <!--  main view -->
     <string name="app_name">Box Lab App</string>
     <string name="title_main_activity">Box Lab App</string>
-    <string name="title_activity_exercise3_d">Exercise 3D Launcher</string>
+    <string name="title_activity_exercise3d">Exercise</string>
     <string name="title_activity_manage_devices">Manage devices</string>
     
     <!--  nav bar -->
@@ -17,8 +17,11 @@
     <string name="fragment_library">Library</string>
     <string name="action_settings">Settings</string>
     
-   
-
+   <!-- exercise activity -->
+	<string name="e3d_tips">Tips</string>
+	<string name="e3d_reps">Repetitions</string>
+	<string name="e3d_sep">/</string>
+	
     <!-- device manager strings -->
     <string name="devicemanager_subtitle">Add, edit or remove devices</string>
     <string name="devicemanager_add_device">Add device</string>

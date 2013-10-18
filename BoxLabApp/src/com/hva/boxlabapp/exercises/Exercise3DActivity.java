@@ -1,6 +1,8 @@
 package com.hva.boxlabapp.exercises;
 
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -30,14 +32,21 @@ public class Exercise3DActivity extends AndroidApplication implements Exercise3D
         // Also we need to do something to distinguish between them.
         
         LinearLayout layout = new LinearLayout(this);
-        final Exercise3DObject ex = new Exercise3DObject(this);
-      
-        View contentView = LayoutInflater.from(this).inflate(R.layout.exercise_3d_content, null);
-        layout.addView(contentView);
         
-        View gameView = initializeForView(ex, false);
-        layout.addView(gameView, LinearLayout.LayoutParams.WRAP_CONTENT);
+        // Dimensions
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x /2;
+        int height = size.y;
+
+        View contentView = LayoutInflater.from(this).inflate(R.layout.exercise_3d_content, null);
+        layout.addView(contentView, width, height);
        
+        final Exercise3DObject ex = new Exercise3DObject(this);
+        View gameView = initializeForView(ex, false);
+        layout.addView(gameView, width, height);
+        
         setContentView(layout);
         
     }

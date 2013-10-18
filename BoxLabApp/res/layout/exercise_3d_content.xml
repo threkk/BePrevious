@@ -1,29 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/exercise_3d_content"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical" >
+	    
+	        <TextView
+	            android:id="@+id/exercise_3d_title"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="@dimen/normal_margin"
+	            android:layout_marginLeft="@dimen/normal_margin"
+	            android:layout_marginRight="@dimen/normal_margin"
+	            android:layout_marginTop="@dimen/normal_margin"
+	            android:text="Name of the exercise"
+	            android:textAppearance="?android:attr/textAppearanceLarge" />
+	
+	        <TextView
+	            android:id="@+id/exercise_3d_description"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="@dimen/normal_margin"
+	            android:text="Description. It can be short, it can be long. Who knows how is the description?" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:orientation="vertical" >
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_margin="@dimen/double_margin"
+	            android:orientation="horizontal"
+	            android:baselineAligned="false" >
+				
+	            <LinearLayout 
+	                android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:orientation="vertical"
+		            android:layout_weight="4" >
+		            
+		            <TextView
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/e3d_tips"
+		                android:textAppearance="?android:attr/textAppearanceMedium" />
+		            <TextView 
+		                android:id="@+id/exercise_3d_description"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text=" &#8226;\t tip 1 \n &#8226;\t tip 2 \n &#8226;\t tip 3" />
+				</LinearLayout>
+				
+	            <LinearLayout
+	                android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:orientation="vertical"
+		            android:layout_weight="1" >
+		            <TextView
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/e3d_reps"
+		                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+		            <LinearLayout
+		                android:layout_width="match_parent"
+		                android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+		                <TextView
+		                    android:id="@+id/exercise_3d_counter"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:text="1"
+		                    android:textSize="@dimen/counter" />
+		                
+		                <TextView
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:text="@string/e3d_sep"
+		                    android:textSize="@dimen/counter" />
+		                
+		                <TextView
+		                    android:id="@+id/exercise_3d_max"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:text="3"
+		                    android:textSize="@dimen/counter" />
 
-    </LinearLayout>
+		            </LinearLayout>
 
+				</LinearLayout>
+	        </LinearLayout>
+	
 </LinearLayout>

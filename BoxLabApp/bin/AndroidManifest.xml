@@ -14,8 +14,9 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
+
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:allowBackup="true"
@@ -35,7 +36,7 @@
         
         <activity
             android:name="com.hva.boxlabapp.exercises.Exercise3DActivity"
-            android:label="@string/title_activity_exercise3_d" 
+            android:label="@string/title_activity_exercise3d" 
             android:parentActivityName="com.hva.boxlabapp.MainActivity">
         </activity>
                 

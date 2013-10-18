@@ -36,7 +36,7 @@
         
         <activity
             android:name="com.hva.boxlabapp.exercises.Exercise3DActivity"
-            android:label="@string/title_activity_exercise3_d" 
+            android:label="@string/title_activity_exercise3d" 
             android:parentActivityName="com.hva.boxlabapp.MainActivity">
         </activity>
                 
