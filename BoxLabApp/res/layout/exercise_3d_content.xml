@@ -43,7 +43,7 @@
 		                android:text="@string/e3d_tips"
 		                android:textAppearance="?android:attr/textAppearanceMedium" />
 		            <TextView 
-		                android:id="@+id/exercise_3d_description"
+		                android:id="@+id/exercise_3d_tip"
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:text=" &#8226;\t tip 1 \n &#8226;\t tip 2 \n &#8226;\t tip 3" />

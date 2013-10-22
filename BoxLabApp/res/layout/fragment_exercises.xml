@@ -14,20 +14,17 @@
         android1:layout_height="wrap_content" >
 
         <RadioButton
-            android1:id="@+id/exercise01"
             android1:layout_width="wrap_content"
             android1:layout_height="wrap_content"
             android1:checked="true"
             android1:text="RadioButton" />
 
         <RadioButton
-            android1:id="@+id/exercise02"
             android1:layout_width="wrap_content"
             android1:layout_height="wrap_content"
             android1:text="RadioButton" />
 
         <RadioButton
-            android1:id="@+id/exercise03"
             android1:layout_width="wrap_content"
             android1:layout_height="wrap_content"
             android1:text="RadioButton" />

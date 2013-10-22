@@ -101,37 +101,36 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020008;
     }
     public static final class id {
-        public static final int action_about=0x7f090019;
-        public static final int action_add=0x7f09001b;
-        public static final int action_delete=0x7f09001d;
-        public static final int action_edit=0x7f09001c;
-        public static final int action_overflow=0x7f09001a;
-        public static final int action_settings=0x7f090018;
+        public static final int action_about=0x7f090018;
+        public static final int action_add=0x7f09001a;
+        public static final int action_delete=0x7f09001c;
+        public static final int action_edit=0x7f09001b;
+        public static final int action_overflow=0x7f090019;
+        public static final int action_settings=0x7f090017;
         public static final int activity_main=0x7f090000;
-        public static final int calendar_grid=0x7f090017;
-        public static final int calendar_view=0x7f090015;
-        public static final int chooseExercise=0x7f09000f;
-        public static final int description=0x7f090014;
+        public static final int calendar_grid=0x7f090016;
+        public static final int calendar_view=0x7f090013;
+        public static final int chooseExercise=0x7f090010;
         public static final int device_dialog_layout=0x7f090001;
         public static final int dialog_device_name=0x7f090003;
         public static final int dialog_device_type=0x7f090005;
-        public static final int exercise01=0x7f090010;
-        public static final int exercise02=0x7f090011;
-        public static final int exercise03=0x7f090012;
         public static final int exercise_3d_content=0x7f090009;
-        public static final int exercise_3d_counter=0x7f09000c;
+        public static final int exercise_3d_counter=0x7f09000d;
         public static final int exercise_3d_description=0x7f09000b;
-        public static final int exercise_3d_max=0x7f09000d;
+        public static final int exercise_3d_max=0x7f09000e;
+        public static final int exercise_3d_tip=0x7f09000c;
         public static final int exercise_3d_title=0x7f09000a;
-        public static final int fragment_exercise=0x7f09000e;
-        public static final int launch=0x7f090013;
+        public static final int fragment_exercise=0x7f09000f;
+        public static final int launch=0x7f090011;
         public static final int layout=0x7f090006;
         public static final int lbl_device_id=0x7f090002;
-        public static final int menu_about=0x7f09001e;
+        public static final int library_item=0x7f090014;
+        public static final int library_webview=0x7f090012;
+        public static final int menu_about=0x7f09001d;
         public static final int row_subtitle=0x7f090008;
         public static final int row_title=0x7f090007;
         public static final int textView2=0x7f090004;
-        public static final int title=0x7f090016;
+        public static final int title=0x7f090015;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -141,8 +140,9 @@ containing a value of this type.
         public static final int fragment_exercises=0x7f030004;
         public static final int fragment_library=0x7f030005;
         public static final int fragment_schedule=0x7f030006;
-        public static final int month=0x7f030007;
-        public static final int week=0x7f030008;
+        public static final int library_item=0x7f030007;
+        public static final int month=0x7f030008;
+        public static final int week=0x7f030009;
     }
     public static final class menu {
         public static final int exercise3_d=0x7f080000;

@@ -14,9 +14,6 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.hva.boxlabapp.devices.ManageDevicesActivity;
-import com.hva.boxlabapp.model.SensorDevice;
-import com.hva.boxlabapp.shimmer.driver.Shimmer;
-import com.hva.boxlabapp.shimmer.driver.ShimmerHandler;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
 public class MainActivity extends Activity {
@@ -96,14 +93,4 @@ public class MainActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
-	public void ShimmerConnect (SensorDevice device){
-		Shimmer shimmerDevice = new Shimmer(this, new ShimmerHandler(),device.getName(),10,1, 4, Shimmer.SENSOR_ACCEL, false);
-		shimmerDevice.connect(device.getMac(),"default"); //address is just a string name, any name can be used
-    	shimmerDevice.setgetdatainstruction("a");
-    	shimmerDevice.writeEnabledSensors(Shimmer.SENSOR_ACCEL);
-    	shimmerDevice.startStreaming();
-		
-	}
-
 }

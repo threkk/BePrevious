@@ -11,9 +11,13 @@ public class DatabaseSchedule extends SQLiteOpenHelper {
 
 	public static final String TABLE_SCHEDULE = "schedule";
 	public static final String COLUMN_DEVICE_ID = "_id";
-	public static final String COLUMN_DEVICE_NAME = "name";
+	public static final String COLUMN_DEVICE_TITLE = "title";
 	public static final String COLUMN_DEVICE_DATE = "date";
+	public static final String COLUMN_DEVICE_EXID = "exercise_id";
+	public static final String COLUMN_DEVICE_TIPS = "tips";
+	public static final String COLUMN_DEVICE_REPS = "repetitions";
 	public static final String COLUMN_DEVICE_DONE = "done";
+
 
 	private static final String DATABASE_NAME = "database.db";
 	private static final int DATABASE_VERSION = 1;
@@ -21,8 +25,11 @@ public class DatabaseSchedule extends SQLiteOpenHelper {
 	private static final String DATABASE_CREATE = "create table "
 			+ TABLE_SCHEDULE + "(" 
 			+ COLUMN_DEVICE_ID 	+ " integer primary key autoincrement, " 
-			+ COLUMN_DEVICE_NAME + " text not null, " 
+			+ COLUMN_DEVICE_TITLE + " text not null, " 
 			+ COLUMN_DEVICE_DATE + " integer not null,"
+			+ COLUMN_DEVICE_EXID + " integer not null,"
+			+ COLUMN_DEVICE_TIPS + " text,"
+			+ COLUMN_DEVICE_REPS + " integer,"
 			+ COLUMN_DEVICE_DONE + " integer"
 			+ ");";
 

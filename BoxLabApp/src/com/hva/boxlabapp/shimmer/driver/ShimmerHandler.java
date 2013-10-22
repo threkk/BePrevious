@@ -2,6 +2,9 @@ package com.hva.boxlabapp.shimmer.driver;
 
 import java.util.Collection;
 
+import com.hva.boxlabapp.model.SensorDevice;
+
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -16,6 +19,14 @@ public class ShimmerHandler extends Handler {
 		data[1] = 0;
 		data[2] = 0;
  	}
+	
+	public void init (SensorDevice device, Context context){
+		Shimmer shimmerDevice = new Shimmer(context, this,device.getName(),10,1, 4, Shimmer.SENSOR_ACCEL, false);
+		shimmerDevice.connect(device.getMac(),"default"); //address is just a string name, any name can be used
+    	shimmerDevice.setgetdatainstruction("a"); // ???
+    	shimmerDevice.writeEnabledSensors(Shimmer.SENSOR_ACCEL);
+    	shimmerDevice.startStreaming();
+	}
 
 	@Override
 	public void handleMessage(Message msg) {

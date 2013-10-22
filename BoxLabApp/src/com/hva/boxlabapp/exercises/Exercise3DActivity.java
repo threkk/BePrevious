@@ -29,6 +29,11 @@ public class Exercise3DActivity extends AndroidApplication implements Exercise3D
         thigh = new ShimmerHandler();
         shin = new ShimmerHandler();
         
+        // Initialize
+//        hip.init(device, this);
+//        thigh.init(device, this);
+//        shin.init(device, this);
+        
         // Also we need to do something to distinguish between them.
         
         LinearLayout layout = new LinearLayout(this);
