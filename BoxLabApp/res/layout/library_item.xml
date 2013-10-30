@@ -3,4 +3,7 @@
     android:id="@+id/library_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textAppearance="?android:attr/textAppearanceListItem" />
+    android:fontFamily="Roboto"
+    android:textSize="18sp"
+    android:padding="4dp" 
+    android:textColor="@android:color/secondary_text_light" />

@@ -63,13 +63,18 @@ containing a value of this type.
         public static final int calendar_bg=0x7f040001;
         public static final int calendar_divider=0x7f040002;
         public static final int calendar_inactive_month_bg=0x7f040003;
+        /**  Original 
+  <color name="calendar_selected_day_bg">#ff379bff</color>
+   
+         */
         public static final int calendar_selected_day_bg=0x7f040004;
         public static final int calendar_selected_range_bg=0x7f040005;
         public static final int calendar_text_active=0x7f040007;
         public static final int calendar_text_inactive=0x7f040006;
         public static final int calendar_text_selected=0x7f040008;
-        public static final int calendar_text_selector=0x7f04000a;
+        public static final int calendar_text_selector=0x7f04000b;
         public static final int calendar_text_unselectable=0x7f040009;
+        public static final int pressed_boxlabapp=0x7f04000a;
     }
     public static final class dimen {
         /** 
@@ -90,15 +95,47 @@ containing a value of this type.
         public static final int normal_margin=0x7f050005;
     }
     public static final class drawable {
-        public static final int calendar_bg_selector=0x7f020000;
-        public static final int ic_action_about=0x7f020001;
-        public static final int ic_action_add=0x7f020002;
-        public static final int ic_action_delete=0x7f020003;
-        public static final int ic_action_edit=0x7f020004;
-        public static final int ic_action_help=0x7f020005;
-        public static final int ic_action_overflow=0x7f020006;
-        public static final int ic_action_settings=0x7f020007;
-        public static final int ic_launcher=0x7f020008;
+        public static final int ab_background_textured_boxlabapp=0x7f020000;
+        public static final int ab_bottom_solid_boxlabapp=0x7f020001;
+        public static final int ab_solid_boxlabapp=0x7f020002;
+        public static final int ab_stacked_solid_boxlabapp=0x7f020003;
+        public static final int ab_texture_tile_boxlabapp=0x7f020004;
+        public static final int ab_transparent_boxlabapp=0x7f020005;
+        public static final int btn_cab_done_boxlabapp=0x7f020006;
+        public static final int btn_cab_done_default_boxlabapp=0x7f020007;
+        public static final int btn_cab_done_focused_boxlabapp=0x7f020008;
+        public static final int btn_cab_done_pressed_boxlabapp=0x7f020009;
+        public static final int cab_background_bottom_boxlabapp=0x7f02000a;
+        public static final int cab_background_top_boxlabapp=0x7f02000b;
+        public static final int calendar_bg_selector=0x7f02000c;
+        public static final int ic_action_about=0x7f02000d;
+        public static final int ic_action_add=0x7f02000e;
+        public static final int ic_action_delete=0x7f02000f;
+        public static final int ic_action_edit=0x7f020010;
+        public static final int ic_action_help=0x7f020011;
+        public static final int ic_action_overflow=0x7f020012;
+        public static final int ic_action_settings=0x7f020013;
+        public static final int ic_launcher=0x7f020014;
+        public static final int list_focused_boxlabapp=0x7f020015;
+        public static final int menu_dropdown_panel_boxlabapp=0x7f020016;
+        public static final int pressed_background_boxlabapp=0x7f020017;
+        public static final int progress_bg_boxlabapp=0x7f020018;
+        public static final int progress_horizontal_boxlabapp=0x7f020019;
+        public static final int progress_primary_boxlabapp=0x7f02001a;
+        public static final int progress_secondary_boxlabapp=0x7f02001b;
+        public static final int selectable_background_boxlabapp=0x7f02001c;
+        public static final int spinner_ab_default_boxlabapp=0x7f02001d;
+        public static final int spinner_ab_disabled_boxlabapp=0x7f02001e;
+        public static final int spinner_ab_focused_boxlabapp=0x7f02001f;
+        public static final int spinner_ab_pressed_boxlabapp=0x7f020020;
+        public static final int spinner_background_ab_boxlabapp=0x7f020021;
+        public static final int tab_indicator_ab_boxlabapp=0x7f020022;
+        public static final int tab_selected_boxlabapp=0x7f020023;
+        public static final int tab_selected_focused_boxlabapp=0x7f020024;
+        public static final int tab_selected_pressed_boxlabapp=0x7f020025;
+        public static final int tab_unselected_boxlabapp=0x7f020026;
+        public static final int tab_unselected_focused_boxlabapp=0x7f020027;
+        public static final int tab_unselected_pressed_boxlabapp=0x7f020028;
     }
     public static final class id {
         public static final int action_about=0x7f090018;
@@ -187,7 +224,11 @@ containing a value of this type.
         public static final int title_main_activity=0x7f060004;
     }
     public static final class style {
-        public static final int ActionBarTheme=0x7f070006;
+        public static final int ActionBar_Solid_Boxlabapp=0x7f070007;
+        public static final int ActionBar_Transparent_Boxlabapp=0x7f070008;
+        public static final int ActionBarTabStyle_Boxlabapp=0x7f07000b;
+        public static final int ActionBarTheme=0x7f070010;
+        public static final int ActionButton_CloseMode_Boxlabapp=0x7f07000e;
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
@@ -218,6 +259,14 @@ containing a value of this type.
         public static final int CalendarCell_CalendarDate=0x7f070003;
         public static final int CalendarCell_DayHeader=0x7f070002;
         public static final int CalendarTitle=0x7f070000;
+        public static final int DropDownListView_Boxlabapp=0x7f07000a;
+        public static final int DropDownNav_Boxlabapp=0x7f07000c;
+        public static final int PopupMenu_Boxlabapp=0x7f070009;
+        public static final int ProgressBar_Boxlabapp=0x7f07000d;
+        public static final int Theme_Boxlabapp=0x7f070006;
+        /**  this style is only referenced in a Light.DarkActionBar based theme 
+         */
+        public static final int Theme_Boxlabapp_Widget=0x7f07000f;
     }
     public static final class styleable {
         /** Attributes that can be used with a calendar_cell.

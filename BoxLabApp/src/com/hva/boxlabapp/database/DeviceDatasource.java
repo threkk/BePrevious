@@ -12,9 +12,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class SensorDeviceDatasource {
+public class DeviceDatasource {
 
-	public static final String TAG = SensorDeviceDatasource.class.getName();
+	public static final String TAG = DeviceDatasource.class.getName();
 
 	private SQLiteDatabase database;
 	private DatabaseDevices dbHelper;
@@ -22,7 +22,7 @@ public class SensorDeviceDatasource {
 			DatabaseDevices.COLUMN_DEVICE_NAME,
 			DatabaseDevices.COLUMN_DEVICE_TYPE };
 
-	public SensorDeviceDatasource(Context context) {
+	public DeviceDatasource(Context context) {
 		dbHelper = new DatabaseDevices(context);
 	}
 
