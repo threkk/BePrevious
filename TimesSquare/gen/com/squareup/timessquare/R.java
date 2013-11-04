@@ -63,6 +63,10 @@ containing a value of this type.
         public static int calendar_bg=0x7f040001;
         public static int calendar_divider=0x7f040002;
         public static int calendar_inactive_month_bg=0x7f040003;
+        /**  Original 
+  <color name="calendar_selected_day_bg">#ff379bff</color>
+   
+         */
         public static int calendar_selected_day_bg=0x7f040004;
         public static int calendar_selected_range_bg=0x7f040005;
         public static int calendar_text_active=0x7f040007;

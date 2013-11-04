@@ -10,27 +10,30 @@ public class DatabaseSchedule extends SQLiteOpenHelper {
 	public static final String TAG = DatabaseSchedule.class.getName();
 
 	public static final String TABLE_SCHEDULE = "schedule";
-	public static final String COLUMN_DEVICE_ID = "_id";
-	public static final String COLUMN_DEVICE_TITLE = "title";
-	public static final String COLUMN_DEVICE_DATE = "date";
-	public static final String COLUMN_DEVICE_EXID = "exercise_id";
-	public static final String COLUMN_DEVICE_TIPS = "tips";
-	public static final String COLUMN_DEVICE_REPS = "repetitions";
-	public static final String COLUMN_DEVICE_DONE = "done";
-
+	public static final String COLUMN_SCHEDULE_ID = "_id"; // key
+	public static final String COLUMN_SCHEDULE_DATE = "date"; // long
+	public static final String COLUMN_SCHEDULE_EXID = "exercise_id"; // in other db.
+	public static final String COLUMN_SCHEDULE_REPS = "set_repetitions"; // format 10 10 10 -> 3 sets of 10
+	public static final String COLUMN_SCHEDULE_DONE = "is_done"; // boolean
+	public static final String COLUMN_SCHEDULE_NOTES = "notes"; // optional text
+	public static final String COLUMN_SCHEDULE_WEIGHT = "weight"; // optional text
+	public static final String COLUMN_SCHEDULE_SUPP = "support"; // optional text 
+	public static final String COLUMN_SCHEDULE_POS = "position"; // optional text
 
 	private static final String DATABASE_NAME = "database.db";
 	private static final int DATABASE_VERSION = 1;
 
 	private static final String DATABASE_CREATE = "create table "
 			+ TABLE_SCHEDULE + "(" 
-			+ COLUMN_DEVICE_ID 	+ " integer primary key autoincrement, " 
-			+ COLUMN_DEVICE_TITLE + " text not null, " 
-			+ COLUMN_DEVICE_DATE + " integer not null,"
-			+ COLUMN_DEVICE_EXID + " integer not null,"
-			+ COLUMN_DEVICE_TIPS + " text,"
-			+ COLUMN_DEVICE_REPS + " integer,"
-			+ COLUMN_DEVICE_DONE + " integer"
+			+ COLUMN_SCHEDULE_ID 	+ " integer primary key autoincrement, " 
+			+ COLUMN_SCHEDULE_DATE + " integer not null, "
+			+ COLUMN_SCHEDULE_EXID + " integer not null, "
+			+ COLUMN_SCHEDULE_REPS + " text not null, "
+			+ COLUMN_SCHEDULE_DONE + " integer not null, "
+			+ COLUMN_SCHEDULE_NOTES + "text, "
+			+ COLUMN_SCHEDULE_WEIGHT + "text, "
+			+ COLUMN_SCHEDULE_SUPP + "text, "
+			+ COLUMN_SCHEDULE_POS + "text "
 			+ ");";
 
 	public DatabaseSchedule(Context context) {
