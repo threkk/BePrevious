@@ -2,7 +2,7 @@ package com.hva.boxlabapp;
 
 import java.util.List;
 
-import com.hva.boxlabapp.database.ExercisesDatasource;
+import com.hva.boxlabapp.database.LibraryDatasource;
 
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ public class FragmentLibrary extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View view = inflater.inflate(R.layout.fragment_library, container, false);
-		ExercisesDatasource db = new ExercisesDatasource(getActivity());
+		LibraryDatasource db = new LibraryDatasource(getActivity());
 		
 		List<String> values = db.getNames();
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.library_item, values);
@@ -34,7 +34,7 @@ public class FragmentLibrary extends ListFragment {
 
 	 @Override
 	  public void onListItemClick(ListView l, View v, int position, long id) {
-		 	ExercisesDatasource db = new ExercisesDatasource(getActivity());
+		 	LibraryDatasource db = new LibraryDatasource(getActivity());
 			String uri = db.getURIById(position+1);
 			
 			WebView webview = (WebView) getView().findViewById(R.id.library_webview);

@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:id="@+id/activity_main"
     android:paddingBottom="@dimen/normal_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/normal_margin"
+    android:paddingRight="@dimen/normal_margin"
     android:paddingTop="@dimen/normal_margin"
     tools:context=".MainActivity" >
     

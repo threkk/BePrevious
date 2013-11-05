@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 @SuppressLint("SdCardPath")
-public class DatabaseExercises extends SQLiteOpenHelper{
+public class LibraryDatabase extends SQLiteOpenHelper{
 
 	private static String TAG = "DataBaseExercises";
 	private static String DB_PATH = ""; 
@@ -24,7 +24,7 @@ public class DatabaseExercises extends SQLiteOpenHelper{
 	private SQLiteDatabase mDataBase;
 	private final Context mContext;
 
-	public DatabaseExercises (Context context){
+	public LibraryDatabase (Context context){
 		super(context, DB_NAME, null, 1);
 		if(android.os.Build.VERSION.SDK_INT >= 4.2){
 			DB_PATH = context.getApplicationInfo().dataDir + "/databases/";         
@@ -51,8 +51,6 @@ public class DatabaseExercises extends SQLiteOpenHelper{
 			}
 		}
 	}
-
-
 
 	private boolean checkDataBase(){
 		File dbFile = new File(DB_PATH + DB_NAME);

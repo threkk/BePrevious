@@ -2,7 +2,10 @@ package com.hva.boxlabapp;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import com.hva.boxlabapp.database.ScheduleDatasource;
+import com.hva.boxlabapp.database.entities.Schedule;
 import com.squareup.timessquare.CalendarPickerView;
 import com.squareup.timessquare.CalendarPickerView.OnDateSelectedListener;
 
@@ -37,7 +40,15 @@ public class FragmentSchedule extends Fragment {
 			// null pointer exception
 			@Override
 			public void onDateSelected(Date date) {
-				Log.e("Cosa", "Pressed " + date);
+				ScheduleDatasource db = new ScheduleDatasource(getActivity());
+				List<Schedule> calendar = db.getExercisesByDate(date);
+				Log.e("Date", String.valueOf(date.getTime()));
+				Log.e("Content", calendar.toString());
+				if(calendar.isEmpty()){
+					getView().findViewById(R.id.warning).setVisibility(View.VISIBLE);
+				} else {
+					getView().findViewById(R.id.warning).setVisibility(View.INVISIBLE);
+				}
 
 			}
 		});

@@ -77,12 +77,6 @@ containing a value of this type.
         public static final int pressed_boxlabapp=0x7f04000a;
     }
     public static final class dimen {
-        /** 
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
-    
-         */
-        public static final int activity_horizontal_margin=0x7f050008;
         public static final int calendar_day_headers_paddingbottom=0x7f050000;
         public static final int calendar_month_title_bottommargin=0x7f050002;
         public static final int calendar_month_topmargin=0x7f050001;
@@ -138,14 +132,14 @@ containing a value of this type.
         public static final int tab_unselected_pressed_boxlabapp=0x7f020028;
     }
     public static final class id {
-        public static final int action_about=0x7f090018;
-        public static final int action_add=0x7f09001a;
-        public static final int action_delete=0x7f09001c;
-        public static final int action_edit=0x7f09001b;
-        public static final int action_overflow=0x7f090019;
-        public static final int action_settings=0x7f090017;
+        public static final int action_about=0x7f09001a;
+        public static final int action_add=0x7f09001c;
+        public static final int action_delete=0x7f09001e;
+        public static final int action_edit=0x7f09001d;
+        public static final int action_overflow=0x7f09001b;
+        public static final int action_settings=0x7f090019;
         public static final int activity_main=0x7f090000;
-        public static final int calendar_grid=0x7f090016;
+        public static final int calendar_grid=0x7f090018;
         public static final int calendar_view=0x7f090013;
         public static final int chooseExercise=0x7f090010;
         public static final int device_dialog_layout=0x7f090001;
@@ -161,13 +155,15 @@ containing a value of this type.
         public static final int launch=0x7f090011;
         public static final int layout=0x7f090006;
         public static final int lbl_device_id=0x7f090002;
-        public static final int library_item=0x7f090014;
+        public static final int library_item=0x7f090016;
         public static final int library_webview=0x7f090012;
-        public static final int menu_about=0x7f09001d;
+        public static final int menu_about=0x7f09001f;
         public static final int row_subtitle=0x7f090008;
         public static final int row_title=0x7f090007;
+        public static final int schedule_content=0x7f090014;
         public static final int textView2=0x7f090004;
-        public static final int title=0x7f090015;
+        public static final int title=0x7f090017;
+        public static final int warning=0x7f090015;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -182,7 +178,7 @@ containing a value of this type.
         public static final int week=0x7f030009;
     }
     public static final class menu {
-        public static final int exercise3_d=0x7f080000;
+        public static final int exercise_3d=0x7f080000;
         public static final int main=0x7f080001;
         public static final int manage_devices=0x7f080002;
         public static final int manage_devices_context=0x7f080003;
@@ -219,6 +215,9 @@ containing a value of this type.
         public static final int menu_overflow=0x7f060007;
         public static final int menu_settings=0x7f06000a;
         public static final int month_name_format=0x7f060002;
+        /**  schedule fragment 
+         */
+        public static final int schedule_empty=0x7f060019;
         public static final int title_activity_exercise3d=0x7f060005;
         public static final int title_activity_manage_devices=0x7f060006;
         public static final int title_main_activity=0x7f060004;
@@ -238,17 +237,6 @@ containing a value of this type.
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         
-
-        Base application theme for API 11+. This theme completely replaces
-        AppBaseTheme from res/values/styles.xml on API 11+ devices.
-    
- API 11 theme customizations can go here. 
-
-        Base application theme for API 14+. This theme completely replaces
-        AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
-    
- API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f070004;
         /**  Application theme. 

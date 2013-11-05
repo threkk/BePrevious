@@ -24,19 +24,19 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.hva.boxlabapp.R;
-import com.hva.boxlabapp.database.DeviceDatasource;
+import com.hva.boxlabapp.database.DevicesDatasource;
 import com.hva.boxlabapp.model.SensorDevice;
 
 public class ManageDevicesActivity extends ListActivity {
 
-	private DeviceDatasource datasource;
+	private DevicesDatasource datasource;
 	private List<SensorDevice> devices;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.datasource = new DeviceDatasource(this);
+		this.datasource = new DevicesDatasource(this);
 
 		setupActionBar();
 		updateView();

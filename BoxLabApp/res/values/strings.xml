@@ -31,4 +31,6 @@
     <string name="devicemanager_dialog_id_hint">Please enter a device id</string>
     <string name="devicemanager_dialog_type">Device type</string>
 
+    <!-- schedule fragment -->
+    <string name="schedule_empty">There are no exercises for the selected date.</string>
 </resources>
