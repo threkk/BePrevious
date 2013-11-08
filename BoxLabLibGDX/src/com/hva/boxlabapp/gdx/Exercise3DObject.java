@@ -10,7 +10,8 @@ import com.badlogic.gdx.math.Vector3;
 public class Exercise3DObject implements ApplicationListener {
 		
 	private LegModel legModel;
-	private LegRenderer renderer;
+	//private LegRenderer renderer;
+	private DemoRenderer renderer;
 	private LegController controller;
 	private Exercise3DHandler handler;
 
@@ -27,8 +28,9 @@ public class Exercise3DObject implements ApplicationListener {
 		Texture.setEnforcePotImages(false);
 		
 		this.legModel = new LegModel();
-		this.renderer = new LegRenderer(legModel);
-		this.controller = new LegController(renderer.getInstance());
+		//this.renderer = new LegRenderer(legModel);
+		this.renderer = new DemoRenderer();
+		//this.controller = new LegController(renderer.getInstance());
 		this.camController = new CameraInputController(renderer.getCamera());
         Gdx.input.setInputProcessor(camController);
 	}
