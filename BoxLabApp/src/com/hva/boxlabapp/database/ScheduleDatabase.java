@@ -20,7 +20,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 	public static final String COLUMN_SCHEDULE_SUPP = "support"; // optional text 
 	public static final String COLUMN_SCHEDULE_POS = "position"; // optional text
 
-	private static final String DATABASE_NAME = "schedule1.db"; // CHANGE THIS
+	private static final String DATABASE_NAME = "schedule3.db"; // CHANGE THIS
 	private static final int DATABASE_VERSION = 1;
 
 	private static final String DATABASE_CREATE = "create table "
@@ -45,13 +45,14 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 		database.execSQL(DATABASE_CREATE);
 		
 		// ONLY FOR TESTING
+		// 18th december
 		// Doesnt work, don't know why. The data is added, but the query doesn't get anything
 		String sql1 = "INSERT INTO schedule(date, exercise_id, set_repetitions, is_done) " +
-				"VALUES (1387580400000, 1, '10 10 10', 0)";
+				"VALUES (1387321200000, 1, '10 10 10', 0)";
 		String sql2 = "INSERT INTO schedule(date, exercise_id, set_repetitions, is_done) " +
-				"VALUES (1387580400000, 2, '10 20 30', 0)";
+				"VALUES (1387321200000, 2, '10 20 30', 0)";
 		String sql3 = "INSERT INTO schedule(date, exercise_id, set_repetitions, is_done) " +
-				"VALUES (1387580400000, 3, '20 10', 1)";
+				"VALUES (1387321200000, 3, '20 10', 1)";
 		database.execSQL(sql1);
 		database.execSQL(sql2);
 		database.execSQL(sql3);

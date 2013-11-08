@@ -65,20 +65,21 @@ public class Exercise3DObject implements ApplicationListener {
 	
 	public void updateController(){
 		
-		// Accelerometer version
-		Vector3 hip, thigh, shin;
-		int[][] data = handler.getAccel();
+		// Accelerometer only
+		// TODO: Correct the gravity issue with the data!!!
+		Vector3 chest, thigh, shin;
+		double[][] data = handler.getData();
 		
 		if(!(data[0][0] == 0 && data[0][1] == 0 && data[0][2] == 0)) { // Hip reading something
-			hip = new Vector3(data[0][0], data[0][1], data[0][2]);
-			controller.translateHip(hip);
+			chest = new Vector3((float)data[0][0], (float)data[0][1], (float)data[0][2]);
+			controller.translateChest(chest);
 		} 
 		if(!(data[1][0] == 0 && data[1][1] == 0 && data[1][2] == 0)) { // Thigh reading something
-			thigh = new Vector3(data[1][0], data[1][1], data[1][2]);
+			thigh = new Vector3((float)data[1][0], (float)data[1][1], (float)data[1][2]);
 			controller.translateThigh(thigh);
 		}
 		if(!(data[2][0] == 0 && data[2][1] == 0 && data[2][2] == 0)) { // Shin reading something
-			shin = new Vector3(data[2][0], data[2][1], data[2][2]);
+			shin = new Vector3((float)data[2][0], (float)data[2][1], (float)data[2][2]);
 			controller.translateShin(shin);
 		}
 	}

@@ -15,12 +15,13 @@ public class ShimmerHandler extends Handler {
 	private Shimmer shimmer;
 	public ShimmerHandler() {
 		data = new double[6];
-		data[0] = 0;
-		data[1] = 0;
-		data[2] = 0;
-		data[3] = 0;
-		data[4] = 0;
-		data[5] = 0;
+		data[0] = 0; // accel x
+		data[1] = 0; // accel y
+		data[2] = 0; // accel z
+		data[3] = 0; // gyros x
+		data[4] = 0; // gyros y
+		data[5] = 0; // gyros z
+					 // I guess...
 	}
 
 	public void init(SensorDevice device, Context context) {

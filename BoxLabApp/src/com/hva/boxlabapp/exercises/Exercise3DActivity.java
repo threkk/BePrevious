@@ -1,8 +1,6 @@
 package com.hva.boxlabapp.exercises;
 
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.Set;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -23,21 +21,20 @@ import com.hva.boxlabapp.shimmer.driver.ShimmerHandler;
 public class Exercise3DActivity extends AndroidApplication implements
 		Exercise3DHandler {
 
-	private ShimmerHandler hip;
+	private ShimmerHandler chest;
 	private ShimmerHandler thigh;
 	private ShimmerHandler shin;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// Start the handler. We need to do something with this when the pause
-		// and
-		// destroy events happen.
-		hip = new ShimmerHandler();
+		
+		// Loading sensors
 		SensorDevice device = new SensorDevice(1, "Test",
-				SensorDevice.Type.SHIMMER_2R, "hip");
+				SensorDevice.Type.SHIMMER_2R, "thigh");
+		
 		BluetoothAdapter defaultAdapter = BluetoothAdapter.getDefaultAdapter();
+		
 		if (defaultAdapter != null) {
 			Iterator<BluetoothDevice> iterator = defaultAdapter
 					.getBondedDevices().iterator();
@@ -47,13 +44,17 @@ public class Exercise3DActivity extends AndroidApplication implements
 			}
 		}
 
-		// Initialize
-		hip.init(device, this);
+		
+		// Creating handlers
+		chest = new ShimmerHandler();
+		thigh = new ShimmerHandler();
+		shin = new ShimmerHandler();
+		
+		// chest.init(device, this);
 		// thigh.init(device, this);
 		// shin.init(device, this);
-
-		// Also we need to do something to distinguish between them.
-
+		
+		// UI
 		LinearLayout layout = new LinearLayout(this);
 
 		// Dimensions
@@ -76,18 +77,12 @@ public class Exercise3DActivity extends AndroidApplication implements
 	}
 
 	@Override
-	public int[][] getAccel() {
-		// 3 sensors sending 3 outputs
-		int[][] data = new int[3][3];
-		// data[0] = hip.readSensors();
-		// data[1] = thigh.readSensors();
-		// data[2] = shin.readSensors();
+	public double[][] getData() {
+		// 3 sensors sending 6 outputs, 3 accel, 3 gyro
+		double[][] data = new double[3][6];
+		data[0] = chest.readSensors();
+		data[1] = thigh.readSensors();
+		data[2] = shin.readSensors();
 		return data;
-	}
-
-	@Override
-	public float[][] getGyro() {
-		float[][] gyro = {};
-		return gyro;
 	}
 }
