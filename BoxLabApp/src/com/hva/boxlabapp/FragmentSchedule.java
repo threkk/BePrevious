@@ -47,7 +47,7 @@ public class FragmentSchedule extends Fragment {
 				if(calendar.isEmpty()){
 					getView().findViewById(R.id.warning).setVisibility(View.VISIBLE);
 				} else {
-					getView().findViewById(R.id.warning).setVisibility(View.INVISIBLE);
+					getView().findViewById(R.id.warning).setVisibility(View.GONE);
 				}
 
 			}

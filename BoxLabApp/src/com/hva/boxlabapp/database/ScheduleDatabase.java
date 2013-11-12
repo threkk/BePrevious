@@ -46,7 +46,6 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 		
 		// ONLY FOR TESTING
 		// 18th december
-		// Doesnt work, don't know why. The data is added, but the query doesn't get anything
 		String sql1 = "INSERT INTO schedule(date, exercise_id, set_repetitions, is_done) " +
 				"VALUES (1387321200000, 1, '10 10 10', 0)";
 		String sql2 = "INSERT INTO schedule(date, exercise_id, set_repetitions, is_done) " +
