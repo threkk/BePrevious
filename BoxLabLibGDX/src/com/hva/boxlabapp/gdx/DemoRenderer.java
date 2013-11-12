@@ -40,16 +40,15 @@ public class DemoRenderer {
 	
         // Assets
         assets = new AssetManager();
-        assets.load("animation.g3db",Model.class);
+        assets.load("foot.g3dj",Model.class);
         // I feel dirty for this...
         while(!assets.update());
-        model = assets.get("animation.g3db", Model.class);
+        model = assets.get("foot.g3dj", Model.class);
         instance = new ModelInstance(model);
         
         // Controller
         controller = new AnimationController(instance);
-        // this little bastard needs to be fixed on Maya.
-        controller.setAnimation("play");
+        controller.setAnimation(instance.animations.get(0).id,-1);
 	}
 	
 	
@@ -62,6 +61,8 @@ public class DemoRenderer {
 	
 	public void dispose(){
 		modelBatch.dispose();
+		model.dispose();
+		controller = null;
 	}
 	
 	public Camera getCamera(){
