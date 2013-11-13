@@ -26,7 +26,7 @@ public class FragmentLibrary extends ListFragment {
 		this.setListAdapter(adapter);
 		
 		WebView webview = (WebView) view.findViewById(R.id.library_webview);
-		// Change this.
+		// Change this... maybe.
 		webview.loadUrl("file:///android_asset/library/exercise01.html");
 		
 		return view;

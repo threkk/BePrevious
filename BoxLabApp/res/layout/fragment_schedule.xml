@@ -19,6 +19,13 @@
         android:orientation="vertical"
         >
 
+        <ExpandableListView
+            android:id="@+id/schedule_activities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:visibility="gone">
+        </ExpandableListView>
+
         <TextView
             android:id="@+id/warning"
             android:layout_width="fill_parent"
