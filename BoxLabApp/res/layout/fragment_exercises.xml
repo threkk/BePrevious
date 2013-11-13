@@ -17,17 +17,8 @@
             android1:layout_width="wrap_content"
             android1:layout_height="wrap_content"
             android1:checked="true"
-            android1:text="RadioButton" />
+            android1:text="Abduction" />
 
-        <RadioButton
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:text="RadioButton" />
-
-        <RadioButton
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:text="RadioButton" />
     </RadioGroup>
 
     <Button

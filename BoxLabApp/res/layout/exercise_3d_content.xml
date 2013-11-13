@@ -14,7 +14,7 @@
 	            android:layout_marginLeft="@dimen/normal_margin"
 	            android:layout_marginRight="@dimen/normal_margin"
 	            android:layout_marginTop="@dimen/normal_margin"
-	            android:text="Name of the exercise"
+	            android:text="Abduction"
 	            android:textAppearance="?android:attr/textAppearanceLarge" />
 	
 	        <TextView
@@ -22,7 +22,7 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_marginLeft="@dimen/normal_margin"
-	            android:text="Description. It can be short, it can be long. Who knows how is the description?" />
+	            android:text="This is a demostration of the 3D model. As up to this point we aren't getting real data input, the model uses fake data as input, which has been looped in order to show the behaviour." />
 
 	        <LinearLayout
 	            android:layout_width="match_parent"
@@ -46,7 +46,7 @@
 		                android:id="@+id/exercise_3d_tip"
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
-		                android:text=" &#8226;\t tip 1 \n &#8226;\t tip 2 \n &#8226;\t tip 3" />
+		                android:text="Tips and notes about the exercise." />
 				</LinearLayout>
 				
 	            <LinearLayout
@@ -68,7 +68,7 @@
 		                    android:id="@+id/exercise_3d_counter"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
-		                    android:text="1"
+		                    android:text="*"
 		                    android:textSize="@dimen/counter" />
 		                
 		                <TextView
@@ -81,7 +81,7 @@
 		                    android:id="@+id/exercise_3d_max"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
-		                    android:text="3"
+		                    android:text="*"
 		                    android:textSize="@dimen/counter" />
 
 		            </LinearLayout>
