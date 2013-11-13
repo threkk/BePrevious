@@ -14,6 +14,7 @@ var Hashids = require("hashids"),
 
 var localDB = require('./io').localDB;
 var writer = require('./io').writer;
+var compresser = require('./io').writer;
 var ftp = require('./io').ftp;
 var cronJob = require('cron').CronJob;
 var client = require('./client').client;
@@ -120,13 +121,15 @@ function configureIdentity(callback) {
 }
 
 var ftpJob = new cronJob({
-    cronTime: '00 00 03 * * *',
+    cronTime: '00 00 * * * *',
     onTick: function () {
-        writer.compressFiles(function (err) {
+        compresser.compressFiles(function (err) {
             if (err) {
                 return logger.error('failed to compress files: ' + JSON.stringify(err));
             }
-            ftp.send();
+            ftp.send(function(err) {
+            	return logger.error("failed to ftp files: "+JSON.stringify(err));
+            });
         });
     },
     start: false

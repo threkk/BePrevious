@@ -1,62 +1,146 @@
-var jsftp = require("jsftp");
-var moment = require('moment');
 var fs = require('fs');
-var logger = log4js.getLogger("io");
-var configuration = require('../configuration.js');
-var ftpconnection = new jsftp(configuration.ftp);
+var async = require('async');
+var JSFtp = require("jsftp");
 
-function Ftp() {}
+var logger = log4js.getLogger("io");
+var localDB = require('./localdatabase.js').localDB;
+var configuration = require('../configuration.js');
+
+var localDirectory = '../data';
+var remoteDirectory = '/remote_test';
+var dateFormat = 'YYYY-MM-DD';
+
+function Ftp() {
+   
+}
 
 Ftp.prototype = {
-    directory: './data',
-    dateFormat: 'YYYY-MM-DD',
+    initDirectory: function (callback) {
+        this.ftp.raw.mkd(remoteDirectory, function (err, data) {
+            if (err) return callback(err);
 
-	 send: function () {
-    	var self = this;
-        fs.readdir(this.directory, function (err, files) {
-            files.map(function (file) {
-                if (file.substr(-4) != '.tgz') {
-                    return;
+            if (data.code != 257) {
+                callback({
+                    error: 'Failed to create directory "' + remoteDirectory + '"',
+                    code: data.code,
+                    response: data.text
+                });
+            } else {
+                callback(null);
+            }
+        });
+    },
+
+    connect: function () {
+        this.ftp = new JSFtp({
+            host: configuration.ftp.host,
+            port: configuration.ftp.port,
+            user: configuration.ftp.user,
+            pass: configuration.ftp.pass
+        });
+    },
+
+    disconnect: function () {
+        this.ftp && this.ftp.destroy();
+    },
+
+    send: function (callback) {
+        var self = this;
+
+        self.connect();
+        self.initDirectory(function (err) {
+            if (err) {
+                self.disconnect();
+                callback(err)
+            } else {
+                self._send(function (fn) {
+                    self.disconnect();
+                    callback(fn);
+                });
+            }
+        });
+    },
+
+    _send: function (callback) {
+        var self = this;
+        self._listLocalFiles(function (err, localFiles) {
+            if (err) {
+                disconnect();
+                return callback(err);
+            }
+            self._filterFiles(localFiles, function (err, result) {
+                if (err) return callback(err);
+                console.log('files i need to send: ' + JSON.stringify(result));
+
+                var funcs = [];
+                for (var index in result) {
+                    funcs.push(function (fn) {
+                        self._sendfile(result[index], fn);
+                    });
                 }
 
-                self._sendFile(self.directory + '/' + file, function (err, status) {
-                    if (!err) {
-                        logger.info('succesfully sended file : ' + file);
-                    } else {
-                        logger.error(err);
-                    }
+                async.series(funcs, callback);
+            })
+        });
+    },
 
-                });
+    _sendfile: function (file, callback) {
+        console.log('sending file: ' + file + ' to remote ->' + remoteDirectory + '/' + file);
+        this.ftp.put(localDirectory + '/' + file, remoteDirectory + '/' + file, function (err) {
+            console.log('err: ' + err);
+            callback(err);
+        });
+    },
+
+    _filterFiles: function (localFiles, callback) {
+        this._listRemoteFiles(function (err, remoteFiles) {
+            if (err) return callback(err);
+
+            function iterator(localFile, fn) {
+                fn(remoteFiles.indexOf(localFile) < 0);
+            }
+
+            async.filter(localFiles, iterator, function (result) {
+                callback(null, result);
             });
         });
     },
-    
-    _sendFile: function (file, callback) {
 
-        var inputstream = fs.createReadStream(file);
-        inputstream.pause();
-
-        ftpconnection.getPutSocket(file.substr(file.lastIndexOf('/') + 1), function (err, socket) {
+    _listRemoteFiles: function (callback) {
+        this.ftp.ls(remoteDirectory, function (err, res) {
             if (err) return callback(err);
-            inputstream.pipe(socket); // Transfer from source to the remote file
-            inputstream.resume();
-            inputstream.on('error', function () {
-                return callback('error');
+            var result = [];
+            res.forEach(function (file) {
+                if (file && file.name) {
+                    result.push(file.name);
+                }
             });
-            inputstream.on('end', function () {
+            callback(null, result);
+        });
+    },
 
-                fs.unlink(file, function (err) {
-                    if (err) {
-                        callback(err);
-                    } else {
-                        callback(null, {
-                            status: 200
-                        });
-                    }
-                });
-            });
+    _listLocalFiles: function (callback) {
+        var self = this;
+        var result = [];
+        fs.readdir(localDirectory, function (err, files) {
+            if (err) return callback(err);
+
+            for (var index in files) {
+                var file = files[index];
+                if (file.substr(-4) != '.tgz') {
+                    //file is not compressed
+                    return;
+                }
+                result.push(file);
+            }
+
+            callback(null, result);
         });
     }
+
+
+
+
 }
 var f = new Ftp();
-module.exports.ftp = f;
+//module.exports.ftp = f;
