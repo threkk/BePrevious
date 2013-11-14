@@ -32,6 +32,7 @@ Ftp.prototype = {
     },
 
     connect: function () {
+    	logger.debug("connecting to ftp");
         this.ftp = new JSFtp({
             host: configuration.ftp.host,
             port: configuration.ftp.port,
@@ -41,6 +42,7 @@ Ftp.prototype = {
     },
 
     disconnect: function () {
+    	logger.debug("disconnecting from ftp");
         this.ftp && this.ftp.destroy();
     },
 

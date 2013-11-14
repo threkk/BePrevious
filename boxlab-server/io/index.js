@@ -32,7 +32,7 @@ Writer.prototype = {
 var w = new Writer();
 module.exports = {
     writer: w,
-    compresser: require('./compresser.js'),
+    compresser: require('./compresser.js').compresser,
     ftp: require('./ftp.js').ftp,
     localDB: require('./localdatabase.js').localDB
 }
