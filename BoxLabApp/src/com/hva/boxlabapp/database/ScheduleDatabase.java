@@ -20,7 +20,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 	public static final String COLUMN_SCHEDULE_SUPP = "support"; // optional text 
 	public static final String COLUMN_SCHEDULE_POS = "position"; // optional text
 
-	private static final String DATABASE_NAME = "schedule3.db"; // CHANGE THIS
+	private static final String DATABASE_NAME = "schedule5.db"; // CHANGE THIS
 	private static final int DATABASE_VERSION = 1;
 
 	private static final String DATABASE_CREATE = "create table "
@@ -46,12 +46,14 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 		
 		// ONLY FOR TESTING
 		// 18th december
-		String sql1 = "INSERT INTO schedule(date, exercise_id, set_repetitions, is_done) " +
-				"VALUES (1387321200000, 1, '10 10 10', 0)";
+		String sql1 = "INSERT INTO schedule(date, exercise_id, set_repetitions, is_done, notes) " +
+				"VALUES (1387321200000, 1, '10 10 10', 0, 'The patient must use something to support" +
+				"himself or herself during the exercise. A break must be done between sets.')";
 		String sql2 = "INSERT INTO schedule(date, exercise_id, set_repetitions, is_done) " +
 				"VALUES (1387321200000, 2, '10 20 30', 0)";
-		String sql3 = "INSERT INTO schedule(date, exercise_id, set_repetitions, is_done) " +
-				"VALUES (1387321200000, 3, '20 10', 1)";
+		String sql3 = "INSERT INTO schedule(date, exercise_id, set_repetitions, is_done, notes) " +
+				"VALUES (1387321200000, 3, '20 10', 1, 'Only two sets of exercises must be done," +
+				"but with a high intensity')";
 		database.execSQL(sql1);
 		database.execSQL(sql2);
 		database.execSQL(sql3);

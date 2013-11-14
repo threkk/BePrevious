@@ -11,6 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.hva.boxlabapp.database.ScheduleDatabase;
+import com.hva.boxlabapp.database.ScheduleDatasource;
+import com.hva.boxlabapp.database.entities.ScheduleInsert;
 import com.hva.boxlabapp.devices.ManageDevicesActivity;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
@@ -82,7 +86,11 @@ public class MainActivity extends Activity {
 					ManageDevicesActivity.class));
 			return true;
 		case R.id.action_refresh:
-			// Do things
+			// Information comes magically from somewhere
+//			Gson gson = new Gson();
+//			ScheduleInsert insert = gson.fromJson("path", ScheduleInsert.class);
+//			ScheduleDatasource db = new ScheduleDatasource(this);
+//			db.create(insert);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

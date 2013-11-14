@@ -18,7 +18,7 @@ public class LibraryDatabase extends SQLiteOpenHelper{
 
 	private static String TAG = "DataBaseExercises";
 	private static String DB_PATH = ""; 
-	private static String DB_NAME = "db_exercises";
+	private static String DB_NAME = "dbexercises";
 	// This uses other database because it is already filled.
 
 	private SQLiteDatabase mDataBase;
@@ -31,6 +31,7 @@ public class LibraryDatabase extends SQLiteOpenHelper{
 		} else {
 			DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
 		}
+
 		this.mContext = context;
 	}
 
@@ -58,7 +59,16 @@ public class LibraryDatabase extends SQLiteOpenHelper{
 	}
 	
 	private void copyDataBase() throws IOException{
-		InputStream mInput = mContext.getAssets().open(DB_NAME);
+		InputStream mInput = null;
+		String[] assets = mContext.getAssets().list("");
+		for(String asset : assets){
+			Log.e("Asset",asset);
+		}
+		try{
+			mInput = mContext.getAssets().open(DB_NAME);
+		} catch(NullPointerException npe){
+			Log.e("ERROR", "Error abriendo la DB");
+		}
 		String outFileName = DB_PATH + DB_NAME;
 		
 		OutputStream mOutput = new FileOutputStream(outFileName);

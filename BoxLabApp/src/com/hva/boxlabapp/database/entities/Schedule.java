@@ -35,6 +35,17 @@ public class Schedule {
 
 	}
 
+	public Schedule(ScheduleInsert input){
+		this.date = new Date(input.getDate());
+		this.exercise = input.getExercise();
+		this.notes = input.getNotes();
+		this.repetitions = new ArrayList<Integer>();
+		
+		for(String rep : input.getReps().split(" ")){
+			this.repetitions.add(Integer.parseInt(rep));
+		}
+	}
+	
 	public Date getDate() {
 		return date;
 	}

@@ -1,12 +1,12 @@
 package com.hva.boxlabapp.database.entities;
 
-public class CalendarEntry {
+public class ScheduleInsert {
 	private long date;
 	private int exercise;
 	private String reps;
 	private String notes;
 	
-	public CalendarEntry(long date, int exercise, String reps, String notes){
+	public ScheduleInsert(long date, int exercise, String reps, String notes){
 		this.date = date;
 		this.exercise = exercise;
 		this.reps = reps;
