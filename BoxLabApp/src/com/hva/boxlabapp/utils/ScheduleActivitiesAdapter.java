@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -39,7 +40,13 @@ public class ScheduleActivitiesAdapter extends BaseExpandableListAdapter {
 	public View getChildView(int arg0, int arg1, boolean arg2, View arg3,
 			ViewGroup arg4) {
 		TextView view = new TextView(context);
-		view.setText("Data about the exercise.");
+		String msg = items.get(arg0).getNotes();
+		if(msg == null){
+			msg = "There is no additional information about this exercise.";
+		}
+		view.setText(msg);
+		view.setBackgroundColor(Color.WHITE);
+		view.setPadding(12, 12, 12, 12);
 		return view;
 	}
 
@@ -66,7 +73,15 @@ public class ScheduleActivitiesAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getGroupView(int arg0, boolean arg1, View arg2, ViewGroup arg3) {
 		TextView view = new TextView(context);
-		view.setText(exercises.get(arg0));
+		String msg = "";
+		msg += exercises.get(arg0)
+				+ " - Repetitions: ";
+		for(Integer i : items.get(arg0).getRepetitions()){
+			msg += i + "/";
+		}
+		view.setText(msg.substring(0, msg.length()-1));
+		view.setTextSize(22);
+		view.setPadding(42, 12, 4, 12);
 		return view;
 	}
 
@@ -77,7 +92,7 @@ public class ScheduleActivitiesAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public boolean isChildSelectable(int arg0, int arg1) {
-		return true;
+		return false;
 	}
 	
 }

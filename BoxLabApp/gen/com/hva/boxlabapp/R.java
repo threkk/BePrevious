@@ -108,35 +108,36 @@ containing a value of this type.
         public static final int ic_action_edit=0x7f020010;
         public static final int ic_action_help=0x7f020011;
         public static final int ic_action_overflow=0x7f020012;
-        public static final int ic_action_settings=0x7f020013;
-        public static final int ic_launcher=0x7f020014;
-        public static final int list_focused_boxlabapp=0x7f020015;
-        public static final int menu_dropdown_panel_boxlabapp=0x7f020016;
-        public static final int pressed_background_boxlabapp=0x7f020017;
-        public static final int progress_bg_boxlabapp=0x7f020018;
-        public static final int progress_horizontal_boxlabapp=0x7f020019;
-        public static final int progress_primary_boxlabapp=0x7f02001a;
-        public static final int progress_secondary_boxlabapp=0x7f02001b;
-        public static final int selectable_background_boxlabapp=0x7f02001c;
-        public static final int spinner_ab_default_boxlabapp=0x7f02001d;
-        public static final int spinner_ab_disabled_boxlabapp=0x7f02001e;
-        public static final int spinner_ab_focused_boxlabapp=0x7f02001f;
-        public static final int spinner_ab_pressed_boxlabapp=0x7f020020;
-        public static final int spinner_background_ab_boxlabapp=0x7f020021;
-        public static final int tab_indicator_ab_boxlabapp=0x7f020022;
-        public static final int tab_selected_boxlabapp=0x7f020023;
-        public static final int tab_selected_focused_boxlabapp=0x7f020024;
-        public static final int tab_selected_pressed_boxlabapp=0x7f020025;
-        public static final int tab_unselected_boxlabapp=0x7f020026;
-        public static final int tab_unselected_focused_boxlabapp=0x7f020027;
-        public static final int tab_unselected_pressed_boxlabapp=0x7f020028;
+        public static final int ic_action_refresh=0x7f020013;
+        public static final int ic_action_settings=0x7f020014;
+        public static final int ic_launcher=0x7f020015;
+        public static final int list_focused_boxlabapp=0x7f020016;
+        public static final int menu_dropdown_panel_boxlabapp=0x7f020017;
+        public static final int pressed_background_boxlabapp=0x7f020018;
+        public static final int progress_bg_boxlabapp=0x7f020019;
+        public static final int progress_horizontal_boxlabapp=0x7f02001a;
+        public static final int progress_primary_boxlabapp=0x7f02001b;
+        public static final int progress_secondary_boxlabapp=0x7f02001c;
+        public static final int selectable_background_boxlabapp=0x7f02001d;
+        public static final int spinner_ab_default_boxlabapp=0x7f02001e;
+        public static final int spinner_ab_disabled_boxlabapp=0x7f02001f;
+        public static final int spinner_ab_focused_boxlabapp=0x7f020020;
+        public static final int spinner_ab_pressed_boxlabapp=0x7f020021;
+        public static final int spinner_background_ab_boxlabapp=0x7f020022;
+        public static final int tab_indicator_ab_boxlabapp=0x7f020023;
+        public static final int tab_selected_boxlabapp=0x7f020024;
+        public static final int tab_selected_focused_boxlabapp=0x7f020025;
+        public static final int tab_selected_pressed_boxlabapp=0x7f020026;
+        public static final int tab_unselected_boxlabapp=0x7f020027;
+        public static final int tab_unselected_focused_boxlabapp=0x7f020028;
+        public static final int tab_unselected_pressed_boxlabapp=0x7f020029;
     }
     public static final class id {
         public static final int action_about=0x7f09001b;
         public static final int action_add=0x7f09001d;
         public static final int action_delete=0x7f09001f;
         public static final int action_edit=0x7f09001e;
-        public static final int action_overflow=0x7f09001c;
+        public static final int action_refresh=0x7f09001c;
         public static final int action_settings=0x7f09001a;
         public static final int activity_main=0x7f090000;
         public static final int calendar_grid=0x7f090019;
@@ -213,7 +214,7 @@ containing a value of this type.
         public static final int menu_help=0x7f060008;
         /**   nav bar 
          */
-        public static final int menu_overflow=0x7f060007;
+        public static final int menu_refresh=0x7f060007;
         public static final int menu_settings=0x7f06000a;
         public static final int month_name_format=0x7f060002;
         /**  schedule fragment 

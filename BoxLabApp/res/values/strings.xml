@@ -8,7 +8,7 @@
     <string name="title_activity_manage_devices">Manage devices</string>
     
     <!--  nav bar -->
-    <string name="menu_overflow">Show more</string>
+    <string name="menu_refresh">Refresh the calendar</string>
     <string name="menu_help">Help</string>
     <string name="menu_about">How to use this app</string>
     <string name="menu_settings">Settings</string>
