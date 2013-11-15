@@ -14,7 +14,7 @@ var Hashids = require("hashids"),
 
 var localDB = require('./io').localDB;
 var writer = require('./io').writer;
-var compresser = require('./io').writer;
+var compresser = require('./io').compresser;
 var ftp = require('./io').ftp;
 var cronJob = require('cron').CronJob;
 var client = require('./client').client;
