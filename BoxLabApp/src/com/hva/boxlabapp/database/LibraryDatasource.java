@@ -1,5 +1,6 @@
 package com.hva.boxlabapp.database;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,14 +20,14 @@ public class LibraryDatasource {
     	this.dbhelper = new LibraryDatabase(context);
     }
     
-//    public ExercisesDatasource createDatabase() throws SQLException, IOException{
-//    	try {
-//    		dbhelper.createDataBase();
-//    	} catch (SQLException oops) {
-//    		Log.e(TAG, oops.getMessage() + " Unable to create database.");
-//    	}
-//    	return this;
-//    }
+    public LibraryDatasource createDatabase() throws SQLException, IOException{
+    	try {
+    		dbhelper.createDataBase();
+    	} catch (SQLException oops) {
+    		Log.e(TAG, oops.getMessage() + " Unable to create database.");
+    	}
+    	return this;
+    }
     
     public void open() throws SQLException {
     	try {
