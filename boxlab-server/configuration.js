@@ -1,8 +1,9 @@
 module.exports = {
 	host: "http://localhost:8083/",
 	ftp: { 
-		host: "145.92.76.82",
-        user: "ftpclient",
+		host: "oege.ie.hva.nl",
+        user: "water23",
+        pass: "eWzDzipG",
         port: 21
     },
     minDuration: (30 * 1000), 

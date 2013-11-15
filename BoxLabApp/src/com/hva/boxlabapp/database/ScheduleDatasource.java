@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import com.hva.boxlabapp.database.entities.Schedule;
+import com.hva.boxlabapp.database.entities.ScheduleInsert;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -38,7 +40,8 @@ public class ScheduleDatasource {
     	String sql = " SELECT "
 				//+ ScheduleDatabase.COLUMN_SCHEDULE_DATE + ", " we already have the date
 				+ ScheduleDatabase.COLUMN_SCHEDULE_EXID + ", "
-				+ ScheduleDatabase.COLUMN_SCHEDULE_REPS + " "
+				+ ScheduleDatabase.COLUMN_SCHEDULE_REPS + ", "
+				+ ScheduleDatabase.COLUMN_SCHEDULE_NOTES + " "
 				+ " FROM " + ScheduleDatabase.TABLE_SCHEDULE
 				+ " WHERE "
 				+ ScheduleDatabase.COLUMN_SCHEDULE_DATE + " = " + date.getTime() + ";";
@@ -48,8 +51,8 @@ public class ScheduleDatasource {
 			cursor.moveToFirst();
 
 			while (!cursor.isAfterLast()) {
-				//Schedule schedule = new Schedule(cursor.getLong(0), cursor.getInt(1), cursor.getString(2));
-				Schedule schedule = new Schedule(date, cursor.getInt(0), cursor.getString(1));
+				//Schedule schedule = new Schedule(cursor.getLong(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3));
+				Schedule schedule = new Schedule(date, cursor.getInt(0), cursor.getString(1), cursor.getString(2));
 				calendar.add(schedule);
 				cursor.moveToNext();
 			}
@@ -65,5 +68,25 @@ public class ScheduleDatasource {
     	return calendar;
 	}
 	
-	// Increase based on necesities.
+	public ScheduleInsert create(ScheduleInsert entry){
+		
+		try{
+			this.open();
+			ContentValues content = new ContentValues();
+			content.put(ScheduleDatabase.COLUMN_SCHEDULE_DATE, entry.getDate());
+			content.put(ScheduleDatabase.COLUMN_SCHEDULE_EXID, entry.getExercise());
+			content.put(ScheduleDatabase.COLUMN_SCHEDULE_REPS, entry.getReps());
+			// Depending on if there is more things to add to the database, this 
+			// and the ScheduleEntry classes must be modified.
+			
+			database.insert(ScheduleDatabase.TABLE_SCHEDULE, null, content);
+		} catch (SQLException oops){
+			Log.e(TAG, "Error inserting in the database");
+		} finally {
+			this.close();
+		}
+		
+		return entry;
+	}
+	
 }

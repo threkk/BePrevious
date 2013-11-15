@@ -11,7 +11,7 @@
 	"lodash": "1.2.0", 
 	"restify": "2.6.0",
 	"cron": "1.0.1",
-	"jsftp": "0.5.9",
+	"jsftp": "1.1.1",
 	"moment": "2.0.0",
 	"socket.io": "0.9.14", 
 	"xml-mapping": "1.2.0",
