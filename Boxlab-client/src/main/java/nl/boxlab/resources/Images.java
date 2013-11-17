@@ -11,6 +11,9 @@ public class Images {
 
 	private static final Logger logger = LoggerFactory.getLogger(Images.class);
 
+	public static final ImageIcon ICONS_APPROVE = safeLoad("icons/approve.png");
+	public static final ImageIcon ICONS_MESSAGE = safeLoad("icons/message.png");
+	
 	public static final ImageIcon IMAGE_LOGO_LARGE = safeLoad("images/boxlab_logo_large.png");
 	public static final ImageIcon IMAGE_LOGO_MEDIUM = safeLoad("images/boxlab_logo_medium.png");
 

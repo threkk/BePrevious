@@ -1,5 +1,6 @@
 package nl.boxlab;
 
+import nl.boxlab.remote.ExerciseEntryProvider;
 import nl.boxlab.remote.PatientProvider;
 
 public class ClientContext {
@@ -9,9 +10,11 @@ public class ClientContext {
 	private boolean authenticated;
 
 	private PatientProvider patientProvider;
+	private ExerciseEntryProvider exerciseEntryProvider;
 
 	public ClientContext() {
 		this.patientProvider = new PatientProvider(this);
+		this.exerciseEntryProvider = new ExerciseEntryProvider(this);
 	}
 
 	public String getHost() {
@@ -35,12 +38,14 @@ public class ClientContext {
 	}
 
 	public void authenticate(String username, char[] password) {
-		if (username.equals("test")) {
-			this.authenticated = true;
-		}
+		this.authenticated = true;
 	}
 
 	public PatientProvider getPatientProvider() {
 		return patientProvider;
+	}
+
+	public ExerciseEntryProvider getExerciseEntryProvider() {
+		return exerciseEntryProvider;
 	}
 }

@@ -12,6 +12,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.boxlab.model.Entity;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,10 +21,10 @@ public class ModelUtilities {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(ModelUtilities.class);
-	private static Map<Class<? extends Object>, PropertyDescriptor[]> beanInfoMap = new HashMap<Class<? extends Object>, PropertyDescriptor[]>();
+	private static Map<Class<? extends Entity>, PropertyDescriptor[]> beanInfoMap = new HashMap<Class<? extends Entity>, PropertyDescriptor[]>();
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Object> T deepClone(T entity) {
+	public static <T extends Entity> T deepClone(T entity) {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -42,7 +44,7 @@ public class ModelUtilities {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Object> T shallowClone(T entity) {
+	public static <T extends Entity> T shallowClone(T entity) {
 		T clone;
 		try {
 			clone = (T) entity.getClass().newInstance();
@@ -56,7 +58,7 @@ public class ModelUtilities {
 		return clone;
 	}
 
-	public static <T extends Object> void merge(T src, T dst) {
+	public static <T extends Entity> void merge(T src, T dst) {
 		for (PropertyDescriptor descriptor : getDescriptors(src)) {
 			Method readMethod = descriptor.getReadMethod();
 			Method writeMethod = descriptor.getWriteMethod();
@@ -75,9 +77,9 @@ public class ModelUtilities {
 		}
 	}
 
-	private static <T extends Object> PropertyDescriptor[] getDescriptors(
+	private static <T extends Entity> PropertyDescriptor[] getDescriptors(
 			T entity) {
-		Class<? extends Object> clazz = entity.getClass();
+		Class<? extends Entity> clazz = entity.getClass();
 		PropertyDescriptor[] propertyDescriptors = beanInfoMap.get(clazz);
 		if (propertyDescriptors == null) {
 			try {

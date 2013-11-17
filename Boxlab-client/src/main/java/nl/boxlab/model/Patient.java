@@ -2,7 +2,7 @@ package nl.boxlab.model;
 
 import java.io.Serializable;
 
-public class Patient implements Serializable {
+public class Patient extends Entity implements Serializable {
 
 	private static final long serialVersionUID = -6529007671943127008L;
 
@@ -10,12 +10,16 @@ public class Patient implements Serializable {
 	private String firstName;
 	private String lastName;
 
+	public Patient() {
+
+	}
+
 	public String getIdentification() {
 		return identification;
 	}
 
 	public void setIdentification(String identification) {
-		this.identification = identification;
+		firePropertyChange("identification", this.identification, this.identification = identification);
 	}
 
 	public String getFirstName() {
@@ -23,7 +27,7 @@ public class Patient implements Serializable {
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		firePropertyChange("firstName", this.firstName, this.firstName = firstName);
 	}
 
 	public String getLastName() {
@@ -31,6 +35,6 @@ public class Patient implements Serializable {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		firePropertyChange("lastName", this.lastName, this.lastName = lastName);
 	}
 }
