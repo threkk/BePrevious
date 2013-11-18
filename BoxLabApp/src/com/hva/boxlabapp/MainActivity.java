@@ -96,4 +96,15 @@ public class MainActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	@Override
+	public void onBackPressed(){
+		ActionBar bar = getActionBar();
+		Tab schedule = bar.getTabAt(0);
+		if(bar.getSelectedTab().equals(schedule)){
+			this.finish();
+		} else {
+			bar.selectTab(schedule);
+		}
+	}
 }
