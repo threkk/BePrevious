@@ -24,3 +24,4 @@ local.properties
 # miscelanious #
 /.metadata
 Shimmer library _ driver/*
+boxlab-server/resources/localdatabase.json
