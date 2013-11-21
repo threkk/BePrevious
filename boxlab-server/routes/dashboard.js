@@ -3,206 +3,188 @@ var _ = require('lodash');
 
 var logger = require('../modules/logging').getLogger();
 var localDB = require('../modules/localdatabase').localDB;
+
+var client = require('../modules/zwave/client').client;
 var deviceManager = require('../modules/zwave/devicemanager').deviceManager;
 
+function getNormalizedDevice(device) {
+	var device = deviceManager.devices[key];
+	var deviceData = _.merge(device.data, device.state);
+
+	deviceData.status = 'Ok';
+	if (deviceData.batteryLevel < 25) {
+		deviceData.status = 'Low battery';
+	} else if (deviceData.isFailed) {
+		deviceData.status = 'Failed';
+	}
+
+	if (deviceData.batteryLevel) {
+		var prefix = '/images/battery/battery-';
+		var fraction = Math.round(deviceData.batteryLevel / 25) * 25;
+		deviceData.batteryImage = prefix + fraction + '.png';
+	}
+
+	return deviceData;
+}
+
 function getNormalizedDevices() {
-    var devices = [];
+	var devices = [];
 
-    for (var key in deviceManager.devices) {
-        var device = deviceManager.devices[key];
-        var deviceData = _.merge(device.data, device.state);
+	for ( var key in deviceManager.devices) {
+		devices.push(getNormalizedDevice(deviceManager.devices[key].data));
+	}
 
-        deviceData.status = 'Ok';
-        if (deviceData.batteryLevel < 25) {
-            deviceData.status = 'Low battery';
-        } else if (deviceData.isFailed) {
-            deviceData.status = 'Failed';
-        }
-
-        if (deviceData.batteryLevel) {
-            var prefix = '/images/battery/battery-';
-            var fraction = Math.round(deviceData.batteryLevel / 25) * 25;
-            deviceData.batteryImage = prefix + fraction + '.png';
-        }
-
-        devices.push(deviceData);
-    }
-
-    return devices;
+	return devices;
 }
 
 /**
  * optional callback callback(err)
  */
-function setSleepTime(nodeids, sleeptime, callback) {
-    if (typeof nodeids == "number") {
-        nodeids = [nodeids]
-    }
+function setCalibratedTemp(nodeid, calibratedTemp, callback) {
+	var device = deviceManager.getDevice(nodeid);
+	if (!device) {
+		return callback('no device with id ' + nodeid + ' was found');
+	}
 
-    var funcs = [];
-    nodeids.forEach(function (nodeid) {
-        funcs.push(function (callback) {
-            var command = 'devices[' + nodeid + '].instances[0].commandClasses[0x84].Set(' + sleeptime + ',1)'
-            client.runCommand(command, function (err, json) {
-                if (!err) {
-                    logger.debug('setting sleeptime(' + sleeptime + 's) for ' + nodeid);
-                }
-                return callback(err, json);
-            });
-        });
-    });
+	var temp = device.state.temperature;
+	var offset = calibratedTemp - temp;
 
-    async.series(funcs, function (err, results) {
-        callback && callback(err);
-    });
+	localDB.setTempOffset(nodeid, offset);
+	logger.debug('setting temp offset to (' + offset + 'c) for ' + nodeid);
 }
 
 /**
  * optional callback callback(err)
  */
-function setCalibratedTemp(nodeids, calibratedTemp, callback) {
-    if (typeof nodeids == "number") {
-        nodeids = [nodeids]
-    }
-
-    var funcs = [];
-    nodeids.forEach(function (nodeid) {
-        funcs.push(function (callback) {
-            var device = deviceManager.getDevice(nodeid);
-            if (!device) {
-                return callback('no device with id ' + nodeid + ' was found');
-            }
-
-            var device = deviceManager.getDevice(nodeid);
-            var temp = device.state.temperature;
-            var offset = calibratedTemp - temp;
-            localDB.setTempOffset(nodeid, offset);
-
-            logger.debug('setting temp offset to (' + offset + 'c) for ' + nodeid);
-            callback();
-        });
-    });
-
-    deviceManager.update(function (err) {
-        if (err) {
-            callback('failed to update device states');
-        } else {
-            async.series(funcs, function (err, results) {
-                callback && callback(err);
-            });
-        }
-    });
+function setSleepTime(nodeid, sleeptime, callback) {
+	var instance = 'devices[' + nodeid + '].instances[0]';
+	var command = instance + '.commandClasses[0x84].Set(' + sleeptime + ',1)'
+	client.runCommand(command, function(err, json) {
+		if (!err) {
+			logger.debug('setting sleeptime(' + sleeptime + 's) for ' + nodeid);
+		}
+		callback(err, json);
+	});
 }
 
-function updateAllDevices(req, res) {
-    var nodeid = parseInt(req.params.id, 10) || -1;
-    if (nodeid < 0) {
-        return;
-    }
-
-    var devices = deviceManager.devices;
-    var device = deviceManager.getDevice(nodeid);
-    var nodeids = [];
-    for (var key in devices) {
-        var deviceData = devices[key].data;
-        if ((device.data.productType == deviceData.productType) && device.data.manufacturerId == deviceData.manufacturerId) {
-            nodeids.push(deviceData.id);
-        }
-    }
-    _updateDevices(nodeids, req.body, function (err) {
-        res.end();
-    });
+function setName(nodeid, name, callback) {
+	localDB.setDeviceName(nodeid, name);
+	callback();
 }
 
-function _updateDevices(nodeids, options, fn) {
-    if (typeof nodeids == "number") {
-        nodeids = [nodeids]
-    }
+function updateDevice(nodeid, options, callback) {
+	var funcs = [];
+	if (options.calibratedTemp) {
+		funcs.add(function(callback) {
+			setCalibratedTemp(nodeid, options.calibratedTemp, callback);
+		});
+	}
+	if (options.sleeptime) {
+		funcs.add(function(callback) {
+			setSleepTime(nodeid, options.sleeptime, callback)
+		});
+	}
 
-    if (!options.sleeptime && !options.calibratedTemp) {
-        return;
-    }
+	if (options.name) {
+		funcs.add(function(callback) {
+			setName(nodeid, options.name, callback);
+		});
+	}
 
-    async.series([
-        function (callback) {
-            if (!options.sleeptime) {
-                callback(null);
-            } else {
-                setSleepTime(nodeids, options.sleeptime, function (err) {
-                    callback(err);
-                });
-            }
-        },
-        function (callback) {
-            if (!options.calibratedTemp) {
-                callback(null);
-            } else {
-                setCalibratedTemp(nodeids, options.calibratedTemp, callback);
-            }
-        }
-    ], function (err, results) {
-        fn(err, results);
-    });
+	async.series(funcs, callback);
+}
+
+function updateDevicesByType(nodeid, options, callback) {
+	var targetDevice = deviceManager.getDevice(nodeid);
+
+	function iterator(device, callback) {
+		if (device.data.productType != targetDevice.data.productType) {
+			// skip devices that are not of the same product type
+			return callback();
+		}
+
+		if (device.data.manufacturerId != targetDevice.data.manufacturerId) {
+			// skip devices that are not of the same manufacturer
+			return callback();
+		}
+
+		updateDevice(device.data.id, options, callback);
+	}
+
+	async.each(deviceManager.devices, iterator, callback);
 }
 
 /**
- *	renders the home page
+ * renders the home page
  */
 function getHome(req, res) {
-    res.render('home.hbs', {
-        controllerData: deviceManager.controller
-    });
+	res.render('home.hbs', {
+		controllerData : deviceManager.controller
+	});
 }
 
 /**
- *	renders the devices page
+ * renders the devices page
  */
 function getDevices(req, res) {
-    res.render('devices.hbs', {
-        devices: getNormalizedDevices()
-    });
+	res.render('devices.hbs', {
+		devices : getNormalizedDevices()
+	});
 }
 
 /**
- *	renders the edit device page
+ * renders the edit device page
  */
-
 function editDevice(req, res) {
-    var id = req.params.id;
-    var device = deviceManager.getDevice(id);
-
-    if (!device) {
-        throw new Error('device ' + id + ' not found');
-    } else {
-        res.render('editDevice.hbs', {
-            device: device.data
-        });
-    }
+	var device = deviceManager.getDevice(req.params.id);
+	if (!device) {
+		throw new Error('device with node id #' + req.params.id + ' not found');
+	} else {
+		res.render('editDevice.hbs', {
+			device : getNormalizedDevice(device)
+		});
+	}
 }
 
 /**
- *	receives the post from the edit device page
+ * receives the post from the edit device page
  */
-
 function updateDevice(req, res) {
-    var nodeid = parseInt(req.params.id, 10) || -1;
-    if (nodeid > 0) {
-        _updateDevices(nodeid, req.body, function (err) {
-            res.end();
-        });
-    }
+	var nodeid = parseInt(req.params.id, 10) || -1;
+	if (nodeid > 0) {
+		async.series([ deviceManager.update, function(callback) {
+			updateDevice(nodeid, req.body, callback);
+		}, deviceManager.update ], function(err, results) {
+			res.end();
+		});
+	}
+}
+
+/**
+ * receives the post from the edit device page if it should apply to devices of
+ * the same type
+ */
+function updateDevicesByType(req, res) {
+	var nodeid = parseInt(req.params.id, 10) || -1;
+	if (nodeid > 0) {
+		async.series([ deviceManager.update, function(callback) {
+			updateDevicesByType(nodeid, req.body, callback);
+		}, deviceManager.update ], function(err, results) {
+			res.end();
+		});
+	}
 }
 
 exports.routes = {
-    get: getHome,
-    'devices': {
-        get: getDevices,
-        '/edit/:id': {
-            get: editDevice,
-            post: updateDevice
-        },
-        '/edit/all/:id': {
-            post: updateAllDevices
-        }
-    }
+	get : getHome,
+	'devices' : {
+		get : getDevices,
+		'/edit/:id' : {
+			get : editDevice,
+			post : updateDevice
+		},
+		'/edit/all/:id' : {
+			post : updateDevicesByType
+		}
+	}
 }

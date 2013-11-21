@@ -26,11 +26,18 @@
             
             <div id="alertDiv"></div>
 			
-            <h2>Node ID : {{device.id}}</h2>
-            <h3>Device name : {{device.description.name}}</h3>
+            <h2>Device with node ID: {{device.id}}</h2>
             <div class="row-fluid">
                 <form method="post" class="form-horizontal" id="editForm">
                  <input type="hidden" id="deviceId" value={{device.id}}>
+                 	<div class="control-group">
+                        <label class="control-label" for="inputName">Name</label>
+                        <div class="controls">
+                            <div class="input-append">
+                                <input class="span3" id="inputName" type="text" placeholder= "{{device.name}}">
+                            </div>
+                        </div>
+                    </div>
                  	{{#device.hasWakeup}}
                     <div class="control-group">
                         <label class="control-label" for="inputTimeout">Timeout</label>

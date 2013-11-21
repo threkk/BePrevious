@@ -28,11 +28,12 @@ function parseNewDevices(data) {
 			// We skip the node ids of the zwave controller, and the broadcast
 			continue;
 		}
-
+		var deviceName = localDB.getName(nodeId);
 		var deviceData = data.devices[nodeId].data;
 		var commandClasses = data.devices[nodeId].instances[0].commandClasses;
 		var newDevice = {
 			id : nodeId,
+			name: deviceName,
 			basicType : deviceData.basicType.value,
 			genericType : deviceData.genericType.value,
 			specificType : deviceData.specificType.value,

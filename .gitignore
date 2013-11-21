@@ -16,13 +16,11 @@ node_modules
 # Generated files #
 bin/
 gen/
-logs/
-data/
+target/
 
 # Local configuration file (sdk path, etc) #
 local.properties
 
 # miscelanious #
-/boxlab-server/localdatabase.json
 /.metadata
 Shimmer library _ driver/*

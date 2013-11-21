@@ -31,24 +31,20 @@ Client.prototype = {
 		});
 	},
 	
-    startInclusionMode: function (duration, callback) {
-		console.log('start include');
-		callback();
+    startInclusionMode: function (callback) {
+    	this.runCommand(command_start_inclusion, callback);
     },
 
     stopInclusionMode: function (callback) {
-		console.log('stop include');
-		callback();
+    	this.runCommand(command_stop_inclusion, callback);
     },
 
-    startExclusionMode: function (duration, callback) {
-		console.log('start exclude');
-		callback();
+    startExclusionMode: function (callback) {
+    	this.runCommand(command_start_exclusion, callback);
     },
 
     stopExclusionMode: function (callback) {
-       	console.log('stop exclude');
-		callback();
+    	this.runCommand(command_stop_exclusion, callback);
     }
 };
 
