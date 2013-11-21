@@ -6,7 +6,10 @@ var Mixed = Schema.Types.Mixed;
 
 var deviceSchema = new Schema({
 	Id : ObjectId,
-	identifier : String,
+	identification : {
+		type : String,
+		required : 'Boxlab identity needs to be provided!'
+	},
 	name : String,
 	nodeId : Number,
 	basicType : Number,
@@ -24,10 +27,23 @@ var deviceSchema = new Schema({
 
 var deviceStateSchema = new Schema({
 	Id : ObjectId,
-	identifier : String,
-	nodeId : Number,
-	timestamp : Number,
-	data : Mixed
+	identification : {
+		type : String,
+		required : true
+	},
+	nodeId : {
+		type : Number,
+		required : true
+	},
+	timestamp : {
+		type : Number,
+		required : true
+	},
+	power : Number,
+	usage : Number,
+	temperature : Number,
+	luminescence : Number,
+	value : Number,
 });
 
 module.exports = {

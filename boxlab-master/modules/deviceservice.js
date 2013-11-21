@@ -11,21 +11,40 @@ Service.prototype = {
 		var device = new Device(deviceData);
 		device.save(function(err) {
 			if (err) {
-				logger.error('Failed to save device with data: '
-						+ JSON.stringify(deviceData));
+				logger.error('Failed to save device with data: ' + JSON.stringify(deviceData));
 			}
 			callback(err);
 		});
-	}, 
-	
-	saveState: function(deviceState, callback) {
-		var deviceState = new DeviceState(deviceData);
+	},
+
+	getDevice : function(identifier, nodeId, callback) {
+		Device.find({
+			identifier : identifier,
+			nodeId : nodeId
+		}).exec(callback);
+	},
+
+	getDevices : function(identifier, callback) {
+		Device.find({
+			identifier : identifier
+		}).exec(callback);
+	},
+
+	saveState : function(deviceStateData, callback) {
+		var deviceState = new DeviceState(deviceStateData);
 		deviceState.save(function(err) {
 			if (err) {
-				logger.error('Failed to save device state with data: ' + JSON.stringify(deviceData));
+				logger.error('Failed to save device state with data: '
+						+ JSON.stringify(deviceStateData));
 			}
 			callback(err);
 		});
+	},
+
+	getState : function(identifier, query, callback) {
+		DeviceState.find({
+			identifier : identifier
+		}).where('timestamp').gte(query.from).lte(query.to).exec(callback);
 	}
 };
 
