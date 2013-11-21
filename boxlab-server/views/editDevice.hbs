@@ -20,7 +20,8 @@
     </head>
     
     <body>
-        <div class="container">{{>header}}
+        <div class="container">
+        	{{>header}}
             <hr>
             
             <div id="alertDiv"></div>
@@ -41,7 +42,7 @@
                         </div>
                     </div>
                     {{/device.hasWakeup}}
-                    {{#device.multilevel.Temperature}}
+                    {{#device.temperature}}
                       <div class="control-group">
                         <label class="control-label" for="inputCalibratedTemp">Temperature calibration</label>
                         <div class="controls">
@@ -50,7 +51,7 @@
                             </div>
                         </div>
                     </div>
-                    {{/device.multilevel.Temperature}}
+                    {{/device.temperature}}
                     <div class="control-group">
                         <div class="controls">
                             <button class="btn" value="saveSingle">Save configuration</button>
