@@ -9,10 +9,7 @@ public class ExerciseEntry extends Entity {
 	private Integer id;
 	private Date date;
 	private Integer exerciseId;
-	private double weight;
-	private boolean support;
 	private boolean done;
-
 	private List<Integer> repetitions = new ArrayList<Integer>();
 	private List<ExerciseNote> notes = new ArrayList<ExerciseNote>();
 
@@ -41,23 +38,8 @@ public class ExerciseEntry extends Entity {
 	}
 
 	public void setExerciseId(Integer exerciseId) {
-		firePropertyChange("exerciseId", this.exerciseId, this.exerciseId = exerciseId);
-	}
-
-	public double getWeight() {
-		return weight;
-	}
-
-	public void setWeight(double weight) {
-		firePropertyChange("weight", this.weight, this.weight = weight);
-	}
-
-	public boolean isSupport() {
-		return support;
-	}
-
-	public void setSupport(boolean support) {
-		firePropertyChange("support", this.support, this.support = support);
+		firePropertyChange("exerciseId", this.exerciseId,
+				this.exerciseId = exerciseId);
 	}
 
 	public boolean isDone() {

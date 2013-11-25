@@ -16,6 +16,8 @@ node_modules
 # Generated files #
 bin/
 gen/
+logs/
+data/
 target/
 
 # Local configuration file (sdk path, etc) #
