@@ -3267,7 +3267,6 @@ private class ConnectThreadArduino extends Thread {
 		return mFWVersion;
 	}
 	public void setDeviceName(String deviceName) {
-		// TODO Auto-generated method stub
 		mMyName = deviceName;
 	}
 	

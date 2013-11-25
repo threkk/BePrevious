@@ -12,8 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.hva.boxlabapp.R;
-import com.hva.boxlabapp.model.SensorDevice;
-import com.hva.boxlabapp.model.SensorDevice.Type;
+import com.hva.boxlabapp.devices.SensorDevice.Type;
 
 public class ManageDevicesDialogFactory {
 

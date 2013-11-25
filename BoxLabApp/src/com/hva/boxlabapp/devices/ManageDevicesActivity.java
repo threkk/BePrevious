@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 import com.hva.boxlabapp.R;
 import com.hva.boxlabapp.database.DevicesDatasource;
-import com.hva.boxlabapp.model.SensorDevice;
 
 public class ManageDevicesActivity extends ListActivity {
 

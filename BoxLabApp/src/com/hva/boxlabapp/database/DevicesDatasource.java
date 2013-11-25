@@ -3,7 +3,7 @@ package com.hva.boxlabapp.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hva.boxlabapp.model.SensorDevice;
+import com.hva.boxlabapp.devices.SensorDevice;
 
 import android.content.ContentValues;
 import android.content.Context;

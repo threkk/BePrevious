@@ -16,9 +16,6 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 	public static final String COLUMN_SCHEDULE_REPS = "set_repetitions"; // format 10 10 10 -> 3 sets of 10
 	public static final String COLUMN_SCHEDULE_DONE = "is_done"; // boolean
 	public static final String COLUMN_SCHEDULE_NOTES = "notes"; // optional text
-	public static final String COLUMN_SCHEDULE_WEIGHT = "weight"; // optional text
-	public static final String COLUMN_SCHEDULE_SUPP = "support"; // optional text 
-	public static final String COLUMN_SCHEDULE_POS = "position"; // optional text
 
 	private static final String DATABASE_NAME = "schedule5.db"; // CHANGE THIS
 	private static final int DATABASE_VERSION = 1;
@@ -30,10 +27,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 			+ COLUMN_SCHEDULE_EXID + " integer not null, "
 			+ COLUMN_SCHEDULE_REPS + " text not null, "
 			+ COLUMN_SCHEDULE_DONE + " integer not null, "
-			+ COLUMN_SCHEDULE_NOTES + " text, "
-			+ COLUMN_SCHEDULE_WEIGHT + " text, "
-			+ COLUMN_SCHEDULE_SUPP + " text, "
-			+ COLUMN_SCHEDULE_POS + " text "
+			+ COLUMN_SCHEDULE_NOTES + " text "
 			+ ");";
 
 	public ScheduleDatabase(Context context) {
