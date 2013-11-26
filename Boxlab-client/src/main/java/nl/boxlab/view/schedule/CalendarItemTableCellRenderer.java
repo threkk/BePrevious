@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.table.TableCellRenderer;
 
 import net.miginfocom.swing.MigLayout;

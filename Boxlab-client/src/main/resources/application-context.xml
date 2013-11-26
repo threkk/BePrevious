@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="serializer" class="nl.boxlab.remote.JSONEntitySerializer" />
+	<bean id="clientFactory" class="nl.boxlab.remote.ClientFactory" />
+	<bean id="client" factory-bean="clientFactory" factory-method="createClient" />
+
+
+	<!-- providers -->
+	<bean id="patientProvider" class="nl.boxlab.remote.PatientProvider">
+		<property name="client">
+			<ref bean="client" />
+		</property>
+		<property name="serializer">
+			<ref bean="serializer" />
+		</property>
+	</bean>
+	<bean id="exerciseEntryProvider" class="nl.boxlab.remote.ExerciseEntryProvider">
+		<property name="client">
+			<ref bean="client" />
+		</property>
+		<property name="serializer">
+			<ref bean="serializer" />
+		</property>
+	</bean>
+
+	<bean id="context" class="nl.boxlab.ClientContextImpl">
+		<property name="patientProvider">
+			<ref bean="patientProvider" />
+		</property>
+		<property name="exerciseEntryProvider">
+			<ref bean="exerciseEntryProvider" />
+		</property>
+	</bean>
+</beans>

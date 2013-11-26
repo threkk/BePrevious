@@ -5,15 +5,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import nl.boxlab.ClientContext;
 import nl.boxlab.model.ExerciseEntry;
 import nl.boxlab.model.ExerciseNote;
 
 public class ExerciseEntryProvider extends AbstractProvider {
-
-	public ExerciseEntryProvider(ClientContext context) {
-		super(context);
-	}
 
 	public List<ExerciseEntry> getEntries(String identification) {
 		List<ExerciseEntry> entries = new ArrayList<ExerciseEntry>();

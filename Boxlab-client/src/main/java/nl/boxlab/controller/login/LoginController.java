@@ -48,7 +48,7 @@ public class LoginController implements ActionListener {
 			this.context.authenticate(username, password);
 			if (!this.context.isAuthenticated()) {
 				this.view.setErrorMessage("Invalid username "
-						+ "or password combination");
+				        + "or password combination");
 				this.view.clearPasswordField();
 			} else {
 				this.dialog.dispose();

@@ -51,8 +51,6 @@ public class CalendarView extends JPanel implements ActionListener {
 	}
 
 	private void initComponents() {
-		ButtonGroup group = new ButtonGroup();
-
 		this.table = new JTable(this.model = new CalendarItemModel());
 		this.table.setDefaultRenderer(CalendarItem.class, new CalendarItemTableCellRenderer());
 		this.table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
