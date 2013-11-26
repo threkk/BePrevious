@@ -41,7 +41,7 @@ public class ScheduleActivitiesAdapter extends BaseExpandableListAdapter {
 			ViewGroup arg4) {
 		TextView view = new TextView(context);
 		String msg = items.get(arg0).getNotes();
-		if(msg == null || msg == ""){
+		if(msg == null || msg == "" || msg.isEmpty()){
 			msg = "There is no additional information about this exercise.";
 		}
 		view.setText(msg);
@@ -74,7 +74,7 @@ public class ScheduleActivitiesAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(int arg0, boolean arg1, View arg2, ViewGroup arg3) {
 		TextView view = new TextView(context);
 		String msg = "";
-		msg += exercises.get(arg0)
+		msg += exercises.get(items.get(arg0).getExercise())
 				+ " - Repetitions: ";
 		for(Integer i : items.get(arg0).getRepetitions()){
 			msg += i + "/";

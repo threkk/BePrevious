@@ -34,9 +34,6 @@ public class FragmentSchedule extends Fragment {
 		CalendarPickerView calendar = (CalendarPickerView) view
 				.findViewById(R.id.calendar_view);
 
-		Date today = new Date();
-		calendar.init(today, next3Month.getTime()).withSelectedDate(today);
-
 		calendar.setOnDateSelectedListener(new OnDateSelectedListener() {
 
 			@Override
@@ -64,6 +61,9 @@ public class FragmentSchedule extends Fragment {
 			}
 		});
 		
+		Date today = new Date();
+		calendar.init(today, next3Month.getTime()).withSelectedDate(today);
+
 		return view;
 	}
 

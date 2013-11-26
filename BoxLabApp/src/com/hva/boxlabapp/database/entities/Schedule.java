@@ -5,49 +5,45 @@ import java.util.Date;
 import java.util.List;
 
 public class Schedule {
-	
-	private Date date;
-	private int exercise;
-	private List<Integer> repetitions;
-	private String notes;
-	
-	public Schedule(Date date, int exercise, String repetitions, String notes){
-		this.date = date;
+
+	private final long millis;
+	private final int exercise;
+	private final List<Integer> repetitions;
+	private final String reps;
+	private final String notes;
+	private boolean done;
+
+	public Schedule(Date date, int exercise, String repetitions, String notes) {
+		this.millis = date.getTime();
 		this.exercise = exercise;
 		this.notes = notes;
+		this.reps = repetitions;
 		this.repetitions = new ArrayList<Integer>();
-	
-		for(String rep : repetitions.split(" ")){
+		this.done = false; // False by default
+
+		// Better create it only once
+		for (String rep : repetitions.split(" ")) {
 			this.repetitions.add(Integer.parseInt(rep));
 		}
 
 	}
-	
-	public Schedule(long date, int exercise, String repetitions, String notes){
-		this.date = new Date(date);
+
+	public Schedule(long date, int exercise, String repetitions, String notes) {
+		this.millis = date;
 		this.exercise = exercise;
 		this.notes = notes;
+		this.reps = repetitions;
 		this.repetitions = new ArrayList<Integer>();
-		
-		for(String rep : repetitions.split(" ")){
+		this.done = false; // False by default
+
+		for (String rep : repetitions.split(" ")) {
 			this.repetitions.add(Integer.parseInt(rep));
 		}
 
 	}
 
-	public Schedule(ScheduleInsert input){
-		this.date = new Date(input.getDate());
-		this.exercise = input.getExercise();
-		this.notes = input.getNotes();
-		this.repetitions = new ArrayList<Integer>();
-		
-		for(String rep : input.getReps().split(" ")){
-			this.repetitions.add(Integer.parseInt(rep));
-		}
-	}
-	
 	public Date getDate() {
-		return date;
+		return new Date(millis);
 	}
 
 	public int getExercise() {
@@ -57,15 +53,31 @@ public class Schedule {
 	public List<Integer> getRepetitions() {
 		return repetitions;
 	}
-	
-	public String getNotes(){
+
+	public String getNotes() {
 		return notes;
+	}
+
+	public long getMillis() {
+		return millis;
+	}
+
+	public String getReps() {
+		return reps;
+	}
+
+	public boolean isDone() {
+		return done;
+	}
+
+	public void setDone(boolean arg) {
+		done = arg;
 	}
 
 	// Testing thing.
 	@Override
 	public String toString() {
-		return "Schedule [date=" + date + ", exercise=" + exercise
+		return "Schedule [date=" + getDate() + ", exercise=" + exercise
 				+ ", repetitions=" + repetitions + ", notes=" + notes + "]";
 	}
 
@@ -73,11 +85,13 @@ public class Schedule {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + (done ? 1231 : 1237);
 		result = prime * result + exercise;
+		result = prime * result + (int) (millis ^ (millis >>> 32));
 		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
 		result = prime * result
 				+ ((repetitions == null) ? 0 : repetitions.hashCode());
+		result = prime * result + ((reps == null) ? 0 : reps.hashCode());
 		return result;
 	}
 
@@ -90,12 +104,11 @@ public class Schedule {
 		if (getClass() != obj.getClass())
 			return false;
 		Schedule other = (Schedule) obj;
-		if (date == null) {
-			if (other.date != null)
-				return false;
-		} else if (!date.equals(other.date))
+		if (done != other.done)
 			return false;
 		if (exercise != other.exercise)
+			return false;
+		if (millis != other.millis)
 			return false;
 		if (notes == null) {
 			if (other.notes != null)
@@ -107,8 +120,12 @@ public class Schedule {
 				return false;
 		} else if (!repetitions.equals(other.repetitions))
 			return false;
+		if (reps == null) {
+			if (other.reps != null)
+				return false;
+		} else if (!reps.equals(other.reps))
+			return false;
 		return true;
 	}
-	
-	
+
 }
