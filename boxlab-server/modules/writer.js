@@ -11,7 +11,7 @@ function Writer() {
 }
 
 Writer.prototype = {
-    directory: './data',
+    directory: './data/out',
     dateFormat: 'YYYY-MM-DD',
 
     init: function () {
