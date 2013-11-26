@@ -5,7 +5,7 @@ var ObjectId = Schema.Types.ObjectId;
 var Mixed = Schema.Types.Mixed;
 
 var deviceSchema = new Schema({
-	Id : ObjectId,
+	id : ObjectId,
 	identification : {
 		type : String,
 		required : 'Boxlab identity needs to be provided!'
@@ -26,7 +26,7 @@ var deviceSchema = new Schema({
 });
 
 var deviceStateSchema = new Schema({
-	Id : ObjectId,
+	id : ObjectId,
 	identification : {
 		type : String,
 		required : true
@@ -46,7 +46,45 @@ var deviceStateSchema = new Schema({
 	value : Number,
 });
 
+var patientSchema = new Schema({
+	id : ObjectId,
+	identification : {
+		type : String,
+		required : true
+	},
+	firstName : String,
+	lastName : String
+});
+
+function merge(source, target) {
+	for ( var index in source) {
+		if (target[index] != source[index]) {
+			target[index] = source[index];
+		}
+	}
+}
+
+function prepare(name, schema) {
+	schema.statics.saveUpdate = function(data, callback) {
+		var self = this;
+		self.findOne({
+			_id : data._id
+		}, function(err, result) {
+			if (!result) {
+				console.log('save: ' + JSON.stringify(data));
+				new self(data).save(callback);
+			} else {
+				console.log('merge: ' + JSON.stringify(data));
+				merge(data, result);
+				result.save(callback);
+			}
+		});
+	};
+	return mongoose.model(name, schema);
+}
+
 module.exports = {
 	Device : mongoose.model('Device', deviceSchema),
-	DeviceState : mongoose.model('DeviceState', deviceStateSchema)
+	DeviceState : mongoose.model('DeviceState', deviceStateSchema),
+	Patient : prepare('Patient', patientSchema),
 };
