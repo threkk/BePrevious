@@ -92,7 +92,7 @@ public class ScheduleActivitiesAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public boolean isChildSelectable(int arg0, int arg1) {
-		return false;
+		return true;
 	}
 	
 }

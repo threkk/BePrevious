@@ -7,20 +7,25 @@ import java.util.List;
 import com.hva.boxlabapp.database.LibraryDatasource;
 import com.hva.boxlabapp.database.ScheduleDatasource;
 import com.hva.boxlabapp.database.entities.Schedule;
+import com.hva.boxlabapp.exercises.Exercise3DActivity;
 import com.hva.boxlabapp.utils.ScheduleActivitiesAdapter;
 import com.squareup.timessquare.CalendarPickerView;
 import com.squareup.timessquare.CalendarPickerView.OnDateSelectedListener;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 
 public class FragmentSchedule extends Fragment {
 
+	public final static String EXERCISE = "EXERCISE";
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
@@ -53,16 +58,26 @@ public class FragmentSchedule extends Fragment {
 					
 					// Activities
 					ExpandableListView list = (ExpandableListView) getView().findViewById(R.id.schedule_activities);				
-					ExpandableListAdapter adapter = new ScheduleActivitiesAdapter(calendar, exercises, getActivity());
+					final ExpandableListAdapter adapter = new ScheduleActivitiesAdapter(calendar, exercises, getActivity());
 					list.setAdapter(adapter);
 					
-					//list.setOnChildClickListener(); --> Maybe will send us to the exercise fragment.
+					list.setOnChildClickListener(new OnChildClickListener() {
+						
+						public boolean onChildClick(ExpandableListView parent, View v,
+								int groupPosition, int childPosition, long id) {
+							Schedule exercise = (Schedule) adapter.getChild(groupPosition, childPosition);
+							Intent intent = new Intent(getActivity(), Exercise3DActivity.class);
+							intent.putExtra(EXERCISE, exercise);
+							startActivity(intent);
+							return true;
+						}
+					});
 				}
 			}
 		});
 		
 		Date today = new Date();
-		calendar.init(today, next3Month.getTime()).withSelectedDate(today);
+		calendar.init(today, next3Month.getTime());
 
 		return view;
 	}

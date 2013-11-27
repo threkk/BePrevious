@@ -1,11 +1,13 @@
 package com.hva.boxlabapp.database.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Schedule {
+public class Schedule implements Serializable{
 
+	private static final long serialVersionUID = 7798051013083433708L;
 	private final long millis;
 	private final int exercise;
 	private final List<Integer> repetitions;

@@ -4,15 +4,20 @@ import java.util.Iterator;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.hva.boxlabapp.FragmentSchedule;
 import com.hva.boxlabapp.R;
+import com.hva.boxlabapp.database.LibraryDatasource;
+import com.hva.boxlabapp.database.entities.Schedule;
 import com.hva.boxlabapp.devices.SensorDevice;
 import com.hva.boxlabapp.gdx.Exercise3DObject;
 import com.hva.boxlabapp.gdx.Exercise3DHandler;
@@ -63,11 +68,38 @@ public class Exercise3DActivity extends AndroidApplication implements
 		display.getSize(size);
 		int width = size.x / 2;
 		int height = size.y;
-
+		
+		// Content
 		View contentView = LayoutInflater.from(this).inflate(
 				R.layout.exercise_3d_content, null);
+		Intent intent = getIntent();
+		Schedule exercise = (Schedule) intent.getSerializableExtra(FragmentSchedule.EXERCISE);
+
+		if(exercise != null) {
+			LibraryDatasource db = new LibraryDatasource(this);
+			TextView exerciseName = (TextView) contentView.findViewById(R.id.exercise_3d_title);
+			String name = db.getName(exercise.getExercise());
+			exerciseName.setText(name);
+			
+			TextView exerciseNotes = (TextView) contentView.findViewById(R.id.exercise_3d_description);
+			exerciseNotes.setText(exercise.getNotes());
+			
+			TextView exerciseSets = (TextView) contentView.findViewById(R.id.exercise_3d_set_counter);
+			exerciseSets.setText("1");
+			
+			TextView exerciseMaxSets = (TextView) contentView.findViewById(R.id.exercise_3d_set_max);
+			exerciseMaxSets.setText(String.valueOf(exercise.getRepetitions().size()));
+			
+			TextView exerciseReps = (TextView) contentView.findViewById(R.id.exercise_3d_reps_counter);
+			exerciseReps.setText("0");
+			
+			TextView exerciseMaxReps = (TextView) contentView.findViewById(R.id.exercise_3d_reps_max);
+			exerciseMaxReps.setText(String.valueOf(exercise.getRepetitions().get(0)));
+			
+		}
 		layout.addView(contentView, width, height);
 
+		// 3D
 		final Exercise3DObject ex = new Exercise3DObject(this);
 		View gameView = initializeForView(ex, false);
 		layout.addView(gameView, width, height);
