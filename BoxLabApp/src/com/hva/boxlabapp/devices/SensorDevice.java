@@ -1,4 +1,4 @@
-package com.hva.boxlabapp.model;
+package com.hva.boxlabapp.devices;
 
 import java.io.Serializable;
 

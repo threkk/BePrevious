@@ -13,9 +13,9 @@ import android.widget.LinearLayout;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.hva.boxlabapp.R;
+import com.hva.boxlabapp.devices.SensorDevice;
 import com.hva.boxlabapp.gdx.Exercise3DObject;
 import com.hva.boxlabapp.gdx.Exercise3DHandler;
-import com.hva.boxlabapp.model.SensorDevice;
 import com.hva.boxlabapp.shimmer.driver.ShimmerHandler;
 
 public class Exercise3DActivity extends AndroidApplication implements

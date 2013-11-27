@@ -1,5 +1,7 @@
 package com.hva.boxlabapp;
 
+import java.util.Date;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -11,15 +13,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.hva.boxlabapp.database.ScheduleDatabase;
+import com.google.common.base.Charsets;
+import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
 import com.hva.boxlabapp.database.ScheduleDatasource;
-import com.hva.boxlabapp.database.entities.ScheduleInsert;
+import com.hva.boxlabapp.database.entities.Schedule;
 import com.hva.boxlabapp.devices.ManageDevicesActivity;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
 public class MainActivity extends Activity {
-	
+
 	private BluetoothAdapter mBluetoothAdapter = null;
 
 	@Override
@@ -52,23 +54,20 @@ public class MainActivity extends Activity {
 		bar.addTab(tabLanding);
 		bar.addTab(tabExercises);
 		bar.addTab(tabLibrary);
-		
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(mBluetoothAdapter == null) {
-        	Toast.makeText(this, "Device does not support Bluetooth\nExiting...", Toast.LENGTH_LONG).show();
-        	finish();
-        }
-	}
-	
-	 @Override
-	    public void onStart() {
-	    	super.onStart();
 
-	    	if(!mBluetoothAdapter.isEnabled()) {     	
-	        	Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-	        	startActivityForResult(enableBtIntent, 0);
-	    	}
-	    }
+		initBT();
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		if (!mBluetoothAdapter.isEnabled()) {
+			Intent enableBtIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableBtIntent, 0);
+		}
+	}
 
 	// Actionbar extra buttons
 	@Override
@@ -85,15 +84,60 @@ public class MainActivity extends Activity {
 			startActivity(new Intent(MainActivity.this,
 					ManageDevicesActivity.class));
 			return true;
+		case R.id.action_about:
+			// Meanwhile, we can use this for testing purposes.
+			Schedule entry = new Schedule(new Date().getTime(), 4, "10 10 10",
+					"Cannot be tracked.");
+			ScheduleDatasource db = new ScheduleDatasource(this);
+			boolean ret = db.create(entry);
+			return ret;
 		case R.id.action_refresh:
-			// Information comes magically from somewhere
-//			Gson gson = new Gson();
-//			ScheduleInsert insert = gson.fromJson("path", ScheduleInsert.class);
-//			ScheduleDatasource db = new ScheduleDatasource(this);
-//			db.create(insert);
+
+			ConnectToRaspberryPi connection = new ConnectToRaspberryPi(
+					"00:27:13:A5:9F:9F", mBluetoothAdapter);
+			connection.start();
+			// WIP
+			String msg = "Fuck u and ur server Bjorn \n";
+			byte[] msgb = msg.getBytes(Charsets.UTF_8);
+			connection.write(msgb);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		ActionBar bar = getActionBar();
+		Tab schedule = bar.getTabAt(0);
+		if (bar.getSelectedTab().equals(schedule)) {
+			this.finish();
+		} else {
+			bar.selectTab(schedule);
+		}
+	}
+
+	private void initBT() {
+		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+		int BT_RESPONSE = 1;
+		if (mBluetoothAdapter == null) {
+			Toast.makeText(this,
+					"Device does not support Bluetooth\nExiting...",
+					Toast.LENGTH_LONG).show();
+			finish();
+		}
+
+		if (!mBluetoothAdapter.isEnabled()) {
+			Intent enableBt = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableBt, BT_RESPONSE);
+		}
+
+		if (BT_RESPONSE == RESULT_CANCELED) {
+			Toast.makeText(this,
+					"The app needs bluetooth enabled to work\nExiting...",
+					Toast.LENGTH_LONG).show();
+			finish();
 		}
 	}
 }

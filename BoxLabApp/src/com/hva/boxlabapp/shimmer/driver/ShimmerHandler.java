@@ -2,7 +2,7 @@ package com.hva.boxlabapp.shimmer.driver;
 
 import java.util.Collection;
 
-import com.hva.boxlabapp.model.SensorDevice;
+import com.hva.boxlabapp.devices.SensorDevice;
 
 import android.content.Context;
 import android.os.Handler;
