@@ -28,27 +28,24 @@ public class CalendarItemTableCellRenderer implements TableCellRenderer {
 
 	public static final Color COLOR_BACKGROUND_USABLE = Color.WHITE;
 	public static final Color COLOR_BACKGROUND_UNUSABLE = Color.LIGHT_GRAY;
-	public static final Color COLOR_BACKGROUND_SELECTED = new Color(100, 185, 255);
+	public static final Color COLOR_BACKGROUND_SELECTED = new Color(100, 185,
+			255);
 	public static final Color COLOR_BACKGROUND_TODAY = new Color(200, 215, 255);
 
 	private final Calendar cal = Calendar.getInstance();
 	private JPanel panel;
 	private JLabel lblDayOfMonth;
-	private JLabel lblWeight;
 	private JLabel lblNotes;
 	private JLabel lblDone;
 
 	public CalendarItemTableCellRenderer() {
 		this.panel = new JPanel();
-		this.panel.setLayout(new MigLayout("insets 0 0 0 0","[grow]", "[][][]"));
+		this.panel
+				.setLayout(new MigLayout("insets 0 0 0 0", "[grow]", "[][][]"));
 		this.panel.setBorder(BorderFactory.createEtchedBorder());
-		
+
 		this.lblDayOfMonth = new JLabel("-");
 		this.lblDayOfMonth.setFont(FONT_BOLD);
-
-		this.lblWeight = new JLabel();
-		this.lblWeight.setFont(FONT_BOLD);
-		this.lblWeight.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		this.lblNotes = new JLabel();
 		this.lblNotes.setFont(FONT_PLAIN);
@@ -59,8 +56,8 @@ public class CalendarItemTableCellRenderer implements TableCellRenderer {
 		this.lblDone.setIcon(Images.ICONS_APPROVE);
 	}
 
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-	        int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column) {
 		if (!(value instanceof CalendarItem)) {
 			return null;
 		}
@@ -79,7 +76,7 @@ public class CalendarItemTableCellRenderer implements TableCellRenderer {
 		}
 
 		initPanelItem(item);
-		if (item.getEntry() != null) {
+		if (item.getEntry() != null && item.isUsable()) {
 			initPanelEntry(item.getEntry());
 		}
 
@@ -94,9 +91,6 @@ public class CalendarItemTableCellRenderer implements TableCellRenderer {
 	}
 
 	private void initPanelEntry(ExerciseEntry entry) {
-		this.lblWeight.setText(String.format("%.2fkg", entry.getWeight()));
-		this.panel.add(lblWeight, "cell 0 0,growx");
-
 		int unreadNotes = 0;
 		List<ExerciseNote> notes = entry.getNotes();
 		for (ExerciseNote note : notes) {

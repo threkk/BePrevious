@@ -1,15 +1,29 @@
-/boxlab-server/data
-/boxlab-server/logs
-/boxlab-server/node_modules
-/boxlab-server/localdatabase.json
+# Node dependencies #
+node_modules
 
-/Boxlab-client/target
+# Java package Files #
+*.jar
+*.war
+*.ear
 
-/Shimmer Android Driver Library v1.0.2/Examples/MultiShimmerGraph/bin
-/Shimmer Android Driver Library v1.0.2/Examples/ShimmerGraphandLogService/bin
+# Java class files #
+*.class
+
+# Android built application files #
+*.apk
+*.ap_
+
+# Generated files #
+bin/
+gen/
+logs/
+data/
+target/
+
+# Local configuration file (sdk path, etc) #
+local.properties
+
+# miscelanious #
 /.metadata
-
-/BoxLabApp/bin
-/BoxLabApp/gen/
-/BoxLabApp/gen/com/hva/boxlabapp/R.java
 Shimmer library _ driver/*
+boxlab-server/resources/localdatabase.json

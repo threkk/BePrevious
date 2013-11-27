@@ -84,8 +84,6 @@
 			<table class="table">
 			  <thead>
 			    <tr>
-			      <th></th>
-			      <th>activity</th>
 			      <th>Node ID</th>
 			      <th>Name</th>			      
 				  <th>Luminiscence</th>	
@@ -98,12 +96,10 @@
 			  <tbody>
 			    {{#devices}}
 			    <tr>
-			      <td><img src="{{description.imageURL}}" width="128" height="96"></td>
-			      <td><img src="images/no_activity.png"></td>
 			      <td>{{id}}</td>
-			      <td>{{description.name}}</td>
-			      <td>{{multilevel.Luminiscence}}</td>
-			      <td>{{multilevel.Temperature}}</td>
+			      <td>{{name}}</td>
+			      <td>{{luminiscence}}</td>
+			      <td>{{temperature}}</td>
 			      <td>
 			      	{{#hasBattery}}<img src="{{batteryImage}}">{{/hasBattery}}
 			      	{{batteryLevel}}{{#hasBattery}}%{{/hasBattery}}

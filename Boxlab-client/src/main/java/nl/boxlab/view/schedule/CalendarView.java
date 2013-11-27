@@ -26,9 +26,6 @@ import nl.boxlab.model.ExerciseEntry;
 @SuppressWarnings("serial")
 public class CalendarView extends JPanel implements ActionListener {
 
-	private JToggleButton btnMonth;
-	private JToggleButton btnWeek;
-
 	private List<ExerciseEntry> entries = new ArrayList<ExerciseEntry>();
 
 	private CalendarItemModel model;
@@ -55,8 +52,6 @@ public class CalendarView extends JPanel implements ActionListener {
 
 	private void initComponents() {
 		ButtonGroup group = new ButtonGroup();
-		group.add(this.btnMonth = new JToggleButton("Month", true));
-		group.add(this.btnWeek = new JToggleButton("Week"));
 
 		this.table = new JTable(this.model = new CalendarItemModel());
 		this.table.setDefaultRenderer(CalendarItem.class, new CalendarItemTableCellRenderer());
@@ -80,10 +75,6 @@ public class CalendarView extends JPanel implements ActionListener {
 	}
 
 	private void initPanel() {
-		JPanel panelButtons = new JPanel();
-		panelButtons.setLayout(new MigLayout("", "[63px][59px]", "[23px]"));
-		panelButtons.add(btnMonth, "cell 0 0,alignx left,aligny top");
-		panelButtons.add(btnWeek, "cell 1 0,alignx left,aligny top");
 
 		JPanel panelControls = new JPanel();
 		panelControls.setLayout(new MigLayout("", "[107px][100px:n,grow][41px]", "[23px][]"));
@@ -95,7 +86,6 @@ public class CalendarView extends JPanel implements ActionListener {
 
 		JPanel panelHeader = new JPanel();
 		panelHeader.setLayout(new BorderLayout(0, 0));
-		panelHeader.add(panelButtons, BorderLayout.EAST);
 		panelHeader.add(panelControls, BorderLayout.CENTER);
 
 		setLayout(new BorderLayout(0, 0));

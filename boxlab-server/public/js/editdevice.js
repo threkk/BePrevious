@@ -1,11 +1,19 @@
 $(document).ready(function () {
     $(':submit').click(function () {
-        var inputTimeout = $("#inputTimeout");
+    	var inputName = $("#inputName");
+    	var inputTimeout = $("#inputTimeout");
         var inputCalibratedTemp = $("#inputCalibratedTemp");
 
         var deviceId = $("#deviceId").val()
         var data = {};
 
+        if (inputName.length != 0) {
+            var name = $("#inputName").val();
+            if (name) {
+                data.name = name;
+            }
+        }
+        
         if (inputTimeout.length != 0) {
             var sleeptime = $("#inputTimeout").val();
             if (sleeptime) {
