@@ -1,11 +1,13 @@
 package nl.boxlab.remote;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Date;
 
 import nl.boxlab.model.Entity;
 
+import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -19,6 +21,7 @@ public class JSONEntitySerializer implements EntitySerializer {
 	public JSONEntitySerializer() {
 		this.gson = new GsonBuilder()
 		        .excludeFieldsWithModifiers(Modifier.FINAL)
+		        .setFieldNamingStrategy(new DefaultNamingStrategy())
 		        .registerTypeAdapter(Date.class, new DateAdapter())
 		        .create();
 	}
@@ -58,6 +61,17 @@ public class JSONEntitySerializer implements EntitySerializer {
 		public Date read(JsonReader in) throws IOException {
 			return new Date(in.nextLong());
 		}
+	}
 
+	protected class DefaultNamingStrategy implements FieldNamingStrategy {
+
+		@Override
+		public String translateName(Field f) {
+			String name = f.getName();
+			if (name.equals("id")) {
+				name = '_' + name;
+			}
+			return name;
+		}
 	}
 }
