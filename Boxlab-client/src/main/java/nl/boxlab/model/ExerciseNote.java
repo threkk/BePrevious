@@ -14,7 +14,6 @@ public class ExerciseNote extends Entity {
 
 	};
 
-	private Integer id;
 	private String message;
 	private boolean patient;
 	private boolean read;
@@ -26,14 +25,6 @@ public class ExerciseNote extends Entity {
 
 	public ExerciseNote(String message) {
 		this.message = message;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getMessage() {
@@ -73,7 +64,7 @@ public class ExerciseNote extends Entity {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
 
@@ -91,10 +82,10 @@ public class ExerciseNote extends Entity {
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (getId() == null) {
+			if (getId() != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
 	}

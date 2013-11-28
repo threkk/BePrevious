@@ -6,14 +6,14 @@ import java.beans.PropertyChangeSupport;
 public class Entity {
 
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-	private String _id;
+	private String id;
 
-	public String get_id() {
-		return _id;
+	public String getId() {
+		return id;
 	}
 
-	public void set_id(String _id) {
-		this._id = _id;
+	public void setId(String id) {
+		firePropertyChange("id", this.id, this.id = id);
 	}
 
 	public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
