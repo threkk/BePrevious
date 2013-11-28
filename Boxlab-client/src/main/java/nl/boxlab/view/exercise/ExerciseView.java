@@ -20,6 +20,7 @@ import nl.boxlab.controller.details.PatientDetailController;
 import nl.boxlab.controller.exercise.ExerciseController;
 import nl.boxlab.model.ExerciseEntry;
 import nl.boxlab.resources.Exercise;
+import javax.swing.JSpinner;
 
 @SuppressWarnings("serial")
 public class ExerciseView extends JPanel {
@@ -28,10 +29,18 @@ public class ExerciseView extends JPanel {
 	private HTMLEditorKit htmlKit;
 	private JEditorPane htmlPane;
 
+	private ExerciseController listener;
+
 	private JButton btnSave;
 	private JButton btnCancel;
 
 	private ExerciseEntry entry;
+	private JSpinner spinner;
+
+	private JPanel panelRepetitions;
+	private JSpinner[] spinnerRepitions;
+	private JButton btnAddSet;
+	private JButton btnRemoveSet;
 
 	public ExerciseView() {
 		initComponents();
@@ -40,9 +49,9 @@ public class ExerciseView extends JPanel {
 	private void initComponents() {
 		this.cboxExercises = new JComboBox<>();
 		this.cboxExercises.setModel(new DefaultComboBoxModel<>(Exercise
-				.values()));
+		        .values()));
 		this.cboxExercises.setSelectedIndex(-1);
-		
+
 		this.htmlKit = new HTMLEditorKit();
 		this.htmlPane = new JEditorPane();
 		this.htmlPane.setEditorKit(htmlKit);
@@ -53,11 +62,21 @@ public class ExerciseView extends JPanel {
 		this.btnCancel = new JButton("Cancel");
 		this.btnCancel.setActionCommand(ExerciseController.ACTION_CANCEL);
 
-		JPanel panelCenter = new JPanel(new MigLayout("", "[][grow]",
-				"[][grow]"));
-		panelCenter.add(new JLabel("Exercise: "), "cell 0 0,alignx trailing");
+		this.btnAddSet = new JButton("add set");
+		this.btnAddSet.setActionCommand(ExerciseController.ACTION_ADD_SET);
+		this.btnRemoveSet = new JButton("remove set");
+		this.btnRemoveSet.setActionCommand(ExerciseController.ACTION_REMOVE_SET);
+
+		this.panelRepetitions = new JPanel(new FlowLayout(FlowLayout.LEADING, 5, 0));
+
+		JPanel panelCenter = new JPanel(new MigLayout("", "[][grow]", "[][][grow]"));
+		panelCenter.add(new JLabel("Exercise: "), "cell 0 0");
 		panelCenter.add(cboxExercises, "cell 1 0");
-		panelCenter.add(new JScrollPane(htmlPane), "cell 0 1 2 1,grow");
+		panelCenter.add(new JLabel("Repetitions:"), "cell 0 1");
+		panelCenter.add(new JScrollPane(htmlPane), "cell 0 2 2 1,grow");
+		panelCenter.add(panelRepetitions, "flowx,cell 1 1");
+		panelCenter.add(btnAddSet, "cell 1 1");
+		panelCenter.add(btnRemoveSet, "cell 1 1");
 
 		JPanel panelButton = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		panelButton.add(btnSave);
@@ -69,7 +88,27 @@ public class ExerciseView extends JPanel {
 	}
 
 	public void setListener(ExerciseController listener) {
+		this.listener = listener;
 		this.cboxExercises.addItemListener(listener);
+	}
+
+	public void updateView() {
+		int sets = getEntry().getRepetitions().size();
+		this.panelRepetitions.removeAll();
+
+		for (JSpinner spinner : this.spinnerRepitions) {
+			spinner.removeChangeListener(listener);
+		}
+
+		this.spinnerRepitions = new JSpinner[sets];
+		for (int i = 0; i < sets; i++) {
+			JSpinner spinner = new JSpinner();
+			spinner.setName("spinner-" + i);
+			spinner.addChangeListener(listener);
+
+			this.spinnerRepitions[i] = spinner;
+			this.panelRepetitions.add(spinner);
+		}
 	}
 
 	public void showExercise(String html) {
@@ -89,7 +128,7 @@ public class ExerciseView extends JPanel {
 
 	public void setEntry(ExerciseEntry entry) {
 		this.entry = entry;
-		if (entry!=null) {
+		if (entry != null) {
 			Exercise exercise = Exercise.valueOf(entry.getExerciseId());
 			this.cboxExercises.setSelectedItem(exercise);
 		}

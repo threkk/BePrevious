@@ -10,9 +10,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import nl.boxlab.ClientContext;
 import nl.boxlab.ModelUtilities;
@@ -23,13 +27,16 @@ import nl.boxlab.view.exercise.ExerciseView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExerciseController implements ActionListener, ItemListener {
+public class ExerciseController implements ActionListener, ItemListener, ChangeListener {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(ExerciseController.class);
+	        .getLogger(ExerciseController.class);
 
 	public static final String ACTION_SAVE = "save";
 	public static final String ACTION_CANCEL = "cancel";
+
+	public static final String ACTION_ADD_SET = "add-set";
+	public static final String ACTION_REMOVE_SET = "remove-set";
 
 	private ClientContext context;
 	private ExerciseView view;
@@ -99,7 +106,14 @@ public class ExerciseController implements ActionListener, ItemListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (ACTION_SAVE.equals(e.getActionCommand())) {
+		if (ACTION_ADD_SET.equals(e.getActionCommand())) {
+			this.view.getEntry().getRepetitions().add(10);
+			this.view.updateView();
+		} else if (ACTION_REMOVE_SET.equals(e.getActionCommand())) {
+			int sets = this.view.getEntry().getRepetitions().size();
+			this.view.getEntry().getRepetitions().remove(sets);
+			this.view.updateView();
+		} else if (ACTION_SAVE.equals(e.getActionCommand())) {
 			try {
 				ModelUtilities.merge(this.view.getEntry(), this.entry);
 				context.getExerciseEntryProvider().save(this.entry);
@@ -113,10 +127,22 @@ public class ExerciseController implements ActionListener, ItemListener {
 					message += localizedMessage;
 				}
 				JOptionPane.showMessageDialog(view, message,
-						"An exception occured", JOptionPane.ERROR_MESSAGE);
+				        "An exception occured", JOptionPane.ERROR_MESSAGE);
 			}
 		} else if (ACTION_CANCEL.equals(e.getActionCommand())) {
 			hideView();
 		}
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		JSpinner spinner = (JSpinner) e.getSource();
+		String name = spinner.getName();
+		String[] split = name.split("-");
+		int set = Integer.parseInt(split[1]);
+		int value = ((Number) spinner.getValue()).intValue();
+
+		List<Integer> repititions = this.view.getEntry().getRepetitions();
+		repititions.set(set, value);
 	}
 }

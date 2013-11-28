@@ -1,12 +1,15 @@
 package nl.boxlab.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import nl.boxlab.remote.JSONEntitySerializer;
+
 public class ExerciseEntry extends Entity {
 
-	private Integer id;
 	private Date date;
 	private Integer exerciseId;
 	private boolean done;
@@ -15,14 +18,6 @@ public class ExerciseEntry extends Entity {
 
 	public ExerciseEntry() {
 
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		firePropertyChange("id", this.id, this.id = id);
 	}
 
 	public Date getDate() {
@@ -39,7 +34,7 @@ public class ExerciseEntry extends Entity {
 
 	public void setExerciseId(Integer exerciseId) {
 		firePropertyChange("exerciseId", this.exerciseId,
-				this.exerciseId = exerciseId);
+		        this.exerciseId = exerciseId);
 	}
 
 	public boolean isDone() {
@@ -65,4 +60,18 @@ public class ExerciseEntry extends Entity {
 	public void setNotes(List<ExerciseNote> notes) {
 		this.notes = notes;
 	}
+	
+	public static void main(String[] args) {
+	    ExerciseEntry entry = new ExerciseEntry();
+	    entry.setId("KJHH4I343HUI424HI2HJK3H4UI");
+	    entry.setDate(new Date());
+	    entry.setDone(true);
+	    entry.setNotes(Collections.singletonList(new ExerciseNote("hallo")));
+	    entry.setRepetitions(Arrays.asList(10,10,10));
+	    entry.setExerciseId(1);
+	    
+	    JSONEntitySerializer serializer = new JSONEntitySerializer();
+	    String json = serializer.serialize(entry);
+	    System.out.println(json);
+    }
 }
