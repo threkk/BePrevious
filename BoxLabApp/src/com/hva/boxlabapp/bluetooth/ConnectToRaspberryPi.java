@@ -11,6 +11,9 @@ import java.util.UUID;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 /**
@@ -30,7 +33,10 @@ public class ConnectToRaspberryPi extends Thread {
 	public final static int CONNECTED = 1;
 	// TODO: Change the flag for a hash.
 	public final static String SERVER_FLAG = "SERVER_FLAG";
+	public final static String JSON = "JSON";
 	public final static String TAG = "ConnectToRaspberryPi";
+	
+	private Handler mHandler;
 	
 	private final BluetoothAdapter mBluetoothAdapter;
 	private final BluetoothDevice mBluetoothDevice;
@@ -45,7 +51,9 @@ public class ConnectToRaspberryPi extends Thread {
 	 * @param mac Mac address of the Raspberry Pi.
 	 * @param adapter Bluetooth adapter of the device.
 	 */
-	public ConnectToRaspberryPi(String mac, BluetoothAdapter adapter){
+	public ConnectToRaspberryPi(String mac, BluetoothAdapter adapter, Handler handler){
+		mHandler = handler;
+		
 		mBluetoothAdapter = adapter;
 		mBluetoothDevice = adapter.getRemoteDevice(mac);
 		manager = null;
@@ -152,11 +160,18 @@ public class ConnectToRaspberryPi extends Thread {
 		public void run(){
 			BufferedReader br = new BufferedReader(new InputStreamReader(input));
 			String line = null;
+			String msgContent = "";
 			Log.e("ManageConnection","Reading...");
 			try {
 				while((line = br.readLine()) != null){
 					// Just for testing.
-					System.out.println(line);
+					msgContent += line;
+				}
+				if(msgContent != "") {
+					Message msg = mHandler.obtainMessage();
+					Bundle b = new Bundle();
+					b.putString(JSON, msgContent);
+					mHandler.sendMessage(msg);
 				}
 			} catch (IOException oops){
 				Log.e("ManageConnection","Problems reading");

@@ -13,11 +13,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.common.base.Charsets;
+import nl.boxlab.model.ExerciseEntry;
+import nl.boxlab.remote.JSONEntitySerializer;
+
+import com.hva.boxlabapp.bluetooth.BluetoothReaderHandler;
 import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
 import com.hva.boxlabapp.database.ScheduleDatasource;
 import com.hva.boxlabapp.database.entities.Schedule;
 import com.hva.boxlabapp.devices.ManageDevicesActivity;
+import com.hva.boxlabapp.utils.ScheduleExerciseEntryConverter;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
 public class MainActivity extends Activity {
@@ -92,15 +96,8 @@ public class MainActivity extends Activity {
 			boolean ret = db.create(entry);
 			return ret;
 		case R.id.action_refresh:
-
-			ConnectToRaspberryPi connection = new ConnectToRaspberryPi(
-					"00:27:13:A5:9F:9F", mBluetoothAdapter);
-			connection.start();
-			// WIP
-			String msg = "Fuck u and ur server Bjorn \n";
-			byte[] msgb = msg.getBytes(Charsets.UTF_8);
-			connection.write(msgb);
-			return true;
+			
+			return btSync();
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -140,4 +137,30 @@ public class MainActivity extends Activity {
 			finish();
 		}
 	}
+	
+	private boolean btSync(){
+		boolean ret;
+		
+		// Create the handler
+		BluetoothReaderHandler btRh = new BluetoothReaderHandler();
+		// Connect to the raspberry Pi
+		ConnectToRaspberryPi connection = new ConnectToRaspberryPi(
+				"00:27:13:A5:9F:9F", mBluetoothAdapter, btRh);
+		connection.start();
+
+		// Maybe this will work
+		String json = btRh.getData();
+		// Maarten's shit
+		JSONEntitySerializer serializer = new JSONEntitySerializer();
+		ExerciseEntry entry = serializer.deserialize(ExerciseEntry.class, json);
+		// My shit
+		Schedule schedule = ScheduleExerciseEntryConverter.fromExerciseEntryToSchedule(entry);
+		
+		// Insertion in the database. Bitches love databases.
+		ScheduleDatasource db = new ScheduleDatasource(this);
+		ret = db.create(schedule);
+		return ret;
+	}
+	
+	
 }

@@ -8,6 +8,7 @@ import java.util.List;
 public class Schedule implements Serializable{
 
 	private static final long serialVersionUID = 7798051013083433708L;
+	private int _id;
 	private final long millis;
 	private final int exercise;
 	private final List<Integer> repetitions;
@@ -16,6 +17,7 @@ public class Schedule implements Serializable{
 	private boolean done;
 
 	public Schedule(Date date, int exercise, String repetitions, String notes) {
+		this._id = -1; // By default -1, which means that it's not in the database.. yet
 		this.millis = date.getTime();
 		this.exercise = exercise;
 		this.notes = notes;
@@ -31,6 +33,7 @@ public class Schedule implements Serializable{
 	}
 
 	public Schedule(long date, int exercise, String repetitions, String notes) {
+		this._id = -1;
 		this.millis = date;
 		this.exercise = exercise;
 		this.notes = notes;
@@ -76,6 +79,14 @@ public class Schedule implements Serializable{
 		done = arg;
 	}
 
+	public int getId(){
+		return _id;
+	}
+	
+	public void setId(int id){
+		this._id = id;
+	}
+	
 	// Testing thing.
 	@Override
 	public String toString() {
