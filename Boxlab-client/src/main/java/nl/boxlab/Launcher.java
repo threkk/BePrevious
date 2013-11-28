@@ -1,18 +1,21 @@
 package nl.boxlab;
 
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import nl.boxlab.controller.library.PatientLibraryController;
 import nl.boxlab.controller.login.LoginController;
-import nl.boxlab.resources.Constants;
+import nl.boxlab.remote.BoxlabClient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Launcher {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(Launcher.class);
+	        .getLogger(Launcher.class);
 
 	private static final void initLaF() {
 		try {
@@ -25,11 +28,6 @@ public class Launcher {
 	private static void authenticate(ClientContext context) {
 		LoginController loginController = new LoginController(context);
 		loginController.showView();
-
-		if (!context.isAuthenticated()) {
-			logger.debug("user is not authenticated, shutting down");
-			System.exit(0);
-		}
 	}
 
 	private static void startApplication(ClientContext context) {
@@ -38,13 +36,29 @@ public class Launcher {
 	}
 
 	public static void main(String[] args) {
-		ClientContext context = new ClientContext();
-		context.setHost(Constants.HOST);
-		context.setPort(Constants.PORT);
+		AbstractApplicationContext ctx =
+		        new ClassPathXmlApplicationContext("application-context.xml");
+		ClientContext context = ctx.getBean("context", ClientContext.class);
 
 		initLaF();
 		authenticate(context);
-		startApplication(context);
+		if (context.isAuthenticated()) {
+			try {
+				startApplication(context);
+			} catch (Exception ex) {
+				String localizedMessage = ex.getLocalizedMessage();
+				String message = "Failed to start the application\n";
+				logger.error(message, ex);
+				if (localizedMessage != null) {
+					message += localizedMessage;
+				}
+				JOptionPane.showMessageDialog(null, message,
+				        "An exception occured", JOptionPane.ERROR_MESSAGE);
+				ctx.close();
+			}
+		} else {
+			logger.debug("user is not authenticated, shutting down");
+		}
 	}
 
 }

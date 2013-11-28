@@ -11,12 +11,12 @@ public class PatientLibraryTableView extends TableViewDefinition {
 		return patient.getIdentification();
 	}
 
-	@Column(key = "surname", title = "Surname", order = 2)
+	@Column(key = "firstname", title = "First name", order = 2)
 	public String getSurname(Patient patient) {
-		return patient.getSurname();
+		return patient.getLastName();
 	}
 
-	@Column(key = "lastname", title = "Lastname", order = 3)
+	@Column(key = "lastname", title = "Last name", order = 3)
 	public String getLastname(Patient patient) {
 		return patient.getLastName();
 	}

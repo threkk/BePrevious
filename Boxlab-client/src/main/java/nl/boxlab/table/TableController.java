@@ -29,15 +29,12 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * @author Nils Dijk
  * @author Maarten Blokker
  */
 public class TableController<T> extends Observable implements
-		PropertyChangeListener {
+        PropertyChangeListener {
 
 	/**
 	 * A TableColumnModelListener to track changes in the column model. If a
@@ -86,7 +83,7 @@ public class TableController<T> extends Observable implements
 				}
 
 				def.setOrder(installedTable.convertColumnIndexToView(column
-						.getModelIndex()));
+				        .getModelIndex()));
 				def.setPreferredWidth(column.getPreferredWidth());
 			}
 
@@ -124,19 +121,19 @@ public class TableController<T> extends Observable implements
 			JPopupMenu menu = new JPopupMenu();
 			for (final ColumnDefinition c : columns) {
 				JCheckBoxMenuItem item = new JCheckBoxMenuItem(
-						new AbstractAction(c.getTitle()) {
+				        new AbstractAction(c.getTitle()) {
 
-							public void actionPerformed(ActionEvent e) {
-								boolean visible = c.isVisible();
-								if (visible && getVisibleColumns().size() == 1) {
-									// dont remove any columns if there is only
-									// 1 left
-									return;
-								}
+					        public void actionPerformed(ActionEvent e) {
+						        boolean visible = c.isVisible();
+						        if (visible && getVisibleColumns().size() == 1) {
+							        // dont remove any columns if there is only
+							        // 1 left
+							        return;
+						        }
 
-								c.setVisible(!visible);
-							}
-						});
+						        c.setVisible(!visible);
+					        }
+				        });
 				item.setSelected(c.isVisible());
 				menu.add(item);
 			}
@@ -144,8 +141,6 @@ public class TableController<T> extends Observable implements
 		}
 	}
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(TableController.class);
 	private List<ColumnDefinition> columns;
 
 	private List<ColumnDefinition> visibleColumns = null;
@@ -222,12 +217,12 @@ public class TableController<T> extends Observable implements
 
 		for (ColumnDefinition column : columns) {
 			p.put(column.getKey() + ".preferredWidth",
-					Integer.toString(column.getPreferredWidth()));
+			        Integer.toString(column.getPreferredWidth()));
 			p.put(column.getKey() + ".order ",
-					Integer.toString(column.getOrder()));
+			        Integer.toString(column.getOrder()));
 			p.put(column.getKey() + ".title ", column.getTitle());
 			p.put(column.getKey() + ".visible",
-					Boolean.valueOf(column.isVisible()).toString());
+			        Boolean.valueOf(column.isVisible()).toString());
 		}
 
 		return p;
@@ -287,7 +282,7 @@ public class TableController<T> extends Observable implements
 		Object source = evt.getSource();
 		String property = evt.getPropertyName();
 		if (!(source instanceof ColumnDefinition) || property == null
-				|| this.model == null) {
+		        || this.model == null) {
 			// monitor property changes of the column definitions
 			return;
 		}
@@ -338,7 +333,7 @@ public class TableController<T> extends Observable implements
 		int selectedRow = this.installedTable.getSelectedRow();
 
 		this.installedTable.getSelectionModel().setSelectionInterval(
-				selectedRow + 1, selectedRow + 1);
+		        selectedRow + 1, selectedRow + 1);
 
 		return getSelectedRow();
 	}
@@ -351,7 +346,7 @@ public class TableController<T> extends Observable implements
 		int selectedRow = this.installedTable.getSelectedRow();
 
 		this.installedTable.getSelectionModel().setSelectionInterval(
-				selectedRow - 1, selectedRow - 1);
+		        selectedRow - 1, selectedRow - 1);
 
 		return getSelectedRow();
 	}
@@ -380,12 +375,12 @@ public class TableController<T> extends Observable implements
 		for (ColumnDefinition column : this.columns) {
 			try {
 				column.setPreferredWidth(Integer.parseInt(p.getProperty(column
-						.getKey() + ".preferredWidth")));
+				        .getKey() + ".preferredWidth")));
 				column.setOrder(Integer.parseInt(p.getProperty(column.getKey()
-						+ ".order ")));
+				        + ".order ")));
 				column.setTitle(p.getProperty(column.getKey() + ".title "));
 				column.setVisible(Boolean.valueOf(p.getProperty(column.getKey()
-						+ ".visible")));
+				        + ".visible")));
 			} catch (NumberFormatException e) {
 				continue;
 			}
@@ -399,9 +394,9 @@ public class TableController<T> extends Observable implements
 
 			this.installedTable.setModel(this.model);
 			this.installedTable.getColumnModel().addColumnModelListener(
-					new ColumnModelListener());
+			        new ColumnModelListener());
 			this.installedTable.getTableHeader().addMouseListener(
-					new ColumnMouseListener());
+			        new ColumnMouseListener());
 
 			updateColumnModel();
 		}
@@ -415,7 +410,7 @@ public class TableController<T> extends Observable implements
 		int index = this.model.getRowOf(selected);
 		if (index >= 0) {
 			setSelectedRowIndex(this.installedTable
-					.convertRowIndexToView(index));
+			        .convertRowIndexToView(index));
 		}
 	}
 
@@ -425,15 +420,15 @@ public class TableController<T> extends Observable implements
 		}
 
 		this.installedTable.getSelectionModel().setSelectionInterval(rowIndex,
-				rowIndex);
+		        rowIndex);
 		this.installedTable.scrollRectToVisible(this.installedTable
-				.getCellRect(rowIndex, 0, true));
+		        .getCellRect(rowIndex, 0, true));
 	}
 
 	public JTable setup(JTable table) {
 		if (this.installedTable != null) {
 			throw new IllegalStateException(
-					"The TableViewController is already installed on a JTable");
+			        "The TableViewController is already installed on a JTable");
 		}
 
 		this.model = new TableViewModel<T>(this);
@@ -441,12 +436,12 @@ public class TableController<T> extends Observable implements
 
 		table.setModel(this.model);
 		table.getColumnModel()
-				.addColumnModelListener(new ColumnModelListener());
+		        .addColumnModelListener(new ColumnModelListener());
 		table.getTableHeader().addMouseListener(new ColumnMouseListener());
 
 		this.installedTable = table;
 		this.installedTable
-				.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		        .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.installedTable.setFillsViewportHeight(true);
 
 		updateColumns();

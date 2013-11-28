@@ -43,7 +43,6 @@ public class CalendarItemModel extends DefaultTableModel {
 
 			for (ExerciseEntry entry : entries) {
 				if (DateUtilities.equalDay(entry.getDate(), item.getDate())) {
-					logger.debug("entry found on {}", entry.getDate());
 					item.setEntry(entry);
 					break;
 				}

@@ -6,11 +6,9 @@ import java.util.List;
 import javax.swing.JDialog;
 
 import nl.boxlab.ClientContext;
-import nl.boxlab.ModelUtilities;
 import nl.boxlab.model.ExerciseEntry;
 import nl.boxlab.model.Patient;
 import nl.boxlab.remote.ExerciseEntryProvider;
-import nl.boxlab.view.library.PatientLibraryView;
 import nl.boxlab.view.schedule.PatientScheduleView;
 
 public class PatientScheduleController {

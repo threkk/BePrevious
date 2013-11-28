@@ -3,7 +3,7 @@ package nl.boxlab.controller;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import nl.boxlab.ClientContext;
+import nl.boxlab.ClientContextImpl;
 import nl.boxlab.model.Patient;
 import nl.boxlab.remote.PatientProvider;
 import nl.boxlab.table.TableController;
@@ -12,12 +12,12 @@ import nl.boxlab.view.PatientLibraryView;
 
 public class PatientLibraryController {
 
-	private ClientContext context;
+	private ClientContextImpl context;
 	private PatientLibraryView view;
 	private TableController<Patient> tableController;
 	private JFrame frame;
 
-	public PatientLibraryController(ClientContext context) {
+	public PatientLibraryController(ClientContextImpl context) {
 		this.context = context;
 		this.tableController = new TableController<Patient>(
 				new PatientLibraryTableView(), null);

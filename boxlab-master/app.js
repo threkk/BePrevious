@@ -45,7 +45,7 @@ app.start = function(port) {
 			}
 		}
 	};
-	app.map(routes, '');
+	app.map(routes, '/boxlab');
 
 	require('mongoose').connect('mongodb://localhost/boxlab');
 };

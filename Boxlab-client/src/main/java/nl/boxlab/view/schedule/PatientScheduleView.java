@@ -2,9 +2,7 @@ package nl.boxlab.view.schedule;
 
 import java.util.List;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 
 import net.miginfocom.swing.MigLayout;
 import nl.boxlab.model.ExerciseEntry;
