@@ -1,5 +1,7 @@
 var async = require('async');
 var _ = require('lodash');
+
+var localDB = require('../localdatabase').localDB;
 var client = require('./client').client;
 var Device = require('./device').Device;
 
