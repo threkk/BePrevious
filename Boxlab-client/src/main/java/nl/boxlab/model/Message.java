@@ -1,9 +1,12 @@
 package nl.boxlab.model;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
 
-public class ExerciseNote extends Entity {
+public class Message extends Entity implements Serializable {
+
+	private static final long serialVersionUID = -5653322729105126232L;
 
 	public static final Comparator<Date> COMPARATOR_DATE = new Comparator<Date>() {
 
@@ -14,17 +17,28 @@ public class ExerciseNote extends Entity {
 
 	};
 
-	private String message;
-	private boolean patient;
-	private boolean read;
 	private Date date;
+	private String identity;
+	private String message;
 
-	public ExerciseNote() {
+	private boolean fromPatient;
+	private boolean read;
+
+	public Message() {
 
 	}
 
-	public ExerciseNote(String message) {
+	public Message(Date date, String message) {
+		this.date = date;
 		this.message = message;
+	}
+
+	public String getIdentity() {
+		return identity;
+	}
+
+	public void setIdentity(String identity) {
+		this.identity = identity;
 	}
 
 	public String getMessage() {
@@ -35,12 +49,20 @@ public class ExerciseNote extends Entity {
 		this.message = message;
 	}
 
-	public boolean isPatient() {
-		return patient;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setPatient(boolean patient) {
-		this.patient = patient;
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public boolean isFromPatient() {
+		return fromPatient;
+	}
+
+	public void setFromPatient(boolean fromPatient) {
+		this.fromPatient = fromPatient;
 	}
 
 	public boolean isRead() {
@@ -51,20 +73,13 @@ public class ExerciseNote extends Entity {
 		this.read = read;
 	}
 
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		result = prime * result
+				+ ((identity == null) ? 0 : identity.hashCode());
 		return result;
 	}
 
@@ -76,16 +91,16 @@ public class ExerciseNote extends Entity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ExerciseNote other = (ExerciseNote) obj;
+		Message other = (Message) obj;
 		if (date == null) {
 			if (other.date != null)
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
-		if (getId() == null) {
-			if (getId() != null)
+		if (identity == null) {
+			if (other.identity != null)
 				return false;
-		} else if (!getId().equals(other.getId()))
+		} else if (!identity.equals(other.identity))
 			return false;
 		return true;
 	}

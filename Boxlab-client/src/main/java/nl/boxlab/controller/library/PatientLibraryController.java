@@ -81,7 +81,7 @@ public class PatientLibraryController extends MouseAdapter implements
 			return;
 		}
 
-		this.scheduleController.showView(view, selected);
+		this.scheduleController.showScheduleView(view, selected);
 	}
 
 	@Override

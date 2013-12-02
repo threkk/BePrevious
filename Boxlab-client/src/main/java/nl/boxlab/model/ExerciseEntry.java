@@ -1,20 +1,23 @@
 package nl.boxlab.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import nl.boxlab.DateUtilities;
 import nl.boxlab.remote.JSONEntitySerializer;
 
-public class ExerciseEntry extends Entity {
+public class ExerciseEntry extends Entity implements Serializable {
+
+	private static final long serialVersionUID = 881167821394433023L;
 
 	private Date date;
 	private Integer exerciseId;
 	private boolean done;
 	private List<Integer> repetitions = new ArrayList<Integer>();
-	private List<ExerciseNote> notes = new ArrayList<ExerciseNote>();
 
 	public ExerciseEntry() {
 
@@ -34,7 +37,7 @@ public class ExerciseEntry extends Entity {
 
 	public void setExerciseId(Integer exerciseId) {
 		firePropertyChange("exerciseId", this.exerciseId,
-		        this.exerciseId = exerciseId);
+				this.exerciseId = exerciseId);
 	}
 
 	public boolean isDone() {
@@ -53,25 +56,21 @@ public class ExerciseEntry extends Entity {
 		this.repetitions = repetitions;
 	}
 
-	public List<ExerciseNote> getNotes() {
-		return notes;
-	}
-
-	public void setNotes(List<ExerciseNote> notes) {
-		this.notes = notes;
+	@Override
+	public String toString() {
+		return "ExerciseEntry [date=" + date + ", exerciseId=" + exerciseId
+				+ ", done=" + done + ", repetitions=" + repetitions + "]";
 	}
 	
+	
 	public static void main(String[] args) {
-	    ExerciseEntry entry = new ExerciseEntry();
-	    entry.setId("KJHH4I343HUI424HI2HJK3H4UI");
-	    entry.setDate(new Date());
-	    entry.setDone(true);
-	    entry.setNotes(Collections.singletonList(new ExerciseNote("hallo")));
-	    entry.setRepetitions(Arrays.asList(10,10,10));
-	    entry.setExerciseId(1);
-	    
-	    JSONEntitySerializer serializer = new JSONEntitySerializer();
-	    String json = serializer.serialize(entry);
-	    System.out.println(json);
-    }
+		JSONEntitySerializer serializer = new JSONEntitySerializer();
+		ExerciseEntry entry = new ExerciseEntry();
+		entry.setDate(DateUtilities.getEndOfMonth(Calendar.DECEMBER, 2013));
+		entry.setExerciseId(2);
+		entry.setRepetitions(Arrays.asList(12,12,12));
+		entry.setDone(false);
+		entry.setId("ADS#$HAU$HSJD$%543534D45");
+		System.out.println(serializer.serialize(entry));
+	}
 }

@@ -17,7 +17,8 @@ public class DateUtilities {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.MONTH, month);
 		cal.set(Calendar.YEAR, year);
-		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		cal.set(Calendar.DAY_OF_MONTH,
+				cal.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 		return 7 - getDayOfWeek(cal.get(Calendar.DAY_OF_WEEK));
 	}
@@ -49,6 +50,10 @@ public class DateUtilities {
 		cal.set(Calendar.MONTH, month);
 		cal.set(Calendar.YEAR, year);
 		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTime();
 	}
 
@@ -56,7 +61,14 @@ public class DateUtilities {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.MONTH, month);
 		cal.set(Calendar.YEAR, year);
-		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		cal.set(Calendar.DAY_OF_MONTH,
+				cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		cal.set(Calendar.HOUR_OF_DAY, cal.getActualMaximum(Calendar.HOUR));
+		cal.set(Calendar.MINUTE, cal.getActualMaximum(Calendar.MINUTE));
+		cal.set(Calendar.SECOND, cal.getActualMaximum(Calendar.SECOND));
+		cal.set(Calendar.MILLISECOND,
+				cal.getActualMaximum(Calendar.MILLISECOND));
+
 		return cal.getTime();
 	}
 

@@ -26,6 +26,14 @@
 			<ref bean="serializer" />
 		</property>
 	</bean>
+	<bean id="messageProvider" class="nl.boxlab.remote.MessageProvider">
+		<property name="client">
+			<ref bean="client" />
+		</property>
+		<property name="serializer">
+			<ref bean="serializer" />
+		</property>
+	</bean>
 
 	<bean id="context" class="nl.boxlab.ClientContextImpl">
 		<property name="patientProvider">
@@ -33,6 +41,9 @@
 		</property>
 		<property name="exerciseEntryProvider">
 			<ref bean="exerciseEntryProvider" />
+		</property>
+		<property name="messageProvider">
+			<ref bean="messageProvider" />
 		</property>
 	</bean>
 </beans>

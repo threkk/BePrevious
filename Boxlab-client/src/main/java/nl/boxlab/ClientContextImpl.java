@@ -1,6 +1,7 @@
 package nl.boxlab;
 
 import nl.boxlab.remote.ExerciseEntryProvider;
+import nl.boxlab.remote.MessageProvider;
 import nl.boxlab.remote.PatientProvider;
 
 public class ClientContextImpl implements ClientContext {
@@ -9,6 +10,7 @@ public class ClientContextImpl implements ClientContext {
 
 	private PatientProvider patientProvider;
 	private ExerciseEntryProvider exerciseEntryProvider;
+	private MessageProvider messageProvider;
 
 	public ClientContextImpl() {
 
@@ -37,7 +39,16 @@ public class ClientContextImpl implements ClientContext {
 		return exerciseEntryProvider;
 	}
 
-	public void setExerciseEntryProvider(ExerciseEntryProvider exerciseEntryProvider) {
+	public void setExerciseEntryProvider(
+			ExerciseEntryProvider exerciseEntryProvider) {
 		this.exerciseEntryProvider = exerciseEntryProvider;
+	}
+
+	public MessageProvider getMessageProvider() {
+		return messageProvider;
+	}
+
+	public void setMessageProvider(MessageProvider messageProvider) {
+		this.messageProvider = messageProvider;
 	}
 }

@@ -1,6 +1,7 @@
 package nl.boxlab.controller.exercise;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -27,20 +28,25 @@ import nl.boxlab.view.exercise.ExerciseView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExerciseController implements ActionListener, ItemListener, ChangeListener {
+public class ExerciseController implements ActionListener, ItemListener,
+		ChangeListener {
 
 	private static final Logger logger = LoggerFactory
-	        .getLogger(ExerciseController.class);
+			.getLogger(ExerciseController.class);
 
+	public static final int MIN_SETS = 1;
+	public static final int MAX_SETS = 10;
+	public static final int DEFAULT_REPITITIONS = 10;
+	
 	public static final String ACTION_SAVE = "save";
 	public static final String ACTION_CANCEL = "cancel";
-
 	public static final String ACTION_ADD_SET = "add-set";
 	public static final String ACTION_REMOVE_SET = "remove-set";
 
 	private ClientContext context;
 	private ExerciseView view;
 	private JDialog dialog;
+	private boolean cancelled;
 
 	private ExerciseEntry entry;
 
@@ -51,12 +57,13 @@ public class ExerciseController implements ActionListener, ItemListener, ChangeL
 	}
 
 	public void showView(Component owner, ExerciseEntry entry) {
+		this.cancelled = false;
 		this.entry = entry;
 		this.view.setEntry(ModelUtilities.deepClone(entry));
 		this.dialog = new JDialog();
-		this.dialog.setTitle("Showing patient details");
+		this.dialog.setTitle("Showing exercise entry");
+		this.dialog.setMinimumSize(new Dimension(780, 435));
 		this.dialog.setContentPane(view);
-		this.dialog.pack();
 		this.dialog.setModal(true);
 		this.dialog.setLocationRelativeTo(owner);
 		this.dialog.setVisible(true);
@@ -66,6 +73,10 @@ public class ExerciseController implements ActionListener, ItemListener, ChangeL
 		this.dialog.dispose();
 		this.dialog = null;
 		this.view.setEntry(null);
+	}
+
+	public boolean isCancelled() {
+		return cancelled;
 	}
 
 	private String loadExerciseHtml(Exercise item) {
@@ -106,18 +117,24 @@ public class ExerciseController implements ActionListener, ItemListener, ChangeL
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		int sets = this.view.getEntry().getRepetitions().size();
 		if (ACTION_ADD_SET.equals(e.getActionCommand())) {
-			this.view.getEntry().getRepetitions().add(10);
+			if (sets >= MAX_SETS) {
+				return;
+			}
+			this.view.getEntry().getRepetitions().add(DEFAULT_REPITITIONS);
 			this.view.updateView();
 		} else if (ACTION_REMOVE_SET.equals(e.getActionCommand())) {
-			int sets = this.view.getEntry().getRepetitions().size();
-			this.view.getEntry().getRepetitions().remove(sets);
+			if (sets <= MIN_SETS) {
+				return;
+			}
+			this.view.getEntry().getRepetitions().remove(sets - 1);
 			this.view.updateView();
 		} else if (ACTION_SAVE.equals(e.getActionCommand())) {
 			try {
 				ModelUtilities.merge(this.view.getEntry(), this.entry);
 				context.getExerciseEntryProvider().save(this.entry);
-
+				
 				hideView();
 			} catch (Exception ex) {
 				String localizedMessage = ex.getLocalizedMessage();
@@ -127,9 +144,10 @@ public class ExerciseController implements ActionListener, ItemListener, ChangeL
 					message += localizedMessage;
 				}
 				JOptionPane.showMessageDialog(view, message,
-				        "An exception occured", JOptionPane.ERROR_MESSAGE);
+						"An exception occured", JOptionPane.ERROR_MESSAGE);
 			}
 		} else if (ACTION_CANCEL.equals(e.getActionCommand())) {
+			this.cancelled = true;
 			hideView();
 		}
 	}

@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import nl.boxlab.model.ExerciseEntry;
-import nl.boxlab.model.ExerciseNote;
 
 public class ExerciseEntryProvider extends AbstractProvider {
 
@@ -19,13 +18,10 @@ public class ExerciseEntryProvider extends AbstractProvider {
 
 		ExerciseEntry entryB = new ExerciseEntry();
 		entryB.setDone(true);
-		entryB.getNotes().add(new ExerciseNote("Ik snap de opdracht niet."));
 		entryB.setDate(new Date(new Date().getTime() + 86400000L * 4));
 		entryB.setRepetitions(Arrays.asList(10, 10, 10));
 
 		ExerciseEntry entryC = new ExerciseEntry();
-		entryC.getNotes().add(new ExerciseNote("Ik snap de opdracht niet."));
-		entryC.getNotes().add(new ExerciseNote("asdf"));
 		entryC.setDate(new Date(new Date().getTime() + 86400000L * 7));
 		entryC.setRepetitions(Arrays.asList(10, 10, 10));
 

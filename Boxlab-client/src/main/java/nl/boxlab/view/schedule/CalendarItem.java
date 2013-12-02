@@ -1,8 +1,10 @@
 package nl.boxlab.view.schedule;
 
 import java.util.Date;
+import java.util.List;
 
 import nl.boxlab.model.ExerciseEntry;
+import nl.boxlab.model.Message;
 
 /**
  * @author Maarten
@@ -13,6 +15,7 @@ public class CalendarItem {
 	private Date date;
 	private boolean usable;
 	private ExerciseEntry entry;
+	private List<Message> messages;
 
 	public Date getDate() {
 		return date;
@@ -38,9 +41,11 @@ public class CalendarItem {
 		this.entry = entry;
 	}
 
-	@Override
-	public String toString() {
-		return usable ? ":)" : "x";
+	public List<Message> getMessages() {
+		return messages;
 	}
 
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
 }
