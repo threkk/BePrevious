@@ -15,6 +15,7 @@ import com.squareup.timessquare.CalendarPickerView.OnDateSelectedListener;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import android.widget.ExpandableListView.OnChildClickListener;
 
 public class FragmentSchedule extends Fragment {
 
+	public final static String TAG = "Fragment Schedule";
 	public final static String EXERCISE = "EXERCISE";
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +68,7 @@ public class FragmentSchedule extends Fragment {
 						public boolean onChildClick(ExpandableListView parent, View v,
 								int groupPosition, int childPosition, long id) {
 							Schedule exercise = (Schedule) adapter.getChild(groupPosition, childPosition);
+							Log.e(TAG, exercise.toString());
 							Intent intent = new Intent(getActivity(), Exercise3DActivity.class);
 							intent.putExtra(EXERCISE, exercise);
 							startActivity(intent);

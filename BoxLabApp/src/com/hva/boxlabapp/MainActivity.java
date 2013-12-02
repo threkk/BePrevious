@@ -21,7 +21,6 @@ import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
 import com.hva.boxlabapp.database.ScheduleDatasource;
 import com.hva.boxlabapp.database.entities.Schedule;
 import com.hva.boxlabapp.devices.ManageDevicesActivity;
-import com.hva.boxlabapp.utils.ScheduleExerciseEntryConverter;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
 public class MainActivity extends Activity {
@@ -90,11 +89,10 @@ public class MainActivity extends Activity {
 			return true;
 		case R.id.action_about:
 			// Meanwhile, we can use this for testing purposes.
-			Schedule entry = new Schedule(new Date().getTime(), 4, "10 10 10",
-					"Cannot be tracked.");
+			Schedule entry = new Schedule("test", new Date(), 3, "10 10 10", "Nothing else", false);
 			ScheduleDatasource db = new ScheduleDatasource(this);
-			boolean ret = db.create(entry);
-			return ret;
+			Schedule ret = db.create(entry);
+			return ret.get_id() != -1;
 		case R.id.action_refresh:
 			
 			return btSync();
@@ -139,7 +137,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private boolean btSync(){
-		boolean ret;
+		Schedule ret;
 		
 		// Create the handler
 		BluetoothReaderHandler btRh = new BluetoothReaderHandler();
@@ -150,16 +148,17 @@ public class MainActivity extends Activity {
 
 		// Maybe this will work
 		String json = btRh.getData();
+		if(json == "EOF") return false;
 		// Maarten's shit
 		JSONEntitySerializer serializer = new JSONEntitySerializer();
 		ExerciseEntry entry = serializer.deserialize(ExerciseEntry.class, json);
 		// My shit
-		Schedule schedule = ScheduleExerciseEntryConverter.fromExerciseEntryToSchedule(entry);
+		Schedule schedule = Schedule.fromExerciseEntryToSchedule(entry);
 		
 		// Insertion in the database. Bitches love databases.
 		ScheduleDatasource db = new ScheduleDatasource(this);
 		ret = db.create(schedule);
-		return ret;
+		return ret.get_id() != -1;
 	}
 	
 	

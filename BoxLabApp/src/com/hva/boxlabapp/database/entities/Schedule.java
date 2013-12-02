@@ -5,140 +5,115 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import nl.boxlab.model.ExerciseEntry;
+import nl.boxlab.model.ExerciseNote;
+
 public class Schedule implements Serializable{
 
 	private static final long serialVersionUID = 7798051013083433708L;
 	private int _id;
+	private String _remoteId;
 	private final long millis;
 	private final int exercise;
-	private final List<Integer> repetitions;
 	private final String reps;
 	private final String notes;
 	private boolean done;
 
-	public Schedule(Date date, int exercise, String repetitions, String notes) {
+	public Schedule(String rId, Date date, int exercise, String repetitions, String notes, boolean done) {
 		this._id = -1; // By default -1, which means that it's not in the database.. yet
+		this._remoteId = rId; // Provided by the therapist
 		this.millis = date.getTime();
 		this.exercise = exercise;
 		this.notes = notes;
 		this.reps = repetitions;
-		this.repetitions = new ArrayList<Integer>();
-		this.done = false; // False by default
-
-		// Better create it only once
-		for (String rep : repetitions.split(" ")) {
-			this.repetitions.add(Integer.parseInt(rep));
-		}
-
-	}
-
-	public Schedule(long date, int exercise, String repetitions, String notes) {
-		this._id = -1;
-		this.millis = date;
-		this.exercise = exercise;
-		this.notes = notes;
-		this.reps = repetitions;
-		this.repetitions = new ArrayList<Integer>();
-		this.done = false; // False by default
-
-		for (String rep : repetitions.split(" ")) {
-			this.repetitions.add(Integer.parseInt(rep));
-		}
-
+		this.done = done;
 	}
 
 	public Date getDate() {
 		return new Date(millis);
 	}
-
-	public int getExercise() {
-		return exercise;
-	}
-
+	
 	public List<Integer> getRepetitions() {
+		List<Integer> repetitions = new ArrayList<Integer>();
+		
+		for(String rep : reps.split(" ") ){
+			repetitions.add(Integer.parseInt(rep));
+		}
 		return repetitions;
 	}
 
-	public String getNotes() {
-		return notes;
+	public int get_id() {
+		return _id;
 	}
 
-	public long getMillis() {
-		return millis;
+	public void set_id(int _id) {
+		this._id = _id;
 	}
 
-	public String getReps() {
-		return reps;
+	public String get_remoteId() {
+		return _remoteId;
 	}
 
 	public boolean isDone() {
 		return done;
 	}
 
-	public void setDone(boolean arg) {
-		done = arg;
+	public void setDone(boolean done) {
+		this.done = done;
 	}
 
-	public int getId(){
-		return _id;
+	public long getMillis() {
+		return millis;
+	}
+
+	public int getExercise() {
+		return exercise;
+	}
+
+	public String getReps() {
+		return reps;
+	}
+
+	public String getNotes() {
+		return notes;
 	}
 	
-	public void setId(int id){
-		this._id = id;
-	}
-	
-	// Testing thing.
 	@Override
 	public String toString() {
-		return "Schedule [date=" + getDate() + ", exercise=" + exercise
-				+ ", repetitions=" + repetitions + ", notes=" + notes + "]";
+		return "Schedule [_id=" + _id + ", _remoteId=" + _remoteId
+				+ ", millis=" + millis + ", exercise=" + exercise + ", reps="
+				+ reps + ", notes=" + notes + ", done=" + done + "]";
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (done ? 1231 : 1237);
-		result = prime * result + exercise;
-		result = prime * result + (int) (millis ^ (millis >>> 32));
-		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-		result = prime * result
-				+ ((repetitions == null) ? 0 : repetitions.hashCode());
-		result = prime * result + ((reps == null) ? 0 : reps.hashCode());
-		return result;
+	public static ExerciseEntry fromScheduleToExerciseEntry(Schedule schedule) {
+		// Don't touch the id dude...
+		ExerciseEntry entry = new ExerciseEntry();
+		entry.setDate(schedule.getDate());
+		entry.setDone(schedule.isDone());
+		entry.setExerciseId(schedule.getExercise());
+		entry.setRepetitions(schedule.getRepetitions());
+
+		ExerciseNote ex = new ExerciseNote(schedule.getNotes());
+		List<ExerciseNote> notes = new ArrayList<ExerciseNote>();
+		notes.add(ex);
+		entry.setNotes(notes);
+		return entry;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Schedule other = (Schedule) obj;
-		if (done != other.done)
-			return false;
-		if (exercise != other.exercise)
-			return false;
-		if (millis != other.millis)
-			return false;
-		if (notes == null) {
-			if (other.notes != null)
-				return false;
-		} else if (!notes.equals(other.notes))
-			return false;
-		if (repetitions == null) {
-			if (other.repetitions != null)
-				return false;
-		} else if (!repetitions.equals(other.repetitions))
-			return false;
-		if (reps == null) {
-			if (other.reps != null)
-				return false;
-		} else if (!reps.equals(other.reps))
-			return false;
-		return true;
-	}
+	public static Schedule fromExerciseEntryToSchedule(ExerciseEntry entry) {
+		String reps = "";
+		for (Integer rep : entry.getRepetitions()) {
+			reps += rep + " ";
+		}
+		reps = reps.substring(0, reps.length() - 1);
 
+		String notes = "";
+		for (ExerciseNote ex : entry.getNotes()) {
+			notes += ex.getMessage() + "\n";
+		}
+
+		Schedule schedule = new Schedule(entry.getId(), entry.getDate(), entry.getExerciseId(), reps, notes, entry.isDone());
+		return schedule;
+	}
+	
 }
