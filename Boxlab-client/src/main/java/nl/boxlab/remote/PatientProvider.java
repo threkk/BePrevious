@@ -14,11 +14,8 @@ public class PatientProvider extends AbstractProvider {
 	}
 
 	public List<Patient> getPatients() {
-		//String data = getClient().get(PATH_PATIENTS);
-		//Patient[] patients = getSerializer().deserializeArray(Patient[].class, data);
-		Patient patients = new Patient();
-		patients.setFirstName("Maarten Blokker");
-		patients.setLastName("Blokker");
+		String data = getClient().get(PATH_PATIENTS);
+		Patient[] patients = getSerializer().deserializeArray(Patient[].class, data);
 		return Arrays.asList(patients);
 	}
 

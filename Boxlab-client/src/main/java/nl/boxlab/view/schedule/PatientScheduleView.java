@@ -142,6 +142,8 @@ public class PatientScheduleView extends JPanel implements ActionListener {
 		this.btnAddExercise.addActionListener(listener);
 		this.btnEditExercise.addActionListener(listener);
 		this.btnRemoveExercise.addActionListener(listener);
+		this.btnShowMessages.addActionListener(listener);
+		this.btnShowEnvironment.addActionListener(listener);
 		this.btnClose.addActionListener(listener);
 	}
 

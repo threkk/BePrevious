@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 
 import nl.boxlab.ClientContext;
 import nl.boxlab.controller.exercise.ExerciseController;
+import nl.boxlab.controller.message.MessageController;
 import nl.boxlab.model.ExerciseEntry;
 import nl.boxlab.model.Message;
 import nl.boxlab.model.Patient;
@@ -29,44 +30,48 @@ public class PatientScheduleController implements ActionListener {
 	private ClientContext context;
 	private Patient patient;
 
-	private PatientScheduleView scheduleView;
-	private JDialog scheduleDialog;
+	private PatientScheduleView view;
+	private JDialog dialog;
+
 	private ExerciseController exerciseController;
+	private MessageController messageController;
 
 	private List<ExerciseEntry> entries;
 	private List<Message> messages;
 
 	public PatientScheduleController(ClientContext context) {
 		this.context = context;
-		this.scheduleView = new PatientScheduleView();
+		this.view = new PatientScheduleView();
+
 		this.exerciseController = new ExerciseController(context);
+		this.messageController = new MessageController(context);
 	}
 
-	public void showScheduleView(Component owner, Patient patient) {
+	public void showView(Component owner, Patient patient) {
 		ExerciseEntryProvider entryProvider = this.context
-				.getExerciseEntryProvider();
+		        .getExerciseEntryProvider();
 		MessageProvider messageProvider = this.context.getMessageProvider();
-		
+
 		this.entries = entryProvider.getEntries(patient.getIdentification());
-		this.messages = messageProvider.getMessages();
+		this.messages = messageProvider.getMessages(patient.getIdentification());
 
 		this.patient = patient;
-		this.scheduleView.setEntries(entries);
-		this.scheduleView.setMessages(messages);
-		this.scheduleView.setListener(this);
-		this.scheduleDialog = new JDialog();
-		this.scheduleDialog.setTitle("Showing patient schedule");
-		this.scheduleDialog.setContentPane(scheduleView);
-		this.scheduleDialog.pack();
-		this.scheduleDialog.setModal(true);
-		this.scheduleDialog.setLocationRelativeTo(owner);
-		this.scheduleDialog.setVisible(true);
+		this.view.setEntries(entries);
+		this.view.setMessages(messages);
+		this.view.setListener(this);
+		this.dialog = new JDialog();
+		this.dialog.setTitle("Showing patient schedule");
+		this.dialog.setContentPane(view);
+		this.dialog.pack();
+		this.dialog.setModal(true);
+		this.dialog.setLocationRelativeTo(owner);
+		this.dialog.setVisible(true);
 	}
 
 	public void hideView() {
-		this.scheduleDialog.dispose();
-		this.scheduleDialog = null;
-		this.scheduleView.removeListener(this);
+		this.dialog.dispose();
+		this.dialog = null;
+		this.view.removeListener(this);
 	}
 
 	private ExerciseEntry getEntry(Date date) {
@@ -80,7 +85,7 @@ public class PatientScheduleController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Date date = this.scheduleView.getSelectedDate();
+		Date date = this.view.getSelectedDate();
 
 		if (date == null) {
 			return;
@@ -91,26 +96,28 @@ public class PatientScheduleController implements ActionListener {
 			ExerciseEntry entry = new ExerciseEntry();
 			entry.setDate(date);
 
-			this.exerciseController.showView(scheduleDialog, entry);
+			this.exerciseController.showView(dialog, entry);
 			if (!this.exerciseController.isCancelled()) {
 				this.entries.add(entry);
 			}
-			this.scheduleView.updateView();
+			this.view.updateView();
 		} else if (ACTION_EDIT_EXERCISE.equals(e.getActionCommand())) {
 			if (selected == null) {
 				return;
 			}
 
-			this.exerciseController.showView(scheduleDialog, selected);
-			this.scheduleView.updateView();
+			this.exerciseController.showView(dialog, selected);
+			this.view.updateView();
 		} else if (ACTION_REMOVE_EXERCISE.equals(e.getActionCommand())) {
 			this.entries.remove(selected);
-			this.scheduleView.updateView();
+			this.view.updateView();
+		} else if (ACTION_SHOW_MESSAGES.equals(e.getActionCommand())) {
+			this.messageController.showView(dialog, patient);
 		} else if (ACTION_CLOSE.equals(e.getActionCommand())) {
 			hideView();
 		}
 
-		this.scheduleView.setEntries(entries);
-		this.scheduleView.setMessages(messages);
+		this.view.setEntries(entries);
+		this.view.setMessages(messages);
 	}
 }

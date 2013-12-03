@@ -33,6 +33,12 @@ public class Message extends Entity implements Serializable {
 		this.message = message;
 	}
 
+	public Message(Date date, String message, boolean fromPatient) {
+		this.date = date;
+		this.message = message;
+		this.fromPatient = fromPatient;
+	}
+
 	public String getIdentity() {
 		return identity;
 	}
@@ -79,7 +85,7 @@ public class Message extends Entity implements Serializable {
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result
-				+ ((identity == null) ? 0 : identity.hashCode());
+		        + ((identity == null) ? 0 : identity.hashCode());
 		return result;
 	}
 
@@ -103,5 +109,10 @@ public class Message extends Entity implements Serializable {
 		} else if (!identity.equals(other.identity))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return this.getMessage();
 	}
 }
