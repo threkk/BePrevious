@@ -1,4 +1,5 @@
 var async = require('async');
+var moment = require('moment');
 
 var deviceService = require('../modules/deviceservice').service;
 var logger = require('../modules/logging').getLogger('api');

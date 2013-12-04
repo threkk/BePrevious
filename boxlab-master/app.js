@@ -37,11 +37,13 @@ app.start = function(port) {
 
 	var apiRoutes = require('./routes/api').routes;
 	var deviceRoutes = require('./routes/devices').routes;
+	var messageRoutes = require('./routes/messages').routes;
 	var routes = {
 		'/api' : {
 			'' : apiRoutes,
 			'/:identification' : {
-				'/devices' : deviceRoutes
+				'/devices' : deviceRoutes, 
+				'/messages': messageRoutes
 			}
 		}
 	};
