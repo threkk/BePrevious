@@ -3,6 +3,33 @@ var Schema = mongoose.Schema;
 
 var Mixed = Schema.Types.Mixed;
 
+function merge(source, target) {
+	for ( var index in source) {
+		if (target[index] != source[index]) {
+			target[index] = source[index];
+		}
+	}
+}
+
+function prepare(name, schema) {
+	schema.statics.saveUpdate = function(data, callback) {
+		var self = this;
+		self.findOne({
+			_id : data._id
+		}, function(err, result) {
+			if (!result) {
+				console.log('save: ' + JSON.stringify(data));
+				new self(data).save(callback);
+			} else {
+				console.log('merge: ' + JSON.stringify(data));
+				merge(data, result);
+				result.save(callback);
+			}
+		});
+	};
+	return mongoose.model(name, schema);
+}
+
 var deviceSchema = new Schema({
 	identification : {
 		type : String,
@@ -52,6 +79,17 @@ var patientSchema = new Schema({
 	lastName : String
 });
 
+var exerciseEntrySchema = new Schema({
+	identification : {
+		type : String,
+		required : true
+	},
+	date : Number,
+	exerciseId : Number,
+	done : Boolean,
+	repetitions : []
+});
+
 var messageSchema = new Schema({
 	identification : {
 		type : String,
@@ -67,36 +105,10 @@ var messageSchema = new Schema({
 	read : Boolean
 });
 
-function merge(source, target) {
-	for ( var index in source) {
-		if (target[index] != source[index]) {
-			target[index] = source[index];
-		}
-	}
-}
-
-function prepare(name, schema) {
-	schema.statics.saveUpdate = function(data, callback) {
-		var self = this;
-		self.findOne({
-			_id : data._id
-		}, function(err, result) {
-			if (!result) {
-				console.log('save: ' + JSON.stringify(data));
-				new self(data).save(callback);
-			} else {
-				console.log('merge: ' + JSON.stringify(data));
-				merge(data, result);
-				result.save(callback);
-			}
-		});
-	};
-	return mongoose.model(name, schema);
-}
-
 module.exports = {
 	Device : prepare('Device', deviceSchema),
 	DeviceState : prepare('DeviceState', deviceStateSchema),
 	Patient : prepare('Patient', patientSchema),
+	ExerciseEntry : prepare('ExerciseEntry', exerciseEntrySchema),
 	Message : prepare('Message', messageSchema)
 };

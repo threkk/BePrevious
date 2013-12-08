@@ -7,6 +7,7 @@ var http = require('http');
 var path = require('path');
 
 var logger = require('./modules/logging').getLogger();
+var DBLogger = require('./modules/logging').getLogger('database');
 var app = express();
 
 /**
@@ -37,19 +38,27 @@ app.start = function(port) {
 
 	var apiRoutes = require('./routes/api').routes;
 	var deviceRoutes = require('./routes/devices').routes;
+	var entryRoutes = require('./routes/exerciseentries').routes;
 	var messageRoutes = require('./routes/messages').routes;
 	var routes = {
 		'/api' : {
 			'' : apiRoutes,
 			'/:identification' : {
-				'/devices' : deviceRoutes, 
-				'/messages': messageRoutes
+				'/devices' : deviceRoutes,
+				'/entries' : entryRoutes,
+				'/messages' : messageRoutes
 			}
 		}
 	};
 	app.map(routes, '/boxlab');
 
-	require('mongoose').connect('mongodb://localhost/boxlab');
+	var mongoose = require('mongoose');
+	mongoose.set('debug', function(collectionName, method, query, doc) {
+		var formatted = 'db.' + collectionName + '.' + method + '(' + JSON.stringify(query) + ')';
+		DBLogger.debug('query: ' + formatted);
+	});
+
+	mongoose.connect('mongodb://localhost/boxlab');
 };
 
 // development only
