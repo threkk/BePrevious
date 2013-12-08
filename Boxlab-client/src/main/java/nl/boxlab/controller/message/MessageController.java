@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 
 import nl.boxlab.ClientContext;
 import nl.boxlab.ClientContextImpl;
+import nl.boxlab.DateUtilities;
 import nl.boxlab.MessageUtilities;
 import nl.boxlab.model.Message;
 import nl.boxlab.model.Patient;
@@ -31,8 +32,7 @@ public class MessageController implements ActionListener {
 	private MessageView view;
 	private JDialog dialog;
 
-	private List<Message> messages;
-
+	private Patient patient;
 
 	public MessageController(ClientContext context) {
 		this.context = context;
@@ -40,9 +40,13 @@ public class MessageController implements ActionListener {
 	}
 
 	public void showView(Component owner, Patient patient) {
+		Date start = DateUtilities.addDay(new Date(), -30);
+		Date end = new Date();
 		MessageProvider messageProvider = this.context.getMessageProvider();
-
-		this.messages = messageProvider.getMessages(patient.getIdentification());
+		List<Message> messages = messageProvider.getMessages(patient.getIdentification(), start, end);
+		
+		this.patient = patient;
+		
 		this.view.setMessages(messages);
 		this.view.setListener(this);
 
@@ -63,11 +67,17 @@ public class MessageController implements ActionListener {
 
 	private void sendMessage(String text) {
 		MessageProvider messageProvider = this.context.getMessageProvider();
-		Message message = new Message(new Date(), text, false);
-		messageProvider.saveMessage(message);
-
-		this.messages.add(message);
-		this.view.updateView();
+		Message message = new Message(new Date(), text);
+		message.setIdentity(this.patient.getIdentification());
+		
+		try {
+			messageProvider.saveMessage(message);
+			this.view.getMessages().add(message);
+			this.view.clearInput();
+			this.view.updateView();
+		} catch (Exception e) {
+			logger.error("Failed to send message", e);
+		}
 	}
 
 	@Override
@@ -75,7 +85,6 @@ public class MessageController implements ActionListener {
 		if (ACTION_SEND.equals(e.getActionCommand())) {
 			try {
 				sendMessage(this.view.getInput());
-				this.view.clearInput();
 			} catch (Exception ex) {
 				logger.error("Failed to send message", ex);
 				MessageUtilities.showErrorMessage(view, "Failed to send message", ex);

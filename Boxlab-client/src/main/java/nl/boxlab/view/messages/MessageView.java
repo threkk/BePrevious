@@ -48,6 +48,15 @@ public class MessageView extends JPanel {
 		add(splitPane, BorderLayout.CENTER);
 	}
 
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+		updateView();
+	}
+
 	public void setListener(MessageController listener) {
 		this.btnSend.addActionListener(listener);
 	}
@@ -70,11 +79,7 @@ public class MessageView extends JPanel {
 			model.addElement(message);
 		}
 		this.listMessages.setModel(model);
-	}
 
-	public void setMessages(List<Message> messages) {
-		this.messages = messages;
-		updateView();
+		this.listMessages.ensureIndexIsVisible(model.getSize() - 1);
 	}
-
 }

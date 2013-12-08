@@ -40,9 +40,9 @@ public class CalendarView extends JPanel {
 	private void initComponents() {
 		this.table = new JTable(this.model = new CalendarItemModel());
 		this.table.setDefaultRenderer(CalendarItem.class,
-				new CalendarItemTableCellRenderer());
+		        new CalendarItemTableCellRenderer());
 		this.table.getSelectionModel().setSelectionMode(
-				ListSelectionModel.SINGLE_SELECTION);
+		        ListSelectionModel.SINGLE_SELECTION);
 		this.table.getTableHeader().setReorderingAllowed(false);
 		this.table.getTableHeader().setResizingAllowed(false);
 		this.table.setIntercellSpacing(new Dimension(0, 0));
@@ -58,7 +58,7 @@ public class CalendarView extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		add(panelHeader, BorderLayout.NORTH);
 		add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
+		        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
 
 		updateView();
 	}
@@ -78,7 +78,9 @@ public class CalendarView extends JPanel {
 
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
-		updateView();
+		if (messages != null) {
+			updateView();
+		}
 	}
 
 	public void updateView() {

@@ -63,12 +63,7 @@ public class PatientScheduleController implements ActionListener {
 	}
 
 	public void showView(Component owner, Patient patient) {
-
-		MessageProvider messageProvider = this.context.getMessageProvider();
-
-		this.messages = messageProvider.getMessages(patient.getIdentification());
 		this.patient = patient;
-		this.view.setMessages(messages);
 		this.view.setListener(this);
 
 		updateEntries();
@@ -169,9 +164,12 @@ public class PatientScheduleController implements ActionListener {
 		Date start = DateUtilities.getStartOfMonth(month, year);
 		Date end = DateUtilities.getEndOfMonth(month, year);
 
-		ExerciseEntryProvider provider = this.context.getExerciseEntryProvider();
-		List<ExerciseEntry> entries = provider.getEntries(this.patient.getIdentification(), start, end);
+		ExerciseEntryProvider exerciseProvider = this.context.getExerciseEntryProvider();
+		MessageProvider messageProvider = this.context.getMessageProvider();
+		List<ExerciseEntry> entries = exerciseProvider.getEntries(this.patient.getIdentification(), start, end);
+		List<Message> messages = messageProvider.getMessages(this.patient.getIdentification(), start, end);
 		this.view.setEntries(entries);
+		this.view.setMessages(messages);
 	}
 
 	@Override
