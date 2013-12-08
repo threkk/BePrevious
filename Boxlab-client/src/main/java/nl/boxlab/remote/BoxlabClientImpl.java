@@ -1,8 +1,13 @@
 package nl.boxlab.remote;
 
+import java.util.Map;
+
+import javax.ws.rs.core.MultivaluedMap;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 public class BoxlabClientImpl implements BoxlabClient {
 
@@ -43,15 +48,57 @@ public class BoxlabClientImpl implements BoxlabClient {
 		return response.getEntity(String.class);
 	}
 
-	@Override
-	public void post(String path, String body) {
+	public String get(String path, Map<String, ? extends Object> query) {
 		ClientResponse response = this.apiResource
-		        .path(path).type("application/json").post(ClientResponse.class, body);
+		        .queryParams(createQueryParams(query))
+		        .path(path)
+		        .accept("application/json")
+		        .get(ClientResponse.class);
 
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 			        + response.getStatus());
 		}
+
+		return response.getEntity(String.class);
+	}
+
+	@Override
+	public void post(String path, String body) {
+		ClientResponse response = this.apiResource
+		        .path(path)
+		        .type("application/json")
+		        .post(ClientResponse.class, body);
+
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+			        + response.getStatus());
+		}
+	}
+
+	@Override
+	public void delete(String path, String id) {
+		ClientResponse response = this.apiResource
+				.path(path)
+				.path(id)
+		        .delete(ClientResponse.class);
+
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+			        + response.getStatus());
+		}
+	}
+
+	private MultivaluedMap<String, String> createQueryParams(Map<String, ? extends Object> map) {
+		MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
+		for (String key : map.keySet()) {
+			Object value = map.get(key);
+			if (value == null) {
+				continue;
+			}
+			queryParams.add(key, String.valueOf(value));
+		}
+		return queryParams;
 	}
 
 }

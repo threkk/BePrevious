@@ -15,6 +15,7 @@ import nl.boxlab.MessageUtilities;
 import nl.boxlab.model.Message;
 import nl.boxlab.model.Patient;
 import nl.boxlab.remote.MessageProvider;
+import nl.boxlab.view.DialogBuilder;
 import nl.boxlab.view.messages.MessageView;
 
 import org.slf4j.Logger;
@@ -23,16 +24,15 @@ import org.slf4j.LoggerFactory;
 public class MessageController implements ActionListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
-	
+
 	public static final String ACTION_SEND = "send";
 
 	private ClientContext context;
 	private MessageView view;
+	private JDialog dialog;
 
-	private Patient patient;
 	private List<Message> messages;
 
-	private JDialog dialog;
 
 	public MessageController(ClientContext context) {
 		this.context = context;
@@ -43,16 +43,14 @@ public class MessageController implements ActionListener {
 		MessageProvider messageProvider = this.context.getMessageProvider();
 
 		this.messages = messageProvider.getMessages(patient.getIdentification());
-		this.patient = patient;
 		this.view.setMessages(messages);
 		this.view.setListener(this);
-		this.dialog = new JDialog();
-		this.dialog.setMinimumSize(new Dimension(400, 450));
-		this.dialog.setTitle("Showing patient messages");
-		this.dialog.setContentPane(view);
-		this.dialog.pack();
-		this.dialog.setModal(true);
-		this.dialog.setLocationRelativeTo(owner);
+
+		this.dialog = new DialogBuilder()
+		        .setTitle("Showing patient messages")
+		        .setMinimumSize(new Dimension(400, 450))
+		        .setView(view)
+		        .setOwner(owner).build();
 		this.dialog.setVisible(true);
 	}
 
@@ -76,7 +74,6 @@ public class MessageController implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (ACTION_SEND.equals(e.getActionCommand())) {
 			try {
-				System.out.println("send?");
 				sendMessage(this.view.getInput());
 				this.view.clearInput();
 			} catch (Exception ex) {
@@ -89,10 +86,10 @@ public class MessageController implements ActionListener {
 	public static void main(String[] args) {
 		ClientContextImpl context = new ClientContextImpl();
 		context.setMessageProvider(new MessageProvider());
-		
+
 		Patient patient = new Patient();
 		patient.setIdentification("1234");
-		
+
 		MessageController controller = new MessageController(context);
 		controller.showView(null, patient);
 	}

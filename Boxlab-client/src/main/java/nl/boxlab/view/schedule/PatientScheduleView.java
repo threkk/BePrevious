@@ -1,7 +1,16 @@
 package nl.boxlab.view.schedule;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import static nl.boxlab.controller.schedule.PatientScheduleController.ACTION_ADD_EXERCISE;
+import static nl.boxlab.controller.schedule.PatientScheduleController.ACTION_CLOSE;
+import static nl.boxlab.controller.schedule.PatientScheduleController.ACTION_EDIT_EXERCISE;
+import static nl.boxlab.controller.schedule.PatientScheduleController.ACTION_NEXT_MONTH;
+import static nl.boxlab.controller.schedule.PatientScheduleController.ACTION_NEXT_YEAR;
+import static nl.boxlab.controller.schedule.PatientScheduleController.ACTION_PREV_MONTH;
+import static nl.boxlab.controller.schedule.PatientScheduleController.ACTION_PREV_YEAR;
+import static nl.boxlab.controller.schedule.PatientScheduleController.ACTION_REMOVE_EXERCISE;
+import static nl.boxlab.controller.schedule.PatientScheduleController.ACTION_SHOW_ENVIRONMENT;
+import static nl.boxlab.controller.schedule.PatientScheduleController.ACTION_SHOW_MESSAGES;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +28,7 @@ import nl.boxlab.model.Message;
 import nl.boxlab.resources.Images;
 
 @SuppressWarnings("serial")
-public class PatientScheduleView extends JPanel implements ActionListener {
+public class PatientScheduleView extends JPanel {
 
 	private JButton btnPrevMonth;
 	private JButton btnPrevYear;
@@ -45,42 +54,30 @@ public class PatientScheduleView extends JPanel implements ActionListener {
 
 	private void initComponents() {
 		this.lblDate = new JLabel("-");
-		this.btnPrevMonth = new JButton("Previous month",
-				Images.ICONS_PREVIOUS_SMALL);
-		this.btnPrevMonth.addActionListener(this);
-		this.btnPrevYear = new JButton("Previous year",
-				Images.ICONS_PREVIOUS_2_SMALL);
-		this.btnPrevYear.addActionListener(this);
-		this.btnNextMonth = new JButton("Next month",
-				Images.ICONS_FORWARD_SMALL);
-		this.btnNextMonth.addActionListener(this);
-		this.btnNextYear = new JButton("Next year",
-				Images.ICONS_FORWARD_2_SMALL);
-		this.btnNextYear.addActionListener(this);
+
+		this.btnPrevMonth = new JButton("Previous month", Images.ICONS_PREVIOUS_SMALL);
+		this.btnPrevMonth.setActionCommand(ACTION_PREV_MONTH);
+		this.btnPrevYear = new JButton("Previous year", Images.ICONS_PREVIOUS_2_SMALL);
+		this.btnPrevYear.setActionCommand(ACTION_PREV_YEAR);
+		this.btnNextMonth = new JButton("Next month", Images.ICONS_FORWARD_SMALL);
+		this.btnNextMonth.setActionCommand(ACTION_NEXT_MONTH);
+		this.btnNextYear = new JButton("Next year", Images.ICONS_FORWARD_2_SMALL);
+		this.btnNextYear.setActionCommand(ACTION_NEXT_YEAR);
 
 		this.btnAddExercise = new JButton("Add exercise", Images.ICONS_ADD_SMAL);
-		this.btnAddExercise
-				.setActionCommand(PatientScheduleController.ACTION_ADD_EXERCISE);
-		this.btnEditExercise = new JButton("Edit exercise",
-				Images.ICONS_EDIT_SMALL);
-		this.btnEditExercise
-				.setActionCommand(PatientScheduleController.ACTION_EDIT_EXERCISE);
-		this.btnRemoveExercise = new JButton("Remove exercise",
-				Images.ICONS_DELETE_SMALL);
-		this.btnRemoveExercise
-				.setActionCommand(PatientScheduleController.ACTION_REMOVE_EXERCISE);
+		this.btnAddExercise.setActionCommand(ACTION_ADD_EXERCISE);
+		this.btnEditExercise = new JButton("Edit exercise", Images.ICONS_EDIT_SMALL);
+		this.btnEditExercise.setActionCommand(ACTION_EDIT_EXERCISE);
+		this.btnRemoveExercise = new JButton("Remove exercise", Images.ICONS_DELETE_SMALL);
+		this.btnRemoveExercise.setActionCommand(ACTION_REMOVE_EXERCISE);
 
-		this.btnShowMessages = new JButton("Show messages",
-				Images.ICONS_MESSAGE_SMALL);
-		this.btnShowMessages
-				.setActionCommand(PatientScheduleController.ACTION_SHOW_MESSAGES);
-		this.btnShowEnvironment = new JButton("Show environment",
-				Images.ICONS_GRAPH_SMALL);
-		this.btnShowEnvironment
-				.setActionCommand(PatientScheduleController.ACTION_SHOW_ENVIRONMENT);
+		this.btnShowMessages = new JButton("Show messages", Images.ICONS_MESSAGE_SMALL);
+		this.btnShowMessages.setActionCommand(ACTION_SHOW_MESSAGES);
+		this.btnShowEnvironment = new JButton("Show environment", Images.ICONS_GRAPH_SMALL);
+		this.btnShowEnvironment.setActionCommand(ACTION_SHOW_ENVIRONMENT);
 
 		this.btnClose = new JButton("Close");
-		this.btnClose.setActionCommand(PatientScheduleController.ACTION_CLOSE);
+		this.btnClose.setActionCommand(ACTION_CLOSE);
 
 		this.calendarView = new CalendarView();
 	}
@@ -88,7 +85,7 @@ public class PatientScheduleView extends JPanel implements ActionListener {
 	private void initPanel() {
 		JPanel panelControls = new JPanel();
 		panelControls.setLayout(new MigLayout("",
-				"[100px][100px:n,grow][41px]", "[23px][]"));
+		        "[100px][100px:n,grow][41px]", "[23px][]"));
 		panelControls.add(btnPrevMonth, "cell 0 0,alignx left,aligny top");
 		panelControls.add(btnNextMonth, "cell 2 0,alignx left,aligny top");
 		panelControls.add(lblDate, "cell 1 0 1 2,alignx center");
@@ -106,13 +103,12 @@ public class PatientScheduleView extends JPanel implements ActionListener {
 		JPanel panelDetails = new JPanel();
 
 		setLayout(new MigLayout("", "[700px:n,grow][300px:n,grow]",
-				"[][][grow][]"));
+		        "[][][grow][]"));
 		add(panelControls, "cell 0 0,grow");
 		add(toolBar, "flowx,cell 0 1");
 		add(calendarView, "cell 0 2,grow");
 		add(panelDetails, "cell 1 2,grow");
 		add(btnClose, "cell 1 3,alignx trailing");
-
 	}
 
 	public void updateView() {
@@ -121,9 +117,13 @@ public class PatientScheduleView extends JPanel implements ActionListener {
 		cal.set(Calendar.MONTH, this.calendarView.getMonth());
 
 		String monthName = cal.getDisplayName(Calendar.MONTH, Calendar.LONG,
-				Locale.getDefault());
+		        Locale.getDefault());
 		this.lblDate.setText(monthName + " " + this.calendarView.getYear());
 		this.calendarView.updateView();
+	}
+
+	public List<ExerciseEntry> getEntries() {
+		return this.calendarView.getEntries();
 	}
 
 	public void setEntries(List<ExerciseEntry> entries) {
@@ -139,33 +139,38 @@ public class PatientScheduleView extends JPanel implements ActionListener {
 	}
 
 	public void setListener(PatientScheduleController listener) {
+		this.btnPrevMonth.addActionListener(listener);
+		this.btnPrevYear.addActionListener(listener);
+		this.btnNextMonth.addActionListener(listener);
+		this.btnNextYear.addActionListener(listener);
+
 		this.btnAddExercise.addActionListener(listener);
 		this.btnEditExercise.addActionListener(listener);
 		this.btnRemoveExercise.addActionListener(listener);
+
 		this.btnShowMessages.addActionListener(listener);
 		this.btnShowEnvironment.addActionListener(listener);
 		this.btnClose.addActionListener(listener);
 	}
 
 	public void removeListener(PatientScheduleController listener) {
+		this.btnPrevMonth.removeActionListener(listener);
+		this.btnPrevYear.removeActionListener(listener);
+		this.btnNextMonth.removeActionListener(listener);
+		this.btnNextYear.removeActionListener(listener);
+
 		this.btnAddExercise.removeActionListener(listener);
 		this.btnEditExercise.removeActionListener(listener);
 		this.btnRemoveExercise.removeActionListener(listener);
-		this.btnClose.addActionListener(listener);
+		this.btnClose.removeActionListener(listener);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object source = e.getSource();
-		if (source == btnPrevMonth) {
-			this.calendarView.previousMonth();
-		} else if (source == btnNextMonth) {
-			this.calendarView.nextMonth();
-		} else if (source == btnPrevYear) {
-			this.calendarView.previousYear();
-		} else if (source == btnNextYear) {
-			this.calendarView.nextYear();
-		}
-		updateView();
+	public CalendarView getCalendarView() {
+		return calendarView;
 	}
+
+	public void setCalendarView(CalendarView calendarView) {
+		this.calendarView = calendarView;
+	}
+
 }

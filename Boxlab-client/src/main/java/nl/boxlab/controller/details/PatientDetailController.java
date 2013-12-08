@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import nl.boxlab.ClientContext;
 import nl.boxlab.ModelUtilities;
 import nl.boxlab.model.Patient;
+import nl.boxlab.view.DialogBuilder;
 import nl.boxlab.view.details.PatientDetailView;
 
 import org.slf4j.Logger;
@@ -38,12 +39,10 @@ public class PatientDetailController implements ActionListener {
 	public void showView(Component owner, Patient patient) {
 		this.patient = patient;
 		this.view.setPatient(ModelUtilities.deepClone(patient));
-		this.dialog = new JDialog();
-		this.dialog.setTitle("Showing patient details");
-		this.dialog.setContentPane(view);
-		this.dialog.pack();
-		this.dialog.setModal(true);
-		this.dialog.setLocationRelativeTo(owner);
+		this.dialog = new DialogBuilder()
+		        .setTitle("Showing patient details")
+		        .setView(view)
+		        .setOwner(owner).build();
 		this.dialog.setVisible(true);
 	}
 

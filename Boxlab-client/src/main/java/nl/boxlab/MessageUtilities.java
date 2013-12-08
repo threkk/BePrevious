@@ -6,6 +6,18 @@ import javax.swing.JOptionPane;
 
 public class MessageUtilities {
 
+	public static boolean showConfirmMessage(String message) {
+		return showConfirmMessage(null, message);
+	}
+
+	public static boolean showConfirmMessage(Component owner, String message) {
+		String title = "Please confirm";
+		int options = JOptionPane.YES_NO_OPTION;
+		int result = JOptionPane.showConfirmDialog(owner, message, title, options);
+
+		return result == JOptionPane.YES_OPTION;
+	}
+
 	public static void showErrorMessage(String message, Throwable ball) {
 		showErrorMessage(null, message, ball);
 	}

@@ -23,21 +23,22 @@ import nl.boxlab.ClientContext;
 import nl.boxlab.ModelUtilities;
 import nl.boxlab.model.ExerciseEntry;
 import nl.boxlab.resources.Exercise;
+import nl.boxlab.view.DialogBuilder;
 import nl.boxlab.view.exercise.ExerciseView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ExerciseController implements ActionListener, ItemListener,
-		ChangeListener {
+        ChangeListener {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(ExerciseController.class);
+	        .getLogger(ExerciseController.class);
 
 	public static final int MIN_SETS = 1;
 	public static final int MAX_SETS = 10;
 	public static final int DEFAULT_REPITITIONS = 10;
-	
+
 	public static final String ACTION_SAVE = "save";
 	public static final String ACTION_CANCEL = "cancel";
 	public static final String ACTION_ADD_SET = "add-set";
@@ -60,12 +61,11 @@ public class ExerciseController implements ActionListener, ItemListener,
 		this.cancelled = false;
 		this.entry = entry;
 		this.view.setEntry(ModelUtilities.deepClone(entry));
-		this.dialog = new JDialog();
-		this.dialog.setTitle("Showing exercise entry");
-		this.dialog.setMinimumSize(new Dimension(780, 435));
-		this.dialog.setContentPane(view);
-		this.dialog.setModal(true);
-		this.dialog.setLocationRelativeTo(owner);
+		this.dialog = new DialogBuilder()
+		        .setTitle("Showing exercise details")
+		        .setView(view)
+		        .setMinimumSize(new Dimension(780, 435))
+		        .setOwner(owner).build();
 		this.dialog.setVisible(true);
 	}
 
@@ -133,8 +133,6 @@ public class ExerciseController implements ActionListener, ItemListener,
 		} else if (ACTION_SAVE.equals(e.getActionCommand())) {
 			try {
 				ModelUtilities.merge(this.view.getEntry(), this.entry);
-				context.getExerciseEntryProvider().save(this.entry);
-				
 				hideView();
 			} catch (Exception ex) {
 				String localizedMessage = ex.getLocalizedMessage();
@@ -144,7 +142,7 @@ public class ExerciseController implements ActionListener, ItemListener,
 					message += localizedMessage;
 				}
 				JOptionPane.showMessageDialog(view, message,
-						"An exception occured", JOptionPane.ERROR_MESSAGE);
+				        "An exception occured", JOptionPane.ERROR_MESSAGE);
 			}
 		} else if (ACTION_CANCEL.equals(e.getActionCommand())) {
 			this.cancelled = true;

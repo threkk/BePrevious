@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 
 import nl.boxlab.ClientContext;
+import nl.boxlab.view.DialogBuilder;
 import nl.boxlab.view.login.LoginView;
 
 public class LoginController implements ActionListener {
@@ -28,14 +29,11 @@ public class LoginController implements ActionListener {
 			this.dialog.dispose();
 		}
 
-		this.dialog = new JDialog();
-		this.dialog.setModal(true);
-		this.dialog.setTitle("Please enter your credentials");
-		this.dialog.setContentPane(view);
-		this.dialog.setAlwaysOnTop(true);
-		this.dialog.pack();
-		this.dialog.setResizable(false);
-		this.dialog.setLocationRelativeTo(null);
+		this.dialog = new DialogBuilder()
+		        .setTitle("Please enter your credentials")
+		        .setView(view)
+		        .setAlwaysOnTop(true)
+		        .setResizable(false).build();
 		this.dialog.setVisible(true);
 	}
 

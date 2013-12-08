@@ -1,5 +1,6 @@
 package nl.boxlab.remote;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,7 +17,8 @@ public class PatientProvider extends AbstractProvider {
 	public List<Patient> getPatients() {
 		String data = getClient().get(PATH_PATIENTS);
 		Patient[] patients = getSerializer().deserializeArray(Patient[].class, data);
-		return Arrays.asList(patients);
+
+		return new ArrayList<>(Arrays.asList(patients));
 	}
 
 	public void save(Patient patient) {
