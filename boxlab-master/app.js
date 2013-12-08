@@ -1,13 +1,10 @@
-/**
- * Module dependencies.
- */
-
 var express = require('express');
 var http = require('http');
 var path = require('path');
 
 var logger = require('./modules/logging').getLogger();
 var DBLogger = require('./modules/logging').getLogger('database');
+var serverLogger = require('./modules/logging').getLogger('server');
 var app = express();
 
 /**
@@ -64,10 +61,13 @@ app.start = function(port) {
 // development only
 if ('development' == app.get('env')) {
 	app.use(express.errorHandler());
+	app.use(function(req, res, next) {
+		serverLogger.debug('%s %s', req.method, req.url);
+		next();
+	});
 }
 
 app.use(express.favicon());
-app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);

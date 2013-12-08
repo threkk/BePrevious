@@ -101,8 +101,8 @@ var messageSchema = new Schema({
 	},
 
 	message : String,
-	patient : Boolean,
-	read : Boolean
+	fromPatient : Boolean,
+	read : Boolean	
 });
 
 module.exports = {

@@ -17,10 +17,10 @@ Service.prototype = {
 		});
 	},
 
-	getMessages : function(identifier, query, callback) {
+	getMessages : function(identification, query, callback) {
 		Message.find({
-			identifier : identifier
-		}).where('timestamp').gte(query.from).lte(query.to).exec(callback);
+			identification : identification
+		}).where('date').gte(query.from).lte(query.to).exec(callback);
 	}
 };
 

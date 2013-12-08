@@ -17,18 +17,8 @@ function parseDate(input) {
 }
 
 function postMessage(req, res) {
-	var messageData = {
-		identification : req.params.identification,
-		nodeId : req.body.nodeId,
-		timestamp : req.body.timestamp,
-		power : req.body.state.power,
-		usage : req.body.state.usage,
-		temperature : req.body.state.temperature,
-		luminescence : req.body.state.luminescence,
-		value : req.body.state.luminescence,
-	};
-
-	messageService.saveMessage(messageData, function(err) {
+	req.body.identification = req.params.identification;
+	messageService.saveMessage(req.body, function(err) {
 		if (err) {
 			res.send(500, err);
 		} else {
