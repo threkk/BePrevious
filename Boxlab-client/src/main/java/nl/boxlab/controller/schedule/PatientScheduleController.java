@@ -58,7 +58,7 @@ public class PatientScheduleController implements ActionListener {
 		this.context = context;
 		this.view = new PatientScheduleView();
 
-		this.exerciseController = new ExerciseController(context);
+		this.exerciseController = new ExerciseController();
 		this.messageController = new MessageController(context);
 	}
 
@@ -170,6 +170,7 @@ public class PatientScheduleController implements ActionListener {
 		List<Message> messages = messageProvider.getMessages(this.patient.getIdentification(), start, end);
 		this.view.setEntries(entries);
 		this.view.setMessages(messages);
+		this.view.updateView();
 	}
 
 	@Override
@@ -195,20 +196,16 @@ public class PatientScheduleController implements ActionListener {
 
 		if (ACTION_PREV_MONTH.equals(e.getActionCommand())) {
 			this.view.getCalendarView().previousMonth();
-			this.view.updateView();
 			updateEntries();
 		} else if (ACTION_PREV_YEAR.equals(e.getActionCommand())) {
 			this.view.getCalendarView().previousYear();
 			updateEntries();
-			this.view.updateView();
 		} else if (ACTION_NEXT_MONTH.equals(e.getActionCommand())) {
 			this.view.getCalendarView().nextMonth();
 			updateEntries();
-			this.view.updateView();
 		} else if (ACTION_NEXT_YEAR.equals(e.getActionCommand())) {
 			this.view.getCalendarView().nextYear();
 			updateEntries();
-			this.view.updateView();
 		}
 
 		this.view.setMessages(messages);

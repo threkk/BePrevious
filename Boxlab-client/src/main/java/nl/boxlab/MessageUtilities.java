@@ -18,6 +18,17 @@ public class MessageUtilities {
 		return result == JOptionPane.YES_OPTION;
 	}
 
+	public static void showWarningMessage(String message) {
+		showWarningMessage(null, message);
+	}
+
+	public static void showWarningMessage(Component owner, String message) {
+		String title = "Warning";
+		int type = JOptionPane.WARNING_MESSAGE;
+
+		JOptionPane.showMessageDialog(owner, message, title, type);
+	}
+
 	public static void showErrorMessage(String message, Throwable ball) {
 		showErrorMessage(null, message, ball);
 	}

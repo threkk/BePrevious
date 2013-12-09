@@ -19,7 +19,6 @@ import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import nl.boxlab.ClientContext;
 import nl.boxlab.ModelUtilities;
 import nl.boxlab.model.ExerciseEntry;
 import nl.boxlab.resources.Exercise;
@@ -44,15 +43,13 @@ public class ExerciseController implements ActionListener, ItemListener,
 	public static final String ACTION_ADD_SET = "add-set";
 	public static final String ACTION_REMOVE_SET = "remove-set";
 
-	private ClientContext context;
 	private ExerciseView view;
 	private JDialog dialog;
 	private boolean cancelled;
 
 	private ExerciseEntry entry;
 
-	public ExerciseController(ClientContext context) {
-		this.context = context;
+	public ExerciseController() {
 		this.view = new ExerciseView();
 		this.view.setListener(this);
 	}

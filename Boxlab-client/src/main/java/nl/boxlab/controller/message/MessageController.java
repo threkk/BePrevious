@@ -26,6 +26,8 @@ public class MessageController implements ActionListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
+	public static final int MIN_CHARACTERS = 10;
+
 	public static final String ACTION_SEND = "send";
 
 	private ClientContext context;
@@ -44,9 +46,9 @@ public class MessageController implements ActionListener {
 		Date end = new Date();
 		MessageProvider messageProvider = this.context.getMessageProvider();
 		List<Message> messages = messageProvider.getMessages(patient.getIdentification(), start, end);
-		
+
 		this.patient = patient;
-		
+
 		this.view.setMessages(messages);
 		this.view.setListener(this);
 
@@ -66,10 +68,17 @@ public class MessageController implements ActionListener {
 	}
 
 	private void sendMessage(String text) {
+		text = text.trim();
+		if (text.length() < MIN_CHARACTERS) {
+			MessageUtilities.showWarningMessage(this.view, "A message must be at least "
+			        + MIN_CHARACTERS + " characters long");
+			return;
+		}
+
 		MessageProvider messageProvider = this.context.getMessageProvider();
 		Message message = new Message(new Date(), text);
 		message.setIdentity(this.patient.getIdentification());
-		
+
 		try {
 			messageProvider.saveMessage(message);
 			this.view.getMessages().add(message);
@@ -77,6 +86,7 @@ public class MessageController implements ActionListener {
 			this.view.updateView();
 		} catch (Exception e) {
 			logger.error("Failed to send message", e);
+			MessageUtilities.showErrorMessage(this.view, "Failed to send message", e);
 		}
 	}
 

@@ -69,7 +69,6 @@ public class CalendarView extends JPanel {
 
 	public void setEntries(List<ExerciseEntry> entries) {
 		this.entries = entries;
-		updateView();
 	}
 
 	public List<Message> getMessages() {
@@ -78,9 +77,6 @@ public class CalendarView extends JPanel {
 
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
-		if (messages != null) {
-			updateView();
-		}
 	}
 
 	public void updateView() {
@@ -117,7 +113,6 @@ public class CalendarView extends JPanel {
 		} else {
 			this.month--;
 		}
-		updateView();
 	}
 
 	public void nextMonth() {
@@ -127,16 +122,13 @@ public class CalendarView extends JPanel {
 		} else {
 			this.month++;
 		}
-		updateView();
 	}
 
 	public void previousYear() {
 		this.year--;
-		updateView();
 	}
 
 	public void nextYear() {
 		this.year++;
-		updateView();
 	}
 }
