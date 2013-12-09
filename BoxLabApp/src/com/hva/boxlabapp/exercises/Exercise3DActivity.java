@@ -10,11 +10,14 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.hva.boxlabapp.FragmentLibrary;
 import com.hva.boxlabapp.FragmentSchedule;
+import com.hva.boxlabapp.MainActivity;
 import com.hva.boxlabapp.R;
 import com.hva.boxlabapp.database.LibraryDatasource;
 import com.hva.boxlabapp.database.entities.Schedule;
@@ -76,6 +79,7 @@ public class Exercise3DActivity extends AndroidApplication implements
 		Schedule exercise = (Schedule) intent.getSerializableExtra(FragmentSchedule.EXERCISE);
 
 		if(exercise != null) {
+			final Schedule export = exercise;
 			LibraryDatasource db = new LibraryDatasource(this);
 			TextView exerciseName = (TextView) contentView.findViewById(R.id.exercise_3d_title);
 			String name = db.getName(exercise.getExercise());
@@ -95,6 +99,21 @@ public class Exercise3DActivity extends AndroidApplication implements
 			
 			TextView exerciseMaxReps = (TextView) contentView.findViewById(R.id.exercise_3d_reps_max);
 			exerciseMaxReps.setText(String.valueOf(exercise.getRepetitions().get(0)));
+			
+			TextView help = (TextView) contentView.findViewById(R.id.exercise_3d_help);
+			help.setVisibility(TextView.VISIBLE);
+			help.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+					intent.putExtra(MainActivity.TAB, 1);
+					intent.putExtra(FragmentLibrary.URI, "");
+					intent.putExtra(FragmentSchedule.EXERCISE, export);
+					startActivity(intent);
+				}
+				
+			});
 			
 		}
 		layout.addView(contentView, width, height);
@@ -116,5 +135,9 @@ public class Exercise3DActivity extends AndroidApplication implements
 		data[1] = thigh.readSensors();
 		data[2] = shin.readSensors();
 		return data;
+	}
+	
+	public void onBackPressed() {
+		this.finish();
 	}
 }

@@ -15,6 +15,8 @@ import android.widget.ListView;
 
 public class FragmentLibrary extends ListFragment {
 	
+	public static final String URI = "URI";
+		
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
@@ -26,7 +28,6 @@ public class FragmentLibrary extends ListFragment {
 		this.setListAdapter(adapter);
 		
 		WebView webview = (WebView) view.findViewById(R.id.library_webview);
-		// Change this... maybe.
 		webview.loadUrl("file:///android_asset/library/exercise01.html");
 		
 		return view;

@@ -171,6 +171,7 @@ public class ConnectToRaspberryPi extends Thread {
 					if(line.equals(EXIT)) break;
 					msgContent += line;
 				}
+				this.write(EXIT.getBytes());
 				Log.e(TAG, "All lines read");
 			} catch (IOException oops){
 				Log.e(TAG,"Problems reading");

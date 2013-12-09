@@ -24,11 +24,14 @@ import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
 import com.hva.boxlabapp.database.ScheduleDatasource;
 import com.hva.boxlabapp.database.entities.Schedule;
 import com.hva.boxlabapp.devices.ManageDevicesActivity;
+import com.hva.boxlabapp.exercises.Exercise3DActivity;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
 @SuppressLint("HandlerLeak")
 public class MainActivity extends Activity {
-
+	
+	public final static String TAB = "TAB";
+	
 	private final static String TAG = MainActivity.class.getName();
 	private BluetoothAdapter mBluetoothAdapter = null;
 	private String mJson;
@@ -47,12 +50,12 @@ public class MainActivity extends Activity {
 						new TabListenerImpl<FragmentSchedule>(this, "schedule",
 								FragmentSchedule.class));
 
-		Tab tabExercises = bar
+		Tab tabFeedback = bar
 				.newTab()
-				.setText(getText(R.string.fragment_exercises))
+				.setText(getText(R.string.fragment_feedback))
 				.setTabListener(
-						new TabListenerImpl<FragmentExercises>(this,
-								"exercises", FragmentExercises.class));
+						new TabListenerImpl<FragmentFeedback>(this,
+								"feedback", FragmentFeedback.class));
 		Tab tabLibrary = bar
 				.newTab()
 				.setText(getText(R.string.fragment_library))
@@ -61,9 +64,14 @@ public class MainActivity extends Activity {
 								FragmentLibrary.class));
 
 		bar.addTab(tabLanding);
-		bar.addTab(tabExercises);
 		bar.addTab(tabLibrary);
+		bar.addTab(tabFeedback);
 
+		Intent intent = getIntent();
+		int tab = intent.getIntExtra(TAB, 0);
+		Tab initial = bar.getTabAt(tab);
+		bar.selectTab(initial);
+		
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
 		int bt_response = 1;
@@ -147,6 +155,12 @@ public class MainActivity extends Activity {
 			ConnectToRaspberryPi connection = new ConnectToRaspberryPi(
 					"00:27:13:A5:9F:9F", mBluetoothAdapter, mHandler);
 			connection.start();
+			// Temporary.
+			connection.write("I will send you all my shit:\r\n".getBytes());
+			connection.write("Your server is a pain in the ass\r\n".getBytes());
+			connection.write("Just that\r\n".getBytes());
+			connection.write("Here is your fucking exit with slashes.\r\n".getBytes());
+			connection.write("EXIT\r\n".getBytes());
 
 			return true;
 		default:
@@ -156,12 +170,22 @@ public class MainActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		ActionBar bar = getActionBar();
-		Tab schedule = bar.getTabAt(0);
-		if (bar.getSelectedTab().equals(schedule)) {
+		Intent intent = getIntent();
+		Schedule exercise = (Schedule) intent.getSerializableExtra(FragmentSchedule.EXERCISE);
+
+		if(exercise != null) {
+//			Intent back = new Intent(getApplicationContext(), Exercise3DActivity.class);
+//			back.putExtra(FragmentSchedule.EXERCISE, exercise);
+//			startActivity(back);
 			this.finish();
 		} else {
-			bar.selectTab(schedule);
+			ActionBar bar = getActionBar();
+			Tab schedule = bar.getTabAt(0);
+			if (bar.getSelectedTab().equals(schedule)) {
+				this.finish();
+			} else {
+				bar.selectTab(schedule);
+			}
 		}
 	}
 }

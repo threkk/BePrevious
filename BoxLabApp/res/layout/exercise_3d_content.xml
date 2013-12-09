@@ -10,19 +10,30 @@
          android:id="@+id/exercise_3d_title"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_marginBottom="@dimen/normal_margin"
+         android:layout_marginTop="@dimen/normal_margin"
          android:layout_marginLeft="@dimen/normal_margin"
          android:layout_marginRight="@dimen/normal_margin"
-         android:layout_marginTop="@dimen/normal_margin"
          android:text="@string/e3d_tit_nf"
          android:textAppearance="?android:attr/textAppearanceLarge" />
+
+         <TextView
+             android:id="@+id/exercise_3d_help"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="@dimen/double_margin"
+             android:text="@string/e3d_extra_help" 
+             android:textAppearance="?android:attr/textAppearanceSmall"
+             android:visibility="gone" />
         
          <TextView
          android:id="@+id/exercise_3d_description"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_marginLeft="@dimen/normal_margin"
-         android:text="@string/e3d_content_nf" />
+         android:layout_marginTop="@dimen/double_margin"
+         android:layout_marginBottom="@dimen/normal_margin"
+         android:text="@string/e3d_content_nf"
+         android:textAppearance="?android:attr/textAppearanceMedium" />
 
          <LinearLayout
          android:layout_width="match_parent"
