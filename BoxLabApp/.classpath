@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="model"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry excluding="nl/boxlab/remote/BoxlabClientImpl.java|nl/boxlab/remote/ClientFactory.java" kind="src" path="remote"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
@@ -13,6 +15,5 @@
 	<classpathentry exported="true" kind="lib" path="libs/gdx-backend-android.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/guava-12.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/gson-2.2.4.jar"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Boxlab-client"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -2,12 +2,16 @@ package com.hva.boxlabapp;
 
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,16 +20,18 @@ import android.widget.Toast;
 import nl.boxlab.model.ExerciseEntry;
 import nl.boxlab.remote.JSONEntitySerializer;
 
-import com.hva.boxlabapp.bluetooth.BluetoothReaderHandler;
 import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
 import com.hva.boxlabapp.database.ScheduleDatasource;
 import com.hva.boxlabapp.database.entities.Schedule;
 import com.hva.boxlabapp.devices.ManageDevicesActivity;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
+@SuppressLint("HandlerLeak")
 public class MainActivity extends Activity {
 
+	private final static String TAG = MainActivity.class.getName();
 	private BluetoothAdapter mBluetoothAdapter = null;
+	private String mJson;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,28 @@ public class MainActivity extends Activity {
 		bar.addTab(tabExercises);
 		bar.addTab(tabLibrary);
 
-		initBT();
+		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+		int bt_response = 1;
+		if (mBluetoothAdapter == null) {
+			Toast.makeText(this,
+					"Device does not support Bluetooth\nExiting...",
+					Toast.LENGTH_LONG).show();
+			finish();
+		}
+
+		if (!mBluetoothAdapter.isEnabled()) {
+			Intent enableBt = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableBt, bt_response);
+		}
+
+		if (bt_response == RESULT_CANCELED) {
+			Toast.makeText(this,
+					"The app needs bluetooth enabled to work\nExiting...",
+					Toast.LENGTH_LONG).show();
+			finish();
+		}
+		
 	}
 
 	@Override
@@ -95,7 +122,33 @@ public class MainActivity extends Activity {
 			return ret.get_id() != -1;
 		case R.id.action_refresh:
 			
-			return btSync();
+			Handler mHandler = new Handler() {
+				@Override
+				public void handleMessage(Message msg) {
+					ScheduleDatasource db = new ScheduleDatasource(getApplicationContext());
+					Toast.makeText(getApplicationContext(), "Synchronizing...", Toast.LENGTH_LONG).show();
+					Log.e(TAG, "Getting data...");
+					mJson = msg.getData().getString(ConnectToRaspberryPi.JSON);
+					String[] entries = mJson.split(ConnectToRaspberryPi.SEPARATOR);
+					
+					Log.e(TAG, "Starting deserialization");
+					JSONEntitySerializer serializer = new JSONEntitySerializer();
+					for(String jentry : entries) {
+						ExerciseEntry entry = serializer.deserialize(ExerciseEntry.class, jentry);
+						Schedule schedule = Schedule.fromExerciseEntryToSchedule(entry);
+						db.create(schedule);
+					}
+					Toast.makeText(getApplicationContext(), "Synchronization finished. Have a nice day :)", Toast.LENGTH_SHORT).show();
+				}
+			};
+
+			// Connect to the raspberry Pi
+			Toast.makeText(this, "Starting synchronization, wait...", Toast.LENGTH_LONG).show();
+			ConnectToRaspberryPi connection = new ConnectToRaspberryPi(
+					"00:27:13:A5:9F:9F", mBluetoothAdapter, mHandler);
+			connection.start();
+
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -111,55 +164,4 @@ public class MainActivity extends Activity {
 			bar.selectTab(schedule);
 		}
 	}
-
-	private void initBT() {
-		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-		int BT_RESPONSE = 1;
-		if (mBluetoothAdapter == null) {
-			Toast.makeText(this,
-					"Device does not support Bluetooth\nExiting...",
-					Toast.LENGTH_LONG).show();
-			finish();
-		}
-
-		if (!mBluetoothAdapter.isEnabled()) {
-			Intent enableBt = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			startActivityForResult(enableBt, BT_RESPONSE);
-		}
-
-		if (BT_RESPONSE == RESULT_CANCELED) {
-			Toast.makeText(this,
-					"The app needs bluetooth enabled to work\nExiting...",
-					Toast.LENGTH_LONG).show();
-			finish();
-		}
-	}
-	
-	private boolean btSync(){
-		Schedule ret;
-		
-		// Create the handler
-		BluetoothReaderHandler btRh = new BluetoothReaderHandler();
-		// Connect to the raspberry Pi
-		ConnectToRaspberryPi connection = new ConnectToRaspberryPi(
-				"00:27:13:A5:9F:9F", mBluetoothAdapter, btRh);
-		connection.start();
-
-		// Maybe this will work
-		String json = btRh.getData();
-		if(json == "EOF") return false;
-		// Maarten's shit
-		JSONEntitySerializer serializer = new JSONEntitySerializer();
-		ExerciseEntry entry = serializer.deserialize(ExerciseEntry.class, json);
-		// My shit
-		Schedule schedule = Schedule.fromExerciseEntryToSchedule(entry);
-		
-		// Insertion in the database. Bitches love databases.
-		ScheduleDatasource db = new ScheduleDatasource(this);
-		ret = db.create(schedule);
-		return ret.get_id() != -1;
-	}
-	
-	
 }

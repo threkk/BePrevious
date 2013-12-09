@@ -28,21 +28,24 @@ public class ConnectToRaspberryPi extends Thread {
 	// why this? Magic!
 	public final static UUID SEC_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");
-
-	public final static int CONNECTING = 0;
-	public final static int CONNECTED = 1;
-	// TODO: Change the flag for a hash.
-	public final static String SERVER_FLAG = "SERVER_FLAG";
+	public final static String SEPARATOR = "–";
 	public final static String JSON = "JSON";
-	public final static String TAG = "ConnectToRaspberryPi";
+
+	// TODO: Change the flag for a hash.
+	private final static String TAG = ConnectToRaspberryPi.class.getName();
+	private final static String SERVER_FLAG = "SERVER_FLAG\n";
+	private final static String EXIT = "EXIT";
 	
-	private Handler mHandler;
+	private final static int CONNECTING = 0;
+	private final static int CONNECTED = 1;
+	private final static int SENT = 2;
 	
 	private final BluetoothAdapter mBluetoothAdapter;
 	private final BluetoothDevice mBluetoothDevice;
 	private final BluetoothSocket mBluetoothSocket;
 	private ManageConnection manager;
-	private int state;
+	private final Handler mHandler;
+	public int state;
 	
 	/**
 	 * Constructor. The tablet application will always connect to the server.
@@ -149,11 +152,12 @@ public class ConnectToRaspberryPi extends Thread {
 		
 		public ManageConnection(BluetoothSocket socket){
 			mmBluetoothSocket = socket;
+			
 			try {
 				input = mmBluetoothSocket.getInputStream();
 				output = mmBluetoothSocket.getOutputStream();
 			} catch (IOException e) {
-				Log.e("ManageConnection", "Problems creating the manager.");
+				Log.e(TAG, "Problems creating the manager.");
 			}
 		}
 		
@@ -161,20 +165,31 @@ public class ConnectToRaspberryPi extends Thread {
 			BufferedReader br = new BufferedReader(new InputStreamReader(input));
 			String line = null;
 			String msgContent = "";
-			Log.e("ManageConnection","Reading...");
+			Log.e(TAG,"Reading...");
 			try {
 				while((line = br.readLine()) != null){
-					// Just for testing.
+					if(line.equals(EXIT)) break;
 					msgContent += line;
 				}
-				if(msgContent != "") {
-					Message msg = mHandler.obtainMessage();
-					Bundle b = new Bundle();
-					b.putString(JSON, msgContent);
-					mHandler.sendMessage(msg);
-				}
+				Log.e(TAG, "All lines read");
 			} catch (IOException oops){
-				Log.e("ManageConnection","Problems reading");
+				Log.e(TAG,"Problems reading");
+			}
+			
+			if(msgContent != "") {
+				Message msg = mHandler.obtainMessage();
+				Bundle b = new Bundle();
+				b.putString(JSON, msgContent);
+				msg.setData(b);
+				msg.what = 0;
+				boolean ret = mHandler.sendMessage(msg);
+				state = ConnectToRaspberryPi.SENT;
+				if(ret){
+					Log.e(TAG, "Message sent");
+					Log.e(TAG, msgContent);
+				} else {
+					Log.e(TAG, "Error sending the message.");
+				}
 			}
 		}
 		
@@ -182,7 +197,7 @@ public class ConnectToRaspberryPi extends Thread {
 			try {
 				output.write(msg);
 			} catch (IOException e) {
-				Log.e("ManageConnection", "Problem writing.");
+				Log.e(TAG, "Problem writing.");
 			} 
 		}
 		
@@ -192,7 +207,7 @@ public class ConnectToRaspberryPi extends Thread {
 				output.close();
 				mmBluetoothSocket.close();
 			} catch (Exception e) {
-				Log.e("ManageConnection", "Problems closing the socket.");
+				Log.e(TAG, "Problems closing the socket.");
 			}
 			input = null;
 			output = null;
