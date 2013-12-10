@@ -96,7 +96,8 @@ public class Schedule implements Serializable{
 		ExerciseNote ex = new ExerciseNote(schedule.getNotes());
 		List<ExerciseNote> notes = new ArrayList<ExerciseNote>();
 		notes.add(ex);
-		entry.setNotes(notes);
+		// TODO: Temporary fix
+		//entry.setNotes(notes);
 		return entry;
 	}
 
@@ -108,9 +109,12 @@ public class Schedule implements Serializable{
 		reps = reps.substring(0, reps.length() - 1);
 
 		String notes = "";
-		for (ExerciseNote ex : entry.getNotes()) {
-			notes += ex.getMessage() + "\n";
-		}
+//		for (ExerciseNote ex : entry.getNotes()) {
+//			notes += ex.getMessage() + "\n";
+//		}
+		
+		// TODO: Temporary fix
+		notes = "Temporary fix";
 
 		Schedule schedule = new Schedule(entry.getId(), entry.getDate(), entry.getExerciseId(), reps, notes, entry.isDone());
 		return schedule;
