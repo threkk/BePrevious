@@ -2,8 +2,11 @@ package nl.boxlab.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 
-public class Entity {
+public class Entity implements Serializable {
+
+	private static final long serialVersionUID = 4660347108530034467L;
 
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private String id;

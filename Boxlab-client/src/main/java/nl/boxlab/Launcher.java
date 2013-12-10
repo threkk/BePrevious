@@ -5,7 +5,6 @@ import javax.swing.UIManager;
 
 import nl.boxlab.controller.library.PatientLibraryController;
 import nl.boxlab.controller.login.LoginController;
-import nl.boxlab.remote.BoxlabClient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ public class Launcher {
 			logger.error("failed to set system look and feel", e);
 		}
 	}
-
+	
 	private static void authenticate(ClientContext context) {
 		LoginController loginController = new LoginController(context);
 		loginController.showView();

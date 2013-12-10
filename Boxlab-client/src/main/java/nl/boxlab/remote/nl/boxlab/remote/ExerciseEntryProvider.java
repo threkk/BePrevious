@@ -3,41 +3,37 @@ package nl.boxlab.remote;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nl.boxlab.model.ExerciseEntry;
-import nl.boxlab.model.ExerciseNote;
 
 public class ExerciseEntryProvider extends AbstractProvider {
 
-	public List<ExerciseEntry> getEntries(String identification) {
-		List<ExerciseEntry> entries = new ArrayList<ExerciseEntry>();
+	public static final String PATH_MESSAGES = "/%s/entries";
 
-		ExerciseEntry entryA = new ExerciseEntry();
-		entryA.setDate(new Date());
-		entryA.setRepetitions(Arrays.asList(10, 10, 10));
+	public List<ExerciseEntry> getEntries(String identification, Date start, Date end) {
+		String path = String.format(PATH_MESSAGES, identification);
+		Map<String, Long> queryParams = new HashMap<>();
+		queryParams.put("from", start.getTime());
+		queryParams.put("to", end.getTime());
 
-		ExerciseEntry entryB = new ExerciseEntry();
-		entryB.setDone(true);
-		entryB.getNotes().add(new ExerciseNote("Ik snap de opdracht niet."));
-		entryB.setDate(new Date(new Date().getTime() + 86400000L * 4));
-		entryB.setRepetitions(Arrays.asList(10, 10, 10));
+		String response = getClient().get(path, queryParams);
+		ExerciseEntry[] messages = getSerializer().deserializeArray(ExerciseEntry[].class, response);
 
-		ExerciseEntry entryC = new ExerciseEntry();
-		entryC.getNotes().add(new ExerciseNote("Ik snap de opdracht niet."));
-		entryC.getNotes().add(new ExerciseNote("asdf"));
-		entryC.setDate(new Date(new Date().getTime() + 86400000L * 7));
-		entryC.setRepetitions(Arrays.asList(10, 10, 10));
-
-		entries.add(entryA);
-		entries.add(entryB);
-		entries.add(entryC);
-
-		return entries;
+		return new ArrayList<>(Arrays.asList(messages));
 	}
 
 	public void save(ExerciseEntry entry) {
-		// TODO Auto-generated method stub
-		
+		String path = String.format(PATH_MESSAGES, entry.getIdentification());
+		String body = getSerializer().serialize(entry);
+		getClient().post(path, body);
+	}
+
+	public void delete(ExerciseEntry entry) {
+		String path = String.format(PATH_MESSAGES, entry.getIdentification());
+		String id = entry.getId();
+		getClient().delete(path, id);
 	}
 }

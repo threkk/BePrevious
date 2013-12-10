@@ -6,20 +6,15 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.boxlab.DateUtilities;
 import nl.boxlab.model.ExerciseEntry;
+import nl.boxlab.model.Message;
 
 @SuppressWarnings("serial")
 public class CalendarItemModel extends DefaultTableModel {
 
-	private static final String[] DAY_NAMES = {
-	        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
-	};
-
-	private static final Logger logger = LoggerFactory.getLogger(CalendarItemModel.class);
+	private static final String[] DAY_NAMES = { "Monday", "Tuesday",
+			"Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
 	private List<CalendarItem> items;
 
@@ -27,12 +22,15 @@ public class CalendarItemModel extends DefaultTableModel {
 		this.items = new ArrayList<CalendarItem>();
 	}
 
-	public void updateModel(List<ExerciseEntry> entries, int month, int year) {
+	public void updateModel(List<ExerciseEntry> entries,
+			List<Message> messages, int month, int year) {
 		int leadDays = DateUtilities.getLeadingDays(month, year);
 		int trailDays = DateUtilities.getTrailingDays(month, year);
 
-		Date start = DateUtilities.addDay(DateUtilities.getStartOfMonth(month, year), -leadDays);
-		Date end = DateUtilities.addDay(DateUtilities.getEndOfMonth(month, year), trailDays);
+		Date start = DateUtilities.addDay(
+				DateUtilities.getStartOfMonth(month, year), -leadDays);
+		Date end = DateUtilities.addDay(
+				DateUtilities.getEndOfMonth(month, year), trailDays);
 
 		this.items.clear();
 		Date current = start;
@@ -40,19 +38,33 @@ public class CalendarItemModel extends DefaultTableModel {
 			CalendarItem item = new CalendarItem();
 			item.setUsable(DateUtilities.getMonth(current) == month);
 			item.setDate(current);
-
-			for (ExerciseEntry entry : entries) {
-				if (DateUtilities.equalDay(entry.getDate(), item.getDate())) {
-					item.setEntry(entry);
-					break;
-				}
-			}
+			item.setEntry(getEntry(entries, current));
+			item.setMessages(getMessages(messages, current));
 
 			this.items.add(item);
 			current = DateUtilities.addDay(current, 1);
 		}
 
 		fireTableDataChanged();
+	}
+
+	private ExerciseEntry getEntry(List<ExerciseEntry> entries, Date date) {
+		for (ExerciseEntry entry : entries) {
+			if (DateUtilities.equalDay(entry.getDate(), date)) {
+				return entry;
+			}
+		}
+		return null;
+	}
+
+	private List<Message> getMessages(List<Message> messages, Date date) {
+		List<Message> result = new ArrayList<>();
+		for (Message message : messages) {
+			if (DateUtilities.equalDay(message.getDate(), date)) {
+				result.add(message);
+			}
+		}
+		return result;
 	}
 
 	@Override

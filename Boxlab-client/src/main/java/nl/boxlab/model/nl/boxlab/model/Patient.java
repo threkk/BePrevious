@@ -37,4 +37,10 @@ public class Patient extends Entity implements Serializable {
 	public void setLastName(String lastName) {
 		firePropertyChange("lastName", this.lastName, this.lastName = lastName);
 	}
+
+	@Override
+	public String toString() {
+		return "Patient [getId()=" + getId() + ", identification=" + identification + ", firstName=" + firstName
+		        + ", lastName=" + lastName + "]";
+	}
 }

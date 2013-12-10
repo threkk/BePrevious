@@ -1,60 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ObjectId = Schema.Types.ObjectId;
 var Mixed = Schema.Types.Mixed;
-
-var deviceSchema = new Schema({
-	id : ObjectId,
-	identification : {
-		type : String,
-		required : 'Boxlab identity needs to be provided!'
-	},
-	name : String,
-	nodeId : Number,
-	basicType : Number,
-	genericType : Number,
-	specificType : Number,
-	manufacturerId : Number,
-	productId : Number,
-	productType : Number,
-	isListening : Boolean,
-	isFLiRS : Boolean,
-	hasWakeup : Boolean,
-	hasBattery : Boolean,
-	isFailed : Boolean
-});
-
-var deviceStateSchema = new Schema({
-	id : ObjectId,
-	identification : {
-		type : String,
-		required : true
-	},
-	nodeId : {
-		type : Number,
-		required : true
-	},
-	timestamp : {
-		type : Number,
-		required : true
-	},
-	power : Number,
-	usage : Number,
-	temperature : Number,
-	luminescence : Number,
-	value : Number,
-});
-
-var patientSchema = new Schema({
-	id : ObjectId,
-	identification : {
-		type : String,
-		required : true
-	},
-	firstName : String,
-	lastName : String
-});
 
 function merge(source, target) {
 	for ( var index in source) {
@@ -83,8 +30,85 @@ function prepare(name, schema) {
 	return mongoose.model(name, schema);
 }
 
+var deviceSchema = new Schema({
+	identification : {
+		type : String,
+		required : 'Boxlab identity needs to be provided!'
+	},
+	name : String,
+	nodeId : Number,
+	basicType : Number,
+	genericType : Number,
+	specificType : Number,
+	manufacturerId : Number,
+	productId : Number,
+	productType : Number,
+	isListening : Boolean,
+	isFLiRS : Boolean,
+	hasWakeup : Boolean,
+	hasBattery : Boolean,
+	isFailed : Boolean
+});
+
+var deviceStateSchema = new Schema({
+	identification : {
+		type : String,
+		required : true
+	},
+	nodeId : {
+		type : Number,
+		required : true
+	},
+	timestamp : {
+		type : Number,
+		required : true
+	},
+	power : Number,
+	usage : Number,
+	temperature : Number,
+	luminescence : Number,
+	value : Number,
+});
+
+var patientSchema = new Schema({
+	identification : {
+		type : String,
+		required : true
+	},
+	firstName : String,
+	lastName : String
+});
+
+var exerciseEntrySchema = new Schema({
+	identification : {
+		type : String,
+		required : true
+	},
+	date : Number,
+	exerciseId : Number,
+	done : Boolean,
+	repetitions : []
+});
+
+var messageSchema = new Schema({
+	identification : {
+		type : String,
+		required : true
+	},
+	date : {
+		type : Number,
+		required : true
+	},
+
+	message : String,
+	fromPatient : Boolean,
+	read : Boolean	
+});
+
 module.exports = {
-	Device : mongoose.model('Device', deviceSchema),
-	DeviceState : mongoose.model('DeviceState', deviceStateSchema),
+	Device : prepare('Device', deviceSchema),
+	DeviceState : prepare('DeviceState', deviceStateSchema),
 	Patient : prepare('Patient', patientSchema),
+	ExerciseEntry : prepare('ExerciseEntry', exerciseEntrySchema),
+	Message : prepare('Message', messageSchema)
 };

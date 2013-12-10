@@ -1,12 +1,10 @@
-/**
- * Module dependencies.
- */
-
 var express = require('express');
 var http = require('http');
 var path = require('path');
 
 var logger = require('./modules/logging').getLogger();
+var DBLogger = require('./modules/logging').getLogger('database');
+var serverLogger = require('./modules/logging').getLogger('server');
 var app = express();
 
 /**
@@ -37,26 +35,39 @@ app.start = function(port) {
 
 	var apiRoutes = require('./routes/api').routes;
 	var deviceRoutes = require('./routes/devices').routes;
+	var entryRoutes = require('./routes/exerciseentries').routes;
+	var messageRoutes = require('./routes/messages').routes;
 	var routes = {
 		'/api' : {
 			'' : apiRoutes,
 			'/:identification' : {
-				'/devices' : deviceRoutes
+				'/devices' : deviceRoutes,
+				'/entries' : entryRoutes,
+				'/messages' : messageRoutes
 			}
 		}
 	};
 	app.map(routes, '/boxlab');
 
-	require('mongoose').connect('mongodb://localhost/boxlab');
+	var mongoose = require('mongoose');
+	mongoose.set('debug', function(collectionName, method, query, doc) {
+		var formatted = 'db.' + collectionName + '.' + method + '(' + JSON.stringify(query) + ')';
+		DBLogger.debug('query: ' + formatted);
+	});
+
+	mongoose.connect('mongodb://localhost/boxlab');
 };
 
 // development only
 if ('development' == app.get('env')) {
 	app.use(express.errorHandler());
+	app.use(function(req, res, next) {
+		serverLogger.debug('%s %s', req.method, req.url);
+		next();
+	});
 }
 
 app.use(express.favicon());
-app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);

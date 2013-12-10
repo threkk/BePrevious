@@ -11,13 +11,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import net.miginfocom.swing.MigLayout;
 import nl.boxlab.DateUtilities;
 import nl.boxlab.model.ExerciseEntry;
-import nl.boxlab.model.ExerciseNote;
+import nl.boxlab.model.Message;
 import nl.boxlab.resources.Images;
 
 public class CalendarItemTableCellRenderer implements TableCellRenderer {
@@ -35,6 +34,7 @@ public class CalendarItemTableCellRenderer implements TableCellRenderer {
 	private JPanel panel;
 	private JLabel lblDayOfMonth;
 	private JLabel lblNotes;
+	private JLabel lblNotDone;
 	private JLabel lblDone;
 
 	public CalendarItemTableCellRenderer() {
@@ -48,11 +48,15 @@ public class CalendarItemTableCellRenderer implements TableCellRenderer {
 
 		this.lblNotes = new JLabel();
 		this.lblNotes.setFont(FONT_PLAIN);
-		this.lblNotes.setIcon(Images.ICONS_MESSAGE);
+		this.lblNotes.setIcon(Images.ICONS_MESSAGE_SMALL);
+
+		this.lblNotDone = new JLabel("Not completed");
+		this.lblNotDone.setFont(FONT_PLAIN);
+		this.lblNotDone.setIcon(Images.ICONS_DELETE_SMALL);
 
 		this.lblDone = new JLabel("Completed");
 		this.lblDone.setFont(FONT_PLAIN);
-		this.lblDone.setIcon(Images.ICONS_APPROVE);
+		this.lblDone.setIcon(Images.ICONS_APPROVE_SMALL);
 	}
 
 	public Component getTableCellRendererComponent(JTable table, Object value,
@@ -61,10 +65,15 @@ public class CalendarItemTableCellRenderer implements TableCellRenderer {
 			return null;
 		}
 
+		// fix for jtables different notion of a cellected cell
+		int selectedRow = table.getSelectedRow();
+		int selectedColumn = table.getSelectedColumn();
+		isSelected = (row == selectedRow && column == selectedColumn);
+
 		CalendarItem item = (CalendarItem) value;
 		if (!item.isUsable()) {
 			this.panel.setBackground(COLOR_BACKGROUND_UNUSABLE);
-		} else if (isSelected && hasFocus) {
+		} else if (isSelected) {
 			this.panel.setBackground(COLOR_BACKGROUND_SELECTED);
 		} else {
 			if (DateUtilities.equalDay(item.getDate(), new Date())) {
@@ -76,7 +85,7 @@ public class CalendarItemTableCellRenderer implements TableCellRenderer {
 
 		initPanelItem(item);
 		if (item.getEntry() != null && item.isUsable()) {
-			initPanelEntry(item.getEntry());
+			initPanelEntry(item);
 		}
 
 		return panel;
@@ -89,14 +98,17 @@ public class CalendarItemTableCellRenderer implements TableCellRenderer {
 		this.panel.add(lblDayOfMonth, "flowx,cell 0 0,alignx left");
 	}
 
-	private void initPanelEntry(ExerciseEntry entry) {
+	private void initPanelEntry(CalendarItem item) {
 		int unreadNotes = 0;
-		List<ExerciseNote> notes = entry.getNotes();
-		for (ExerciseNote note : notes) {
-			if (!note.isRead()) {
+		ExerciseEntry entry = item.getEntry();
+		List<Message> messages = item.getMessages();
+
+		for (Message message : messages) {
+			if (!message.isRead()) {
 				unreadNotes++;
 			}
 		}
+
 		int row = 1;
 		if (unreadNotes > 0) {
 			lblNotes.setText(unreadNotes + " unread");
@@ -104,6 +116,8 @@ public class CalendarItemTableCellRenderer implements TableCellRenderer {
 		}
 		if (entry.isDone()) {
 			this.panel.add(lblDone, "cell 0 " + row++);
+		} else {
+			this.panel.add(lblNotDone, "cell 0 " + row++);
 		}
 	}
 

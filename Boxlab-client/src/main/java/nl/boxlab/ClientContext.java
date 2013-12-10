@@ -1,6 +1,7 @@
 package nl.boxlab;
 
 import nl.boxlab.remote.ExerciseEntryProvider;
+import nl.boxlab.remote.MessageProvider;
 import nl.boxlab.remote.PatientProvider;
 
 public interface ClientContext {
@@ -12,4 +13,6 @@ public interface ClientContext {
 	public PatientProvider getPatientProvider();
 
 	public ExerciseEntryProvider getExerciseEntryProvider();
+
+	public MessageProvider getMessageProvider();
 }
