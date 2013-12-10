@@ -16,6 +16,7 @@ public class ExerciseEntry extends Entity implements Serializable {
 
 	private String identification;
 	private Date date;
+	private String note;
 	private Integer exerciseId;
 	private boolean done;
 	private List<Integer> repetitions = new ArrayList<Integer>();
@@ -38,6 +39,14 @@ public class ExerciseEntry extends Entity implements Serializable {
 
 	public void setDate(Date date) {
 		firePropertyChange("date", this.date, this.date = date);
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		firePropertyChange("note", this.note, this.note = note);
 	}
 
 	public Integer getExerciseId() {
