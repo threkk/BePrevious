@@ -24,7 +24,6 @@ import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
 import com.hva.boxlabapp.database.ScheduleDatasource;
 import com.hva.boxlabapp.database.entities.Schedule;
 import com.hva.boxlabapp.devices.ManageDevicesActivity;
-import com.hva.boxlabapp.exercises.Exercise3DActivity;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
 @SuppressLint("HandlerLeak")
@@ -174,9 +173,6 @@ public class MainActivity extends Activity {
 		Schedule exercise = (Schedule) intent.getSerializableExtra(FragmentSchedule.EXERCISE);
 
 		if(exercise != null) {
-//			Intent back = new Intent(getApplicationContext(), Exercise3DActivity.class);
-//			back.putExtra(FragmentSchedule.EXERCISE, exercise);
-//			startActivity(back);
 			this.finish();
 		} else {
 			ActionBar bar = getActionBar();

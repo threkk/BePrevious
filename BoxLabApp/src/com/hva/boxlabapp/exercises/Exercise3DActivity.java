@@ -108,7 +108,7 @@ public class Exercise3DActivity extends AndroidApplication implements
 				public void onClick(View v) {
 					Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 					intent.putExtra(MainActivity.TAB, 1);
-					intent.putExtra(FragmentLibrary.URI, "");
+					intent.putExtra(FragmentLibrary.URI, export.getExercise());
 					intent.putExtra(FragmentSchedule.EXERCISE, export);
 					startActivity(intent);
 				}
