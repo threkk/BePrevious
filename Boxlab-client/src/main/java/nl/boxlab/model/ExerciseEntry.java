@@ -88,6 +88,7 @@ public class ExerciseEntry extends Entity implements Serializable {
 		entry.setRepetitions(Arrays.asList(12, 12, 12));
 		entry.setDone(false);
 		entry.setId("ADS#$HAU$HSJD$%543534D45");
+		entry.setNote("No additional information has been added.");
 		System.out.println(serializer.serialize(entry));
 	}
 }
