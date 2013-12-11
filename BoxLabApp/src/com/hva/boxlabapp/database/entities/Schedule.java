@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import nl.boxlab.model.ExerciseEntry;
-import nl.boxlab.model.ExerciseNote;
 
 public class Schedule implements Serializable{
 

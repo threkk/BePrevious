@@ -2,6 +2,9 @@ package com.hva.boxlabapp;
 
 import java.util.Date;
 
+import nl.boxlab.model.ExerciseEntry;
+import nl.boxlab.model.JSONEntitySerializer;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -16,9 +19,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import nl.boxlab.model.ExerciseEntry;
-import nl.boxlab.remote.JSONEntitySerializer;
 
 import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
 import com.hva.boxlabapp.database.ScheduleDatasource;
@@ -133,7 +133,6 @@ public class MainActivity extends Activity {
 				@Override
 				public void handleMessage(Message msg) {
 					ScheduleDatasource db = new ScheduleDatasource(getApplicationContext());
-					Toast.makeText(getApplicationContext(), "Synchronizing...", Toast.LENGTH_LONG).show();
 					Log.e(TAG, "Getting data...");
 					mJson = msg.getData().getString(ConnectToRaspberryPi.JSON);
 					String[] entries = mJson.split(ConnectToRaspberryPi.SEPARATOR);
@@ -144,6 +143,7 @@ public class MainActivity extends Activity {
 						ExerciseEntry entry = serializer.deserialize(ExerciseEntry.class, jentry);
 						Schedule schedule = Schedule.fromExerciseEntryToSchedule(entry);
 						db.create(schedule);
+						Log.e(TAG,schedule.toString());
 					}
 					Toast.makeText(getApplicationContext(), "Synchronization finished. Have a nice day :)", Toast.LENGTH_SHORT).show();
 				}
