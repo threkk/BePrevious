@@ -25,7 +25,7 @@ public class FragmentLibrary extends ListFragment {
 		LibraryDatasource db = new LibraryDatasource(getActivity());
 		
 		List<String> values = db.getNames();
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.library_item, values);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.item_library, values);
 		this.setListAdapter(adapter);
 		
 		String url = "file:///android_asset/library/exercise";

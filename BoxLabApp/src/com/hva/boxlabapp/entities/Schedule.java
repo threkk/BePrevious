@@ -1,11 +1,12 @@
-package com.hva.boxlabapp.database.entities;
+package com.hva.boxlabapp.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import nl.boxlab.model.ExerciseEntry;
+import com.boxlab.bluetooth.client.ExerciseEntry;
+
 
 public class Schedule implements Serializable{
 

@@ -1,4 +1,4 @@
-package nl.boxlab.model;
+package com.boxlab.bluetooth.client;
 
 import java.io.Serializable;
 import java.util.ArrayList;

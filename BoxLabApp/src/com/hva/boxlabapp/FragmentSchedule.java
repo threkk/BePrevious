@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.hva.boxlabapp.database.LibraryDatasource;
 import com.hva.boxlabapp.database.ScheduleDatasource;
-import com.hva.boxlabapp.database.entities.Schedule;
+import com.hva.boxlabapp.entities.Schedule;
 import com.hva.boxlabapp.exercises.Exercise3DActivity;
 import com.hva.boxlabapp.utils.ScheduleActivitiesAdapter;
 import com.squareup.timessquare.CalendarPickerView;

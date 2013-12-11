@@ -26,7 +26,8 @@
 	<string name="e3d_ast">*</string>
 	
     <!-- device manager strings -->
-    <string name="devicemanager_subtitle">Add, edit or remove devices</string>
+    <string name="devicemanager_title">Device manager</string>
+    <string name="devicemanager_subtitle">Edit devices</string>
     <string name="devicemanager_add_device">Add device</string>
     <string name="devicemanager_edit_device">Edit device</string>
     <string name="devicemanager_delete_device">Remove device</string>

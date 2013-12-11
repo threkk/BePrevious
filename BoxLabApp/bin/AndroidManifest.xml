@@ -42,7 +42,16 @@
         </activity>
                 
         <activity
-            android:name="com.hva.boxlabapp.devices.ManageDevicesActivity"
+            android:name="com.hva.boxlabapp.deprecated.ManageDevicesActivity"
+            android:label="@string/title_activity_manage_devices"
+            android:parentActivityName="com.hva.boxlabapp.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hva.boxlabapp.MainActivity" />
+        </activity>
+        
+         <activity
+            android:name="com.hva.boxlabapp.devices.DevicesActivity"
             android:label="@string/title_activity_manage_devices"
             android:parentActivityName="com.hva.boxlabapp.MainActivity" >
             <meta-data

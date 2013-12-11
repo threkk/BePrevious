@@ -1,4 +1,4 @@
-package com.hva.boxlabapp.devices;
+package com.hva.boxlabapp.deprecated;
 
 import java.io.Serializable;
 

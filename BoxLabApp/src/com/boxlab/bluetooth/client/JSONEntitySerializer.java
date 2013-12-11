@@ -1,12 +1,12 @@
-package nl.boxlab.model;
+package com.boxlab.bluetooth.client;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Date;
 
-import nl.boxlab.model.Entity;
 
+import com.boxlab.bluetooth.client.Entity;
 import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

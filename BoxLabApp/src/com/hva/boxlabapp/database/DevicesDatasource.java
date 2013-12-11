@@ -3,7 +3,7 @@ package com.hva.boxlabapp.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hva.boxlabapp.devices.SensorDevice;
+import com.hva.boxlabapp.deprecated.SensorDevice;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -133,7 +133,9 @@ public class DevicesDatasource {
 		public static final String TABLE_DEVICE = "device";
 		public static final String COLUMN_DEVICE_ID = "_id";
 		public static final String COLUMN_DEVICE_NAME = "name";
+		public static final String COLUMN_DEVICE_POSITION = "position";
 		public static final String COLUMN_DEVICE_TYPE = "type";
+		public static final String COLUMN_DEVICE_MAC = "mac";
 
 		private static final String DATABASE_NAME = "devices.db";
 		private static final int DATABASE_VERSION = 1;
@@ -142,7 +144,9 @@ public class DevicesDatasource {
 				+ TABLE_DEVICE + "(" 
 				+ COLUMN_DEVICE_ID 	+ " integer primary key autoincrement, " 
 				+ COLUMN_DEVICE_NAME + " text not null, " 
-				+ COLUMN_DEVICE_TYPE + " integer not null"
+				+ COLUMN_DEVICE_TYPE + " integer not null, "
+				+ COLUMN_DEVICE_POSITION + " integer not null, "
+				+ COLUMN_DEVICE_MAC + " text not null"
 				+ ");";
 
 		public DevicesDatabase(Context context) {

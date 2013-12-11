@@ -1,6 +1,6 @@
-package nl.boxlab.model;
+package com.boxlab.bluetooth.client;
 
-import nl.boxlab.model.Entity;
+import com.boxlab.bluetooth.client.Entity;
 
 public interface EntitySerializer {
 

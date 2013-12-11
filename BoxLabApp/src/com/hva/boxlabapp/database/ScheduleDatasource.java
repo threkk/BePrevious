@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.hva.boxlabapp.database.entities.Schedule;
+import com.hva.boxlabapp.entities.Schedule;
 
 import android.content.ContentValues;
 import android.content.Context;

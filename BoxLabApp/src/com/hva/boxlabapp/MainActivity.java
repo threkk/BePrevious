@@ -2,8 +2,6 @@ package com.hva.boxlabapp;
 
 import java.util.Date;
 
-import nl.boxlab.model.ExerciseEntry;
-import nl.boxlab.model.JSONEntitySerializer;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -20,10 +18,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.boxlab.bluetooth.client.ExerciseEntry;
+import com.boxlab.bluetooth.client.JSONEntitySerializer;
 import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
 import com.hva.boxlabapp.database.ScheduleDatasource;
-import com.hva.boxlabapp.database.entities.Schedule;
-import com.hva.boxlabapp.devices.ManageDevicesActivity;
+import com.hva.boxlabapp.devices.DevicesActivity;
+import com.hva.boxlabapp.entities.Schedule;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
 @SuppressLint("HandlerLeak")
@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
 		bar.selectTab(initial);
 		
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
+		 
 		int bt_response = 1;
 		if (mBluetoothAdapter == null) {
 			Toast.makeText(this,
@@ -118,8 +118,9 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-			startActivity(new Intent(MainActivity.this,
-					ManageDevicesActivity.class));
+//			startActivity(new Intent(MainActivity.this,
+//					ManageDevicesActivity.class));
+			startActivity(new Intent(MainActivity.this, DevicesActivity.class));
 			return true;
 		case R.id.action_about:
 			// Meanwhile, we can use this for testing purposes.

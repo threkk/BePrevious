@@ -1,4 +1,4 @@
-package com.hva.boxlabapp.devices;
+package com.hva.boxlabapp.deprecated;
 
 import java.util.Arrays;
 
@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.hva.boxlabapp.R;
-import com.hva.boxlabapp.devices.SensorDevice.Type;
+import com.hva.boxlabapp.deprecated.SensorDevice.Type;
 
 public class ManageDevicesDialogFactory {
 
