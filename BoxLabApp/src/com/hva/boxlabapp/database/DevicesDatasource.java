@@ -3,7 +3,7 @@ package com.hva.boxlabapp.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hva.boxlabapp.deprecated.SensorDevice;
+import com.hva.boxlabapp.devices.Device;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,9 +19,6 @@ public class DevicesDatasource {
 
 	private SQLiteDatabase database;
 	private DevicesDatabase dbHelper;
-	private String[] allColumns = { DevicesDatabase.COLUMN_DEVICE_ID,
-			DevicesDatabase.COLUMN_DEVICE_NAME,
-			DevicesDatabase.COLUMN_DEVICE_TYPE };
 
 	public DevicesDatasource(Context context) {
 		dbHelper = new DevicesDatabase(context);
@@ -36,13 +33,14 @@ public class DevicesDatasource {
 		dbHelper.close();
 	}
 
-	public SensorDevice create(SensorDevice device) {
+	public Device create(Device device) {
 		try {
 			open();
 			ContentValues values = new ContentValues();
 			values.put(DevicesDatabase.COLUMN_DEVICE_NAME, device.getName());
-			values.put(DevicesDatabase.COLUMN_DEVICE_TYPE, device.getType()
-					.getId());
+			values.put(DevicesDatabase.COLUMN_DEVICE_TYPE, device.getType().getId());
+			values.put(DevicesDatabase.COLUMN_DEVICE_POSITION, device.getPosition().getId());
+			values.put(DevicesDatabase.COLUMN_DEVICE_MAC, device.getMac());
 
 			long id = database
 					.insert(DevicesDatabase.TABLE_DEVICE, null, values);
@@ -57,7 +55,7 @@ public class DevicesDatasource {
 		return device;
 	}
 
-	public void update(SensorDevice device) {
+	public void update(Device device) {
 		long id = device.getId();
 		String table = DevicesDatabase.TABLE_DEVICE;
 		String where = DevicesDatabase.COLUMN_DEVICE_ID + " = " + id;
@@ -66,6 +64,8 @@ public class DevicesDatasource {
 			ContentValues values = new ContentValues();
 			values.put(DevicesDatabase.COLUMN_DEVICE_NAME, device.getName());
 			values.put(DevicesDatabase.COLUMN_DEVICE_TYPE, device.getType().getId());
+			values.put(DevicesDatabase.COLUMN_DEVICE_POSITION, device.getPosition().getId());
+			values.put(DevicesDatabase.COLUMN_DEVICE_MAC, device.getMac());
 
 			database.update(table, values, where, null);
 			
@@ -78,8 +78,9 @@ public class DevicesDatasource {
 
 	}
 
-	public void delete(SensorDevice device) {
+	public Device delete(Device device) {
 		long id = device.getId();
+		Device.Position position = device.getPosition();
 		String table = DevicesDatabase.TABLE_DEVICE;
 		String where = DevicesDatabase.COLUMN_DEVICE_ID + " = " + id;
 		try {
@@ -91,20 +92,30 @@ public class DevicesDatasource {
 		} finally {
 			close();
 		}
+		Device ret = new Device();
+		ret.setPosition(position.getId());
+		return ret;
 	}
 
-	public List<SensorDevice> getDevices() {
-		List<SensorDevice> devices = null;
+	public List<Device> getDevices() {
+		List<Device> devices =  new ArrayList<Device>();
 		Cursor cursor = null;
+
+		String sql = "SELECT " 
+				+ DevicesDatabase.COLUMN_DEVICE_ID + ", "
+				+ DevicesDatabase.COLUMN_DEVICE_NAME + ", "
+				+ DevicesDatabase.COLUMN_DEVICE_POSITION + ", "
+				+ DevicesDatabase.COLUMN_DEVICE_TYPE + ", "
+				+ DevicesDatabase.COLUMN_DEVICE_MAC + " FROM "
+				+ DevicesDatabase.TABLE_DEVICE + "; ";
+		
 		try {
 			open();
-			devices = new ArrayList<SensorDevice>();
-			cursor = database.query(DevicesDatabase.TABLE_DEVICE, allColumns,
-					null, null, null, null, null);
+			cursor = database.rawQuery(sql, null);
 			cursor.moveToFirst();
 
 			while (!cursor.isAfterLast()) {
-				SensorDevice device = cursorToDevice(cursor);
+				Device device = cursorToDevice(cursor);
 				devices.add(device);
 				cursor.moveToNext();
 			}
@@ -120,11 +131,14 @@ public class DevicesDatasource {
 		return devices;
 	}
 
-	private SensorDevice cursorToDevice(Cursor cursor) {
-		SensorDevice device = new SensorDevice();
-		device.setId(cursor.getLong(0));
-		device.setName(cursor.getString(1));
-		device.setType(SensorDevice.Type.valueOf(cursor.getInt(2)));
+	private Device cursorToDevice(Cursor cursor) {
+		int id = cursor.getInt(0);
+		String name = cursor.getString(1);
+		int position = cursor.getInt(2);
+		int type = cursor.getInt(3);
+		String mac = cursor.getString(4);
+		
+		Device device = new Device(id, name, position, type, mac);
 		return device;
 	}
 	

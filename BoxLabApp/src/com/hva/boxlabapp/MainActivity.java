@@ -22,7 +22,7 @@ import com.boxlab.bluetooth.client.ExerciseEntry;
 import com.boxlab.bluetooth.client.JSONEntitySerializer;
 import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
 import com.hva.boxlabapp.database.ScheduleDatasource;
-import com.hva.boxlabapp.devices.DevicesActivity;
+import com.hva.boxlabapp.devices.DeviceActivity;
 import com.hva.boxlabapp.entities.Schedule;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
@@ -120,7 +120,7 @@ public class MainActivity extends Activity {
 		case R.id.action_settings:
 //			startActivity(new Intent(MainActivity.this,
 //					ManageDevicesActivity.class));
-			startActivity(new Intent(MainActivity.this, DevicesActivity.class));
+			startActivity(new Intent(MainActivity.this, DeviceActivity.class));
 			return true;
 		case R.id.action_about:
 			// Meanwhile, we can use this for testing purposes.
@@ -150,10 +150,11 @@ public class MainActivity extends Activity {
 				}
 			};
 
+			//"00:27:13:A5:9F:9F"
 			// Connect to the raspberry Pi
 			Toast.makeText(this, "Starting synchronization, wait...", Toast.LENGTH_LONG).show();
 			ConnectToRaspberryPi connection = new ConnectToRaspberryPi(
-					"00:27:13:A5:9F:9F", mBluetoothAdapter, mHandler);
+					"00:09:DD:50:5C:BF", mBluetoothAdapter, mHandler);
 			connection.start();
 			// Temporary.
 			connection.write("I will send you all my shit:\r\n".getBytes());

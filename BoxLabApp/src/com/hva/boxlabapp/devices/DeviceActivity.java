@@ -1,22 +1,27 @@
 package com.hva.boxlabapp.devices;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hva.boxlabapp.R;
+import com.hva.boxlabapp.database.DevicesDatasource;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class DevicesActivity extends Activity {
+public class DeviceActivity extends Activity {
 
+	private final static String TAG = DeviceActivity.class.getName();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,11 +32,23 @@ public class DevicesActivity extends Activity {
 		getActionBar().setSubtitle(R.string.devicemanager_subtitle);
 		
 		final ListView mListView = (ListView) findViewById(R.id.device_list);
-		List<Device> devices = new ArrayList<Device>();
+		DevicesDatasource db = new DevicesDatasource(this);
+		List<Device> devices = db.getDevices();
 		final DeviceAdapter adapter = new DeviceAdapter(this,devices);
 		mListView.setAdapter(adapter);
+		
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Log.e(TAG, "Click on " + arg2 + " item.");
+				Device device = (Device) adapter.getItem(arg2);
+				DeviceUpdater updater = new DeviceUpdater(device, adapter);
+				updater.show(getFragmentManager(), "devicemanager_dialog");
+			}
+		});
 	}
-
+	
 	private class DeviceAdapter extends BaseAdapter {
 
 		private Device[] devices;
@@ -71,7 +88,6 @@ public class DevicesActivity extends Activity {
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 

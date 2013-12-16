@@ -6,7 +6,6 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/lbl_device_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/devicemanager_dialog_id" />
@@ -19,7 +18,6 @@
         android:hint="@string/devicemanager_dialog_id_hint" />
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/devicemanager_dialog_type"

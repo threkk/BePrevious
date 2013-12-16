@@ -51,7 +51,7 @@
         </activity>
         
          <activity
-            android:name="com.hva.boxlabapp.devices.DevicesActivity"
+            android:name="com.hva.boxlabapp.devices.DeviceActivity"
             android:label="@string/title_activity_manage_devices"
             android:parentActivityName="com.hva.boxlabapp.MainActivity" >
             <meta-data

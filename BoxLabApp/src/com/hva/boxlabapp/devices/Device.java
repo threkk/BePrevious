@@ -126,6 +126,12 @@ public class Device {
 	public void setMac(String mac) {
 		this.mac = mac;
 	}
+
+	@Override
+	public String toString() {
+		return "Device [id=" + id + ", name=" + name + ", position=" + position
+				+ ", type=" + type + ", mac=" + mac + "]";
+	}
 	
 	
 }

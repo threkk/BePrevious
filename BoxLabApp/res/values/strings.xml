@@ -27,10 +27,11 @@
 	
     <!-- device manager strings -->
     <string name="devicemanager_title">Device manager</string>
-    <string name="devicemanager_subtitle">Edit devices</string>
-    <string name="devicemanager_add_device">Add device</string>
+    <string name="devicemanager_subtitle">Setup devices</string>
+    <string name="devicemanager_dialog">Edit or delete devices</string>
     <string name="devicemanager_edit_device">Edit device</string>
-    <string name="devicemanager_delete_device">Remove device</string>
+    <string name="devicemanager_delete_device">Clear device</string>
+    <string name="devicemanager_cancel">Cancel</string>
     <string name="devicemanager_dialog_id">Device ID</string>
     <string name="devicemanager_dialog_id_hint">Please enter a device id</string>
     <string name="devicemanager_dialog_type">Device type</string>
