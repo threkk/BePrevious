@@ -1,9 +1,7 @@
 package com.hva.boxlabapp.exercises;
 
-import java.util.Iterator;
+import java.util.List;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -13,14 +11,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.hva.boxlabapp.FragmentLibrary;
 import com.hva.boxlabapp.FragmentSchedule;
 import com.hva.boxlabapp.MainActivity;
 import com.hva.boxlabapp.R;
+import com.hva.boxlabapp.database.DevicesDatasource;
 import com.hva.boxlabapp.database.LibraryDatasource;
-import com.hva.boxlabapp.deprecated.SensorDevice;
+import com.hva.boxlabapp.devices.Device;
 import com.hva.boxlabapp.entities.Schedule;
 import com.hva.boxlabapp.gdx.Exercise3DObject;
 import com.hva.boxlabapp.gdx.Exercise3DHandler;
@@ -38,29 +38,36 @@ public class Exercise3DActivity extends AndroidApplication implements
 		super.onCreate(savedInstanceState);
 		
 		// Loading sensors
-		SensorDevice device = new SensorDevice(1, "Test",
-				SensorDevice.Type.SHIMMER_2R, "thigh");
+		DevicesDatasource dbDevices = new DevicesDatasource(this);
+		List<Device> devices = dbDevices.getDevices();
 		
-		BluetoothAdapter defaultAdapter = BluetoothAdapter.getDefaultAdapter();
+		Device mChest = null;
+		Device mThigh = null;
+		Device mShin = null;
 		
-		if (defaultAdapter != null) {
-			Iterator<BluetoothDevice> iterator = defaultAdapter
-					.getBondedDevices().iterator();
-			while (iterator.hasNext()) {
-				BluetoothDevice next = iterator.next();
-				device.setMac(next.getAddress());
+		for (Device device : devices) {
+			switch(device.getPosition()) {
+			case CHEST : mChest = device; break;
+			case SHIN : mShin = device; break;
+			case THIGH : mThigh = device; break;
+			case SERVER : ;
 			}
 		}
-
+		
+//		Uncomment after testing.
+//		if(mChest == null || mThigh == null || mShin == null) {
+//			Toast.makeText(this, "Sensors missing", Toast.LENGTH_SHORT).show();
+//			finish();
+//		}
 		
 		// Creating handlers
 		chest = new ShimmerHandler();
 		thigh = new ShimmerHandler();
 		shin = new ShimmerHandler();
 		
-		// chest.init(device, this);
-		// thigh.init(device, this);
-		// shin.init(device, this);
+		// chest.init(mChest, this);
+		// thigh.init(mThigh, this);
+		// shin.init(mShin, this);
 		
 		// UI
 		LinearLayout layout = new LinearLayout(this);
@@ -82,7 +89,8 @@ public class Exercise3DActivity extends AndroidApplication implements
 			final Schedule export = exercise;
 			LibraryDatasource db = new LibraryDatasource(this);
 			TextView exerciseName = (TextView) contentView.findViewById(R.id.exercise_3d_title);
-			String name = db.getName(exercise.getExercise());
+			String name = "";
+			name = db.getName(exercise.getExercise());
 			exerciseName.setText(name);
 			
 			TextView exerciseNotes = (TextView) contentView.findViewById(R.id.exercise_3d_description);

@@ -2,7 +2,7 @@ package com.hva.boxlabapp.shimmer.driver;
 
 import java.util.Collection;
 
-import com.hva.boxlabapp.deprecated.SensorDevice;
+import com.hva.boxlabapp.devices.Device;
 
 import android.content.Context;
 import android.os.Handler;
@@ -10,7 +10,7 @@ import android.os.Message;
 import android.util.Log;
 
 public class ShimmerHandler extends Handler {
-	private static final String TAG = "ShimmerHandler";
+	private static final String TAG = ShimmerHandler.class.getName();
 	private double[] data;
 	private Shimmer shimmer;
 	public ShimmerHandler() {
@@ -24,7 +24,7 @@ public class ShimmerHandler extends Handler {
 					 // I guess...
 	}
 
-	public void init(SensorDevice device, Context context) {
+	public void init(Device device, Context context) {
 		Shimmer shimmerDevice = new Shimmer(context, this, device.getName(),
 				10, 1, 4, Shimmer.SENSOR_ACCEL, false);
 		shimmerDevice.connect(device.getMac(), "default"); // address is just a

@@ -26,12 +26,13 @@ public class LibraryDatasource {
     	this.dbhelper = new LibraryDatabase(context);
     }
     
-    public LibraryDatasource createDatabase() throws SQLException, IOException{
+    public LibraryDatasource createDatabase() throws SQLException {
     	try {
     		dbhelper.createDataBase();
     	} catch (SQLException oops) {
     		Log.e(TAG, oops.getMessage() + " Unable to create database.");
-    	}
+    	} 
+    	
     	return this;
     }
     
@@ -39,9 +40,13 @@ public class LibraryDatasource {
     	try {
     		dbhelper.openDataBase();
     		database = dbhelper.getReadableDatabase();
+    		
     	} catch (SQLException oops){
     		Log.e(TAG, oops.getMessage());
-    	}
+    	} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public void close(){
@@ -49,18 +54,19 @@ public class LibraryDatasource {
     	dbhelper.close();
     }
     
-    public String getName(int id){
+    public String getName(int id) {
     	String name = "";
     	Cursor cursor = null;
-    	String sql = "SELECT name FROM exercises WHERE _id = " + id + ";";
+    	String sql = "SELECT name FROM library WHERE _id = " + id + ";";
     	
     	try {
 			this.open();
 			cursor = database.rawQuery(sql, null);
-			cursor.moveToFirst();	
+			cursor.moveToFirst();
 			name = cursor.getString(0);
 		} catch (SQLException e) {
 			Log.e(TAG, "Failed to retrieve exercises", e);
+			
 		} finally {
 			this.close();
 			if (cursor != null) {
@@ -70,10 +76,10 @@ public class LibraryDatasource {
     	return name;
     }
     
-    public List<String> getNames(){
+    public List<String> getNames() {
     	List<String> names = new ArrayList<String>();
     	Cursor cursor = null;
-    	String sql = "SELECT name FROM exercises;";
+    	String sql = "SELECT name FROM library;";
     	
     	try {
 			this.open();
@@ -96,10 +102,10 @@ public class LibraryDatasource {
     	return names;
     }
     
-    public String getURIById(int id){
+    public String getURIById(int id) {
     	String uri = null;
     	Cursor cursor = null;
-    	String sql = "SELECT desc_uri FROM exercises WHERE _id = " + id + ";";
+    	String sql = "SELECT desc_uri FROM library WHERE _id = " + id + ";";
     	
     	try {
 			this.open();
@@ -118,11 +124,11 @@ public class LibraryDatasource {
     	return uri;
     }
     
-    @SuppressLint("SdCardPath")
+	@SuppressLint("SdCardPath")
 	private class LibraryDatabase extends SQLiteOpenHelper{
 
     	private String DB_PATH = ""; 
-    	private static final String DB_NAME = "dbexercises";
+    	private static final String DB_NAME = "dbexercises.db";
     	// This uses other database because it is already filled.
 
     	private SQLiteDatabase mDataBase;
@@ -140,14 +146,14 @@ public class LibraryDatasource {
     	}
 
 
-    	public void createDataBase() throws IOException {
+    	public void createDataBase() {
 
     		boolean mDataBaseExist = checkDataBase();
 
-    		if(!mDataBaseExist){
+    		if(mDataBaseExist){
     			this.getReadableDatabase();
     			this.close();
-
+    		} else {
     			try {
     				copyDataBase();
     				Log.e(TAG, "createDatabase database created");
@@ -157,7 +163,7 @@ public class LibraryDatasource {
     		}
     	}
 
-    	private boolean checkDataBase(){
+    	public boolean checkDataBase(){
     		File dbFile = new File(DB_PATH + DB_NAME);
     		return dbFile.exists();
     	}
@@ -189,8 +195,9 @@ public class LibraryDatasource {
     	}
 
     	//Open the database, so we can query it
-    	public boolean openDataBase() throws SQLException {
+    	public boolean openDataBase() throws SQLException, IOException {
     		String mPath = DB_PATH + DB_NAME;
+    		this.createDataBase();
     		mDataBase = SQLiteDatabase.openDatabase(mPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
     		//mDataBase = SQLiteDatabase.openDatabase(mPath, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
     		return mDataBase != null;
