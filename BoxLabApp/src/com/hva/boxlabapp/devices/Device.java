@@ -132,6 +132,31 @@ public class Device {
 		return "Device [id=" + id + ", name=" + name + ", position=" + position
 				+ ", type=" + type + ", mac=" + mac + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((mac == null) ? 0 : mac.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Device other = (Device) obj;
+		if (mac == null) {
+			if (other.mac != null)
+				return false;
+		} else if (!mac.equals(other.mac))
+			return false;
+		return true;
+	}
 	
 	
 }

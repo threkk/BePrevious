@@ -28,15 +28,16 @@ import android.widget.Toast;
 public class DeviceUpdater extends DialogFragment {
 
 	private static final String TAG = DialogFragment.class.getName();
+	private static final String RASPBERRY = "raspberrypi";
 	private Device device;
 	private final BaseAdapter adapter;
-	
-	public DeviceUpdater(){
+
+	public DeviceUpdater() {
 		super();
 		adapter = null;
 	}
-	
-	public DeviceUpdater(Device device, BaseAdapter adapter){
+
+	public DeviceUpdater(Device device, BaseAdapter adapter) {
 		this.device = device;
 		this.adapter = adapter;
 	}
@@ -70,9 +71,8 @@ public class DeviceUpdater extends DialogFragment {
 		
 		builder.setView(view);
 		
-		// TODO: Dont allow to attach the same device twice.
 		// TODO: Dont special setup for raspberry pi.
-		
+		// raspberrypi
 		builder.setMessage(R.string.devicemanager_dialog)
 				.setPositiveButton(R.string.devicemanager_edit_device,
 						new DialogInterface.OnClickListener() {
@@ -88,34 +88,52 @@ public class DeviceUpdater extends DialogFragment {
 								Log.e(TAG, "Type: " + type.getDescription());
 								
 								boolean updated = false;
+								boolean found = false;
 
 								if(last4chars != null && type != Device.Type.NULL) {
 									Collection<BluetoothDevice> bondedDevices = mBluetoothAdapter.getBondedDevices();
 									for (BluetoothDevice bluetoothDevice : bondedDevices) {
 										Log.e(TAG, "Checking device: " + bluetoothDevice.toString());
-										if(bluetoothDevice.getAddress().replace(":", "").endsWith(last4chars)){
-											device.setMac(bluetoothDevice.getAddress());
-											device.setName(last4chars);
-											device.setType(type.getId());
-											if (device.getId() != 0) {
-												db.update(device);
-												Log.e(TAG, "Device updated: " + device.toString());
-											} else {
-												device = db.create(device);
-												Log.e(TAG, "Device added: " + device.toString());
+										if (type.equals(Device.Type.RASPBERRY) && device.getPosition().equals(Device.Position.SERVER)){
+											if(bluetoothDevice.getName().equals(RASPBERRY)){
+												device.setMac(bluetoothDevice.getAddress());
+												device.setName(RASPBERRY);
+												device.setType(Device.Type.RASPBERRY.getId());
+												found = true;
+												break;
 											}
-											updated = true;
-											break;
+										} else {
+											if(bluetoothDevice.getAddress().replace(":", "").endsWith(last4chars)){
+												device.setMac(bluetoothDevice.getAddress());
+												device.setName(last4chars);
+												device.setType(type.getId());
+												found = true;
+												break;
+											}
 										}
+										
+									}
+										
+									if(!db.getDevices().contains(device) && found == true) {
+										if (device.getId() != 0) {
+											db.update(device);
+											Log.e(TAG, "Device updated: " + device.toString());
+										} else {
+											device = db.create(device);
+											Log.e(TAG, "Device added: " + device.toString());
+										}
+										updated = true;
 									}
 								} else {
 									Log.e(TAG,"Empty fields");
 									Toast.makeText(getActivity(), "Fill the fields before editing.", Toast.LENGTH_SHORT).show();
 									return ;
 								}
-								if(updated == true) {
+								if(found == true && updated == true) {
 									adapter.notifyDataSetChanged();
-								} else {
+								} else if (found == true && updated == false) {
+									Toast.makeText(getActivity(), "Device already added.", Toast.LENGTH_SHORT).show();
+								} else if (found == false && updated == false) {
 									Toast.makeText(getActivity(), "Device not found", Toast.LENGTH_SHORT).show();
 								}
 							}
