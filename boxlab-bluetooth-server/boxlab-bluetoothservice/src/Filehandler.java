@@ -16,8 +16,9 @@ import java.util.Date;
 import java.util.List;
 
 public class Filehandler {
-	private final static String DIRLOCATIONREAD = "..//read";
-	private final static String DIRLOCATIONWRITE = "..//write";
+	// READ IS WHAT THE BOXLAB SERVER HAS DOWNLOADED
+	private final static String DIRLOCATIONREAD = "..//..//boxlab-server//data//in";
+	private final static String DIRLOCATIONWRITE = "..//..//boxlab-server//data//out";
 	private final static String FILETOPI = ".json.download";
 	private final static String FILEFROMPI = ".json.send";
 	private final static String SEPARETOR = "ñ";

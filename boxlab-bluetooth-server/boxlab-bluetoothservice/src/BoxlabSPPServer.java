@@ -21,8 +21,8 @@ import javax.microedition.io.*;
 public class BoxlabSPPServer {
 
 	// start server
-	private void startServer() throws IOException {
-		Filehandler fileHandler = new Filehandler();
+	private void startServer(Filehandler handler) throws IOException {
+		Filehandler fileHandler = handler;
 		// Create a UUID for SPP
 		UUID uuid = new UUID("1101", true);
 		// Create the service url
@@ -63,6 +63,7 @@ public class BoxlabSPPServer {
 
 		List<String> readFromFiles = fileHandler.readFromFiles();
 		for (String string : readFromFiles) {
+			System.out.println(string);
 			pWriter.println(string + "\r\n");
 		}
 		pWriter.println("EXIT");
@@ -73,7 +74,7 @@ public class BoxlabSPPServer {
 	}
 
 	public static void main(String[] args) throws IOException {
-
+		Filehandler fileHandler =new Filehandler();
 		// display local device address and name
 		LocalDevice localDevice = LocalDevice.getLocalDevice();
 		System.out.println("Address: " + localDevice.getBluetoothAddress());
@@ -81,7 +82,7 @@ public class BoxlabSPPServer {
 		System.out.println("Name: " + localDevice.getFriendlyName());
 		while (true) {
 			BoxlabSPPServer sampleSPPServer = new BoxlabSPPServer();
-			sampleSPPServer.startServer();
+			sampleSPPServer.startServer(fileHandler);
 		}
 
 	}
