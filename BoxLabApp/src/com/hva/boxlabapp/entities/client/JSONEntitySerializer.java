@@ -1,4 +1,4 @@
-package com.boxlab.bluetooth.client;
+package com.hva.boxlabapp.entities.client;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -6,13 +6,13 @@ import java.lang.reflect.Modifier;
 import java.util.Date;
 
 
-import com.boxlab.bluetooth.client.Entity;
 import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.hva.boxlabapp.entities.client.Entity;
 
 public class JSONEntitySerializer implements EntitySerializer {
 

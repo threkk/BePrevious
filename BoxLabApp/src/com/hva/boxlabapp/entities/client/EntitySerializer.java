@@ -1,6 +1,6 @@
-package com.boxlab.bluetooth.client;
+package com.hva.boxlabapp.entities.client;
 
-import com.boxlab.bluetooth.client.Entity;
+import com.hva.boxlabapp.entities.client.Entity;
 
 public interface EntitySerializer {
 

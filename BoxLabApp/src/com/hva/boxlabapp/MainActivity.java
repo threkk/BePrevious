@@ -18,12 +18,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.boxlab.bluetooth.client.ExerciseEntry;
-import com.boxlab.bluetooth.client.JSONEntitySerializer;
 import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
 import com.hva.boxlabapp.database.ScheduleDatasource;
 import com.hva.boxlabapp.devices.DeviceActivity;
 import com.hva.boxlabapp.entities.Schedule;
+import com.hva.boxlabapp.entities.client.ExerciseEntry;
+import com.hva.boxlabapp.entities.client.JSONEntitySerializer;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
 @SuppressLint("HandlerLeak")

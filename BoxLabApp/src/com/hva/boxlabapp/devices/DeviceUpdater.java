@@ -49,7 +49,7 @@ public class DeviceUpdater extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-		final View view = inflater.inflate(R.layout.device_manager_dialog, null);
+		final View view = inflater.inflate(R.layout.dialog_device, null);
 		
 		Spinner fieldType = (Spinner) view
 				.findViewById(R.id.dialog_device_type);

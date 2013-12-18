@@ -1,4 +1,4 @@
-package com.boxlab.bluetooth.client;
+package com.hva.boxlabapp.entities.client;
 
 import java.util.Calendar;
 import java.util.Date;

@@ -81,7 +81,7 @@ public class Exercise3DActivity extends AndroidApplication implements
 		
 		// Content
 		View contentView = LayoutInflater.from(this).inflate(
-				R.layout.exercise_3d_content, null);
+				R.layout.activity_exercise, null);
 		Intent intent = getIntent();
 		Schedule exercise = (Schedule) intent.getSerializableExtra(FragmentSchedule.EXERCISE);
 
