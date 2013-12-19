@@ -133,13 +133,13 @@ containing a value of this type.
         public static final int tab_unselected_pressed_boxlabapp=0x7f020029;
     }
     public static final class id {
-        public static final int action_about=0x7f09001e;
-        public static final int action_delete=0x7f090021;
-        public static final int action_edit=0x7f090020;
-        public static final int action_refresh=0x7f09001f;
-        public static final int action_settings=0x7f09001d;
+        public static final int action_about=0x7f09001f;
+        public static final int action_delete=0x7f090022;
+        public static final int action_edit=0x7f090021;
+        public static final int action_refresh=0x7f090020;
+        public static final int action_settings=0x7f09001e;
         public static final int activity_main=0x7f090009;
-        public static final int calendar_grid=0x7f09001c;
+        public static final int calendar_grid=0x7f09001d;
         public static final int calendar_view=0x7f090012;
         public static final int device_dialog_layout=0x7f09000a;
         public static final int device_list=0x7f090000;
@@ -156,17 +156,18 @@ containing a value of this type.
         public static final int exercise_3d_set_counter=0x7f090005;
         public static final int exercise_3d_set_max=0x7f090006;
         public static final int exercise_3d_title=0x7f090002;
+        public static final int feedback_date=0x7f09001a;
         public static final int feedback_input=0x7f09000f;
         public static final int feedback_list=0x7f09000e;
+        public static final int feedback_message=0x7f090019;
         public static final int feedback_send=0x7f090010;
         public static final int fragment_feedback=0x7f09000d;
-        public static final int item_feedback=0x7f090019;
-        public static final int library_item=0x7f09001a;
+        public static final int library_item=0x7f09001b;
         public static final int library_webview=0x7f090011;
-        public static final int menu_about=0x7f090022;
+        public static final int menu_about=0x7f090023;
         public static final int schedule_activities=0x7f090014;
         public static final int schedule_content=0x7f090013;
-        public static final int title=0x7f09001b;
+        public static final int title=0x7f09001c;
         public static final int warning=0x7f090015;
     }
     public static final class layout {

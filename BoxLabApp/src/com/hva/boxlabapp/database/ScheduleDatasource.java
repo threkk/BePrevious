@@ -145,8 +145,8 @@ public class ScheduleDatasource {
 		public static final String COLUMN_SCHEDULE_DONE = "is_done"; // boolean
 		public static final String COLUMN_SCHEDULE_NOTES = "notes"; // optional
 
-		private static final String DATABASE_NAME = "schedule.db";
-		private static final int DATABASE_VERSION = 2;
+		private static final String DATABASE_NAME = "database.db";
+		private static final int DATABASE_VERSION = 1;
 
 		private static final String DATABASE_CREATE = "create table "
 				+ TABLE_SCHEDULE + "(" 

@@ -3,7 +3,8 @@ package com.hva.boxlabapp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hva.boxlabapp.entities.client.Message;
+import com.hva.boxlabapp.database.FeedbackDatasource;
+import com.hva.boxlabapp.entities.MessageItem;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -34,11 +35,15 @@ public class FragmentFeedback extends Fragment{
 	private class MessageAdapter extends BaseAdapter {
 
 		private Context context;
-		private List<Message> messages;
+		private List<MessageItem> messages;
 		
-		public MessageAdapter(Context context, List<Message> messages) {
+		public MessageAdapter(Context context, List<MessageItem> messages) {
 			this.context = context;
-			this.messages = messages;
+			this.messages = new ArrayList<MessageItem>();
+			
+			FeedbackDatasource db = new FeedbackDatasource(context);
+			List<MessageItem> items = db.getMessages();
+			messages.addAll(items);
 		}
 		
 		@Override
@@ -58,7 +63,11 @@ public class FragmentFeedback extends Fragment{
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
+
+			LayoutInflater inflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View view = inflater.inflate(R.layout.item_feedback, parent, false);
+
 			return null;
 		}
 		
