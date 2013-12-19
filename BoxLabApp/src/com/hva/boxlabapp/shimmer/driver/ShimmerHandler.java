@@ -2,6 +2,7 @@ package com.hva.boxlabapp.shimmer.driver;
 
 import java.util.Collection;
 
+import com.badlogic.gdx.math.Quaternion;
 import com.hva.boxlabapp.devices.Device;
 
 import android.content.Context;
@@ -11,19 +12,16 @@ import android.util.Log;
 
 public class ShimmerHandler extends Handler {
 	private static final String TAG = ShimmerHandler.class.getName();
-	private double[] data;
+	private float[] data;
 	private Shimmer shimmer;
 	public ShimmerHandler() {
-		data = new double[6];
-		data[0] = 0; // accel x
-		data[1] = 0; // accel y
-		data[2] = 0; // accel z
-		data[3] = 0; // gyros x
-		data[4] = 0; // gyros y
-		data[5] = 0; // gyros z
-					 // I guess...
+		data = new float[3];
+		data[0] = 0; // q1
+		data[1] = 0; // q2
+		data[2] = 0; // q3
+		data[3] = 0; // q4
+					 
 	}
-
 	public void init(Device device, Context context) {
 		Shimmer shimmerDevice = new Shimmer(context, this, device.getName(),
 				10, 1, 4, Shimmer.SENSOR_ACCEL, false);
@@ -60,20 +58,19 @@ public class ShimmerHandler extends Handler {
 				ObjectCluster objectCluster = (ObjectCluster) msg.obj;
 
 				String[] sensorName = new String[0];
-				sensorName = new String[6]; // for x y and z axis
-				sensorName[0] = "Accelerometer X";
-				sensorName[1] = "Accelerometer Y";
-				sensorName[2] = "Accelerometer Z";
-				sensorName[3] = "Gyroscope X";
-    			sensorName[4] = "Gyroscope Y";
-    			sensorName[5] = "Gyroscope Z";
+				sensorName = new String[4]; // for x y and z axis
+				sensorName[0] = "Quarternion 1";
+				sensorName[1] = "Quarternion 2";
+				sensorName[2] = "Quarternion 3";
+				sensorName[3] = "Quarternion 4";
+    			
 				for (int i = 0; i < sensorName.length; i++) {
 					Collection<FormatCluster> ofFormats = objectCluster.mPropertyCluster
 							.get(sensorName[i]);
 					FormatCluster formatCluster = ((FormatCluster) ObjectCluster
 							.returnFormatCluster(ofFormats, "CAL"));
 					if (formatCluster != null) {
-						data[i] = formatCluster.mData;
+						data[i] = (float) formatCluster.mData;
 						Log.i(TAG, "Data calibrated for sensorname " + sensorName[i]+"  = " + data[i]);
 
 					}
@@ -93,7 +90,7 @@ public class ShimmerHandler extends Handler {
 
 	}
 
-	public double[] readSensors() {
-		return data;
+	public Quaternion readSensors() {
+		return new Quaternion(data[0], data[1], data[2], data[3]);
 	}
 }
