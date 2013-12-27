@@ -1,10 +1,10 @@
 var log4js = require('log4js');
-var path = require("path");
+var paths = require('./paths');
 
 var defaultCategory = 'default';
 
 module.exports.configure = function() {
-	log4js.configure(path.join(__dirname, '../log4js.json'), {});
+	log4js.configure(paths.relative(paths.resources, 'log4js.json'), {});
 }
 
 module.exports.getLogger = function(category) {

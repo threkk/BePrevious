@@ -1,13 +1,13 @@
 var fs = require("fs");
 var _ = require('lodash');
-var path = require('path');
 var EventEmitter = require('events').EventEmitter;
 var emitter = new EventEmitter();
 
+var paths = require('./paths');
 var logger = require('../modules/logging').getLogger('io');
 
 function LocalDatabase() {
-	this.sourcefile = path.resolve('./resources/localdatabase.json');
+	this.sourcefile = paths.relative(paths.resource, 'localdatabase.json');
 	this.encoding = 'utf8';
 	this.data = {};
 

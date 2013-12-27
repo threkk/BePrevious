@@ -3,6 +3,11 @@ var logger = require('../logging').getLogger('client');
 var client = require('./client').client;
 
 module.exports.updateBatteryCommand = function (deviceManager, callback) {
+	if (require('./devicemanager').deviceManager==deviceManager) {
+		console.log('device manager');
+	} else if (require('../../app')==deviceManager) {
+		console.log('app!');
+	}
     async.forEach(deviceManager.devices, updateBattery, function (err) {
         callback(err);
     });

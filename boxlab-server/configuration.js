@@ -8,7 +8,7 @@ module.exports = {
     maxDuration: (3 * 60 * 1000),
 
 	//device manager variables
-    deviceUpdateTicks: 30,
+    deviceUpdateTicks: 60,
     deviceMultilevelTicks: 10,
     deviceBatteryTicks: 10,
     deviceMeterTicks: 5,
