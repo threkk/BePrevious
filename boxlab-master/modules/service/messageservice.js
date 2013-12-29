@@ -1,6 +1,11 @@
 var logger = require('../logging').getLogger('service');
 var Message = require('../schemas').Message;
 
+function handleError(message, err, data) {
+	logger.error('%s with data: %s', message, JSON.stringify(data));
+	logger.error('Error: %s', JSON.stringify(err));
+}
+
 function Service() {
 
 }
@@ -9,17 +14,26 @@ Service.prototype = {
 	saveMessage : function(data, callback) {
 		Message.saveUpdate(data, function(err) {
 			if (err) {
-				logger.error('Failed to save message with data: ' + JSON.stringify(data));
-				logger.error('Error: ' + JSON.stringify(err));
+				handleError('Failed to save message', err, data);
 			}
 			callback(err);
 		});
 	},
 
 	getMessages : function(identification, query, callback) {
-		Message.find({
+		var statement = Message.find({
 			identification : identification
-		}).where('date').gte(query.from).lte(query.to).exec(callback);
+		});
+
+		if (query.from) {
+			statement = query.where('created').gte(query.from);
+		}
+
+		if (query.to) {
+			statement = query.where('created').lte(query.to);
+		}
+
+		statement.exec(callback);
 	}
 };
 
