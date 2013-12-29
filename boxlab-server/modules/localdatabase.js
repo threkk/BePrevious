@@ -7,7 +7,7 @@ var paths = require('./paths');
 var logger = require('../modules/logging').getLogger('io');
 
 function LocalDatabase() {
-	this.sourcefile = paths.relative(paths.resource, 'localdatabase.json');
+	this.sourcefile = paths.relative(paths.resources, 'localdatabase.json');
 	this.encoding = 'utf8';
 	this.data = {};
 
@@ -71,7 +71,7 @@ LocalDatabase.prototype = {
 				value : name
 			});
 		} else {
-			names[index].value=name;
+			names[index].value = name;
 		}
 
 		this.update({
@@ -114,6 +114,16 @@ LocalDatabase.prototype = {
 
 		this.update({
 			temperatureOffsets : offsets
+		});
+	},
+
+	getLastSyncDate : function() {
+		return this.data.last_sync_date;
+	},
+
+	setLastSyncDate : function(date) {
+		this.update({
+			last_sync_date : date
 		});
 	},
 
