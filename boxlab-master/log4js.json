@@ -19,7 +19,8 @@
     }
   ],
   "levels": {
-    "default":  "DEBUG"
+    "default": "DEBUG",
+    "api": "DEBUG"
   },
   "replaceConsole": true
 }

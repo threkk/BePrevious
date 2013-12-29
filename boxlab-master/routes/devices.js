@@ -1,8 +1,8 @@
 var async = require('async');
 var moment = require('moment');
 
-var deviceService = require('../modules/deviceservice').service;
 var logger = require('../modules/logging').getLogger('api');
+var deviceService = require('../modules/service/deviceservice');
 
 function parseDate(input) {
 	var intValue = parseInt(input, 10);
@@ -17,6 +17,7 @@ function parseDate(input) {
 		return null;
 	}
 }
+
 function getDevices(req, res) {
 	var identifier = req.params.identifier;
 	var nodeId = req.query.nodeid;

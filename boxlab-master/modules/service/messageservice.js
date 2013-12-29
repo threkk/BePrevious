@@ -1,6 +1,5 @@
-var logger = require('./logging').getLogger('service');
-
-var Message = require('./models').Message;
+var logger = require('../logging').getLogger('service');
+var Message = require('../schemas').Message;
 
 function Service() {
 
@@ -24,4 +23,4 @@ Service.prototype = {
 	}
 };
 
-module.exports.service = new Service();
+module.exports = new Service();

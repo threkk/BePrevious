@@ -1,5 +1,5 @@
-var logger = require('./logging').getLogger('service');
-var ExerciseEntry = require('./models').ExerciseEntry;
+var logger = require('../logging').getLogger('service');
+var ExerciseEntry = require('../schemas').ExerciseEntry;
 
 function Service() {
 
@@ -35,4 +35,4 @@ Service.prototype = {
 	}
 };
 
-module.exports.service = new Service();
+module.exports = new Service();

@@ -1,6 +1,6 @@
 var moment = require('moment');
 
-var messageService = require('../modules/messageservice').service;
+var messageService = require('../modules/service/messageservice');
 
 function parseDate(input) {
 	var intValue = parseInt(input, 10);
