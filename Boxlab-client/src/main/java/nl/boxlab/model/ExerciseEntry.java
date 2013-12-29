@@ -2,13 +2,8 @@ package nl.boxlab.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import nl.boxlab.DateUtilities;
-import nl.boxlab.remote.JSONEntitySerializer;
 
 public class ExerciseEntry extends Entity implements Serializable {
 
@@ -30,7 +25,7 @@ public class ExerciseEntry extends Entity implements Serializable {
 	}
 
 	public void setIdentification(String identification) {
-		this.identification = identification;
+		firePropertyChange("identification", this.identification, this.identification = identification);
 	}
 
 	public Date getDate() {
@@ -54,8 +49,7 @@ public class ExerciseEntry extends Entity implements Serializable {
 	}
 
 	public void setExerciseId(Integer exerciseId) {
-		firePropertyChange("exerciseId", this.exerciseId,
-		        this.exerciseId = exerciseId);
+		firePropertyChange("exerciseId", this.exerciseId, this.exerciseId = exerciseId);
 	}
 
 	public boolean isDone() {
@@ -78,17 +72,5 @@ public class ExerciseEntry extends Entity implements Serializable {
 	public String toString() {
 		return "ExerciseEntry [date=" + date + ", exerciseId=" + exerciseId
 		        + ", done=" + done + ", repetitions=" + repetitions + "]";
-	}
-
-	public static void main(String[] args) {
-		JSONEntitySerializer serializer = new JSONEntitySerializer();
-		ExerciseEntry entry = new ExerciseEntry();
-		entry.setDate(DateUtilities.getEndOfMonth(Calendar.DECEMBER, 2013));
-		entry.setExerciseId(2);
-		entry.setRepetitions(Arrays.asList(12, 12, 12));
-		entry.setDone(false);
-		entry.setId("ADS#$HAU$HSJD$%543534D45");
-		entry.setNote("No additional information has been added.");
-		System.out.println(serializer.serialize(entry));
 	}
 }

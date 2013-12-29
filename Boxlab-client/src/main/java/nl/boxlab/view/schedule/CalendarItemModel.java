@@ -60,7 +60,7 @@ public class CalendarItemModel extends DefaultTableModel {
 	private List<Message> getMessages(List<Message> messages, Date date) {
 		List<Message> result = new ArrayList<>();
 		for (Message message : messages) {
-			if (DateUtilities.equalDay(message.getDate(), date)) {
+			if (DateUtilities.equalDay(message.getCreated(), date)) {
 				result.add(message);
 			}
 		}
