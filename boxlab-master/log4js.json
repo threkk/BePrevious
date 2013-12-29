@@ -12,6 +12,13 @@
     },
     {
         "type": "file",
+        "filename": "./logs/server.log",
+        "maxLogSize": 20480,
+        "backups": 1,
+        "category": "server"
+    },
+    {
+        "type": "file",
         "filename": "./logs/api.log",
         "maxLogSize": 20480,
         "backups": 1,
@@ -20,6 +27,7 @@
   ],
   "levels": {
     "default": "DEBUG",
+    "server": "DEBUG",
     "api": "DEBUG"
   },
   "replaceConsole": true

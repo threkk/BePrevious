@@ -67,7 +67,7 @@ function _downloadMessages(callback) {
 		if (err) {
 			return callback(err);
 		}
-
+		logger.debug('downloaded: '+JSON.stringify(data));
 		_appendFile(messages_file, data, callback);
 	});
 }
@@ -104,7 +104,7 @@ function _downloadEntries(callback) {
 function _appendFile(file, data, callback) {
 	var lines = '';
 	for ( var key in data) {
-		lines += data[key] + '\r\n';
+		lines += JSON.stringify(data[key]) + '\r\n';
 	}
 
 	fs.appendFile(file, lines, callback);

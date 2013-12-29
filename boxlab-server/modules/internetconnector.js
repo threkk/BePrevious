@@ -3,10 +3,12 @@ function InternetConnector() {
 }
 
 InternetConnector.prototype = {
-	connect: function(callback) { 
+	connect: function(callback) {
+		callback();
 	}, 
 	
 	disconnect: function(callback) {
+		callback();
 	}
 }
 

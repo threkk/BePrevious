@@ -26,11 +26,11 @@ Service.prototype = {
 		});
 
 		if (query.from) {
-			statement = query.where('created').gte(query.from);
+			statement = statement.where('created').gte(query.from);
 		}
 
 		if (query.to) {
-			statement = query.where('created').lte(query.to);
+			statement = statement.where('created').lte(query.to);
 		}
 
 		statement.exec(callback);

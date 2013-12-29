@@ -117,10 +117,6 @@ var messageSchema = new Schema({
 		type : String,
 		required : true
 	},
-	date : {
-		type : Number,
-		required : true
-	},
 
 	message : String,
 	fromPatient : Boolean,
