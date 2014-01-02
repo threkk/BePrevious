@@ -2,6 +2,7 @@ var fs = require('fs');
 
 var async = require('async');
 var restify = require('restify');
+var moment = require('moment');
 
 var configuration = require('../configuration.js');
 
@@ -49,7 +50,7 @@ function downloadFiles(callback) {
 
 function uploadFiles(callback) {
 	logger.info('uploading data to master server (not yet implemented)');
-	callback();
+	async.series([ _uploadDevices, _uploadFiles ], callback);
 }
 
 /**
@@ -67,7 +68,7 @@ function _downloadMessages(callback) {
 		if (err) {
 			return callback(err);
 		}
-		logger.debug('downloaded: '+JSON.stringify(data));
+		logger.debug('downloaded: ' + JSON.stringify(data));
 		_appendFile(messages_file, data, callback);
 	});
 }
@@ -108,6 +109,134 @@ function _appendFile(file, data, callback) {
 	}
 
 	fs.appendFile(file, lines, callback);
+}
+
+/**
+ * uploads the currently registered devices to the master server
+ * 
+ * @param callback
+ */
+function _uploadDevices(callback) {
+	logger.debug('need to send devices to server', JSON.stringify(stateUpdate));
+	logger.debug('NOT YET IMPLEMENTED');
+	callback();
+}
+
+/**
+ * uploads all the json files to the master server
+ * 
+ * @param callback
+ */
+function _uploadFiles(callback) {
+	_listUploadFiles(function(err, files) {
+		logger.debug("files to upload: " + JSON.stringify(files));
+		async.eachSeries(files, function(file, fn) {
+			_parseFile(file, function(err, data) {
+				if (err) {
+					return fn(err);
+				}
+
+				_uploadParsedFile(data, fn);
+			})
+		}, callback);
+	});
+}
+
+/**
+ * parses the given file to a json array
+ * 
+ * @param file
+ *            the file to parse
+ * @param callback(error,
+ *            result)
+ */
+function _parseFile(file, callback) {
+	fs.readFile(file, function(err, data) {
+		if (err) {
+			return callback(err);
+		}
+
+		// data is an object, not a string..
+		var formatted = '' + data;
+		// split the data into an array per line
+		formatted = formatted.split('\r\n');
+
+		var parsed = [];
+		for ( var key in formatted) {
+			if (formatted[key].length < '{}'.length) {
+				continue;
+			}
+
+			parsed.push(JSON.parse(formatted[key]));
+		}
+
+		callback(null, parsed);
+	});
+}
+
+/**
+ * uploads the given parsed data to the master server
+ * 
+ * @param data
+ * @param callback
+ */
+function _uploadParsedFile(data, callback) {
+	async.eachSeries(data, function(stateUpdate, fn) {
+		logger
+				.debug('need to send "%s" to server', JSON
+						.stringify(stateUpdate));
+		logger.debug('NOT YET IMPLEMENTED');
+		fn();
+	}, callback)
+}
+
+/**
+ * lists the files that need to be parsed and uploaded to the master server
+ * 
+ * @param callback(error,result)
+ */
+function _listUploadFiles(callback) {
+	// read all files in the data/out directory
+	function readFiles(fn) {
+		fs.readdir(paths.data_out, fn)
+	}
+
+	// filter out files that do not need to be sent
+	function filterFiles(files, fn) {
+		async.filter(files, function(filename, fn) {
+			var keep = false;
+			var ext = filename.split('.').pop();
+
+			if (ext == 'json') {
+				// we want to upload files that are json files
+				keep = true;
+
+				var name = filename.substr(0, filename.length - 5);
+				var todayName = moment().format('YYYY-MM-DD');
+				if (name == todayName) {
+					// dont want to upload the file that were still modifying
+					// e.g. files that are of this date
+					keep = false;
+				}
+			}
+
+			fn(keep);
+		}, function(filtered) {
+			fn(null, filtered);
+		});
+	}
+
+	// prepend the correct path to the filenames
+	function sanitizeFiles(files, fn) {
+		var sanitized = [];
+		for ( var key in files) {
+			var filename = files[key];
+			sanitized.push(paths.relative(paths.data_out, filename));
+		}
+		fn(null, sanitized);
+	}
+
+	async.waterfall([ readFiles, filterFiles, sanitizeFiles ], callback);
 }
 
 synchronize(function(err) {
