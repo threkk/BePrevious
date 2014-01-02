@@ -85,8 +85,8 @@ var deviceStateSchema = new Schema({
 		type : Number,
 		required : true
 	},
-	power : Number,
-	usage : Number,
+	kWh : Number,
+	W : Number,
 	temperature : Number,
 	luminescence : Number,
 	value : Number,

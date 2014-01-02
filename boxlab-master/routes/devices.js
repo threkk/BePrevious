@@ -59,15 +59,17 @@ function postDevices(req, res) {
 }
 
 function postDeviceState(req, res) {
+	var state = req.body.state;
+
 	var stateData = {
 		identification : req.params.identification,
 		nodeId : req.body.nodeId,
 		timestamp : req.body.timestamp,
-		power : req.body.state.power,
-		usage : req.body.state.usage,
-		temperature : req.body.state.temperature,
-		luminescence : req.body.state.luminescence,
-		value : req.body.state.luminescence,
+		kWh : state.kWh,
+		W : state.W,
+		temperature : state.temperature,
+		luminescence : state.luminescence,
+		value : state.value
 	};
 
 	deviceService.saveState(stateData, function(err) {
@@ -81,11 +83,13 @@ function postDeviceState(req, res) {
 
 function getDeviceState(req, res) {
 	var query = {
-		from : (parseDate(req.query.from) || moment().startOf('month')).valueOf(),
+		from : (parseDate(req.query.from) || moment().startOf('month'))
+				.valueOf(),
 		to : (parseDate(req.query.to) || moment().endOf('month')).valueOf()
 	};
 
-	deviceService.get(req.params.identification, query, function handleResult(err, results) {
+	deviceService.get(req.params.identification, query, function handleResult(
+			err, results) {
 		res.send(404, results);
 	});
 }
