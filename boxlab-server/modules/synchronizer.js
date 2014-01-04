@@ -8,9 +8,10 @@ var configuration = require('../configuration.js');
 
 var logger = require('./logging').getLogger('io');
 var paths = require('./paths');
-
+var connector = require('internetconnector').connector;
 var identification = require('./identification');
 var localDB = require('./localdatabase').localDB;
+
 
 var messages_file = paths.relative(paths.data_in, 'messages.json');
 var entries_file = paths.relative(paths.data_in, 'entries.json');
@@ -27,13 +28,28 @@ var restClient = restify.createJsonClient({
  * @param callback
  */
 function synchronize(callback) {
-	var start = +new Date();
-	async.series([ downloadFiles, uploadFiles ], function(err) {
-		if (!err) {
-			localDB.setLastSyncDate(start);
+	connector.connect(function(err) {
+		if (err) {
+			logger.error('failed to connect to the internet: ' + JSON.stringify(err));
+			return callback(err);
 		}
-		callback(err);
-	});
+
+		logger.info('synchronizing with master server');
+		var start = +new Date();
+		async.series([ downloadFiles, uploadFiles ], function(err) {
+			if (!err) {
+				localDB.setLastSyncDate(start);
+			}
+			callback(err);
+		});
+
+		connector.disconnect(function(err) {
+			if (err) {
+				return logger.error('failed to disconnect to the internet');
+			}
+			callback();
+		});
+	})
 }
 
 /**
@@ -64,11 +80,18 @@ function _downloadMessages(callback) {
 	};
 
 	var path = '/boxlab/api/' + identification.getIdentity() + '/messages';
-	restClient.get(path, function(err, req, res, data) {
+	var query = '?from=' + localDB.getLastSyncDate();
+	restClient.get(path + query, function(err, req, res, data) {
 		if (err) {
 			return callback(err);
 		}
-		logger.debug('downloaded: ' + JSON.stringify(data));
+
+		if (data.length > 0) {
+			logger.info('%d messages were downloaded', data.length);
+		} else {
+			logger.info('no new messages were found');
+		}
+
 		_appendFile(messages_file, data, callback);
 	});
 }
@@ -84,9 +107,15 @@ function _downloadEntries(callback) {
 	};
 
 	var path = '/boxlab/api/' + identification.getIdentity() + '/entries';
-	restClient.get(path, function(err, req, res, data) {
+	var query = '?from=' + localDB.getLastSyncDate();
+	restClient.get(path + query, function(err, req, res, data) {
 		if (err) {
 			return callback(err);
+		}
+		if (data.length > 0) {
+			logger.info('%d exercise entries were downloaded', data.length);
+		} else {
+			logger.info('no new exercise entries were downloaded');
 		}
 
 		_appendFile(entries_file, data, callback);
@@ -239,10 +268,4 @@ function _listUploadFiles(callback) {
 	async.waterfall([ readFiles, filterFiles, sanitizeFiles ], callback);
 }
 
-synchronize(function(err) {
-	if (err) {
-		console.log('synchronization unsuccesfull' + JSON.stringify(err));
-	} else {
-		console.log('synchronization succesfull');
-	}
-});
+module.exports.synchronize = synchronize;

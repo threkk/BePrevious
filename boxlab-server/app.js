@@ -9,6 +9,8 @@ var io = require('socket.io');
 
 var handler = require('./modules/zwave/commandhandler').handler;
 
+var scheduler = require('./modules/scheduler').scheduler;
+var synchronizer = require('./modules/synchronizer');
 var writer = require('./modules/writer').writer;
 var logger = require('./modules/logging').getLogger('app');
 var identification = require('./modules/identification');
@@ -53,6 +55,8 @@ app.start = function() {
 
 	bindWebsockets(server);
 	bindWriter();
+	scheduleSynchronizer();
+
 	app.map(require('./routes/client').routes, '/client/');
 	app.map(require('./routes/dashboard').routes, '/');
 
@@ -63,13 +67,12 @@ app.start = function() {
 	});
 }
 
-
 function bindWebsockets(server) {
 	var sockets = io.listen(server, {
 		log : false
 	});
 	var socket = sockets.of('/client');
-	
+
 	var deviceManager = require('./modules/zwave/devicemanager').deviceManager;
 	deviceManager.on('device_added', function(device) {
 		socket.emit('device_added', device);
@@ -86,7 +89,23 @@ function bindWriter() {
 			logger.debug('wrote to file: ' + JSON.stringify(message));
 		});
 	});
-} 
+}
+
+function scheduleSynchronizer() {
+	scheduler.schedule('00 00 03 * * 1-7', function() {
+		synchronizer.synchronize(function(err) {
+			if (err) {
+				logger.info('synchronization unsuccesfull:' + JSON.stringify(err));
+			} else {
+				logger.info('synchronization succesfull');
+			}
+		});
+	}, function(err) {
+		if (err) {
+			logger.error('failed to schedule synchronizer');
+		}
+	});
+}
 
 if ('development' == app.get('env')) {
 	app.use(express.logger('dev'));
