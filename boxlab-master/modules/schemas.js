@@ -58,7 +58,7 @@ var deviceSchema = new Schema({
 		required : 'Boxlab identity needs to be provided!'
 	},
 	name : String,
-	nodeId : Number,
+	id : Number,
 	basicType : Number,
 	genericType : Number,
 	specificType : Number,
