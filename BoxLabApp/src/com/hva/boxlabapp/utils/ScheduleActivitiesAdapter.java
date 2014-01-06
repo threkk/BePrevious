@@ -74,7 +74,7 @@ public class ScheduleActivitiesAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(int arg0, boolean arg1, View arg2, ViewGroup arg3) {
 		TextView view = new TextView(context);
 		String msg = "";
-		msg += exercises.get(items.get(arg0).getExercise())
+		msg += exercises.get(items.get(arg0).getExercise()-1)
 				+ " - Repetitions: ";
 		for(Integer i : items.get(arg0).getRepetitions()){
 			msg += i + "/";

@@ -61,9 +61,9 @@ public class Exercise3DActivity extends AndroidApplication implements
 //		}
 		
 		// Creating handlers
-		chest = new ShimmerHandler();
-		thigh = new ShimmerHandler();
-		shin = new ShimmerHandler();
+//		chest = new ShimmerHandler();
+//		thigh = new ShimmerHandler();
+//		shin = new ShimmerHandler();
 		
 		// chest.init(mChest, this);
 		// thigh.init(mThigh, this);
