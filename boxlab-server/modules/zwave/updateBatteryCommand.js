@@ -1,6 +1,8 @@
 var async = require('async');
+
 var logger = require('../logging').getLogger('client');
 var client = require('./client').client;
+var writer = require('../writer').writer;
 
 module.exports.updateBatteryCommand = function(deviceManager, callback) {
 	async.forEach(deviceManager.devices, updateBattery, function(err) {

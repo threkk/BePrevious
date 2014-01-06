@@ -2,6 +2,7 @@ var async = require('async');
 var logger = require('../logging').getLogger('client');
 var writer = require('../writer').writer;
 var client = require('./client').client;
+
 module.exports.updateMeterCommand = function(deviceManager, callback) {
 	async.forEach(deviceManager.devices, updateMeter, function(err) {
 		callback(err);

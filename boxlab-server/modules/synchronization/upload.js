@@ -16,21 +16,30 @@ var upload_file_path = '/boxlab/api/' + identification.getIdentity() + '/devices
  * @param callback
  */
 function uploadDevices(client, callback) {
-	logger.debug('need to send devices to server');
-	logger.debug('NOT YET IMPLEMENTED');
-	var devices = deviceManager.devices;
-	if (devices.length < 1) {
-		logger.debug('node devices found to upload');
-		callback();
-	} else {
-		async.map(devices, function(device, fn) {
-			fn(device.data);
-		}, function(err, results) {
-			client.post(upload_devices_path, results, function(err, req, res) {
-				callback(err);
-			})
-		});
-	}
+	deviceManager.update(function(err) {
+		if (err) {
+			return callback(err);
+		}
+		var devices = deviceManager.devices;
+		if (devices.length < 1) {
+			logger.debug('no devices found to upload');
+			callback();
+		} else {
+			async.map(devices, function(device, fn) {
+				fn(null, device.data);
+			}, function(err, results) {
+				if (err) {
+					return callback(err);
+				}
+
+				client.post(upload_devices_path, {
+					devices : results
+				}, function(err, req, res) {
+					callback(err);
+				})
+			});
+		}
+	});
 }
 
 /**

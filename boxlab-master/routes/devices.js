@@ -37,7 +37,7 @@ function getDevices(req, res) {
 }
 
 function postDevices(req, res) {
-	var identifier = req.params.identifier;
+	var identification = req.params.identification;
 	var devices = req.body.devices;
 
 	if (!devices || !devices.length) {
@@ -48,7 +48,7 @@ function postDevices(req, res) {
 	}
 
 	// first delete any existing devices
-	deviceService.getDevices(identifier, function(err, persistedDevices) {
+	deviceService.getDevices(identification, function(err, persistedDevices) {
 		if (err) {
 			return res.send(500, err);
 		}
@@ -61,7 +61,7 @@ function postDevices(req, res) {
 			} else {
 				// persist new devices
 				async.each(devices, function(device, callback) {
-					device.identifier = identifier;
+					device.identification = identification;
 					deviceService.save(device, callback);
 				}, function(err) {
 					if (err) {
