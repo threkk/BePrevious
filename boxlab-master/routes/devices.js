@@ -59,12 +59,16 @@ function postDevices(req, res) {
 }
 
 function postDeviceState(req, res) {
-	var state = req.body.state;
+	var stateUpdate = req.body;
+	var state = stateUpdate.state;
+
+	console.log('state update: ' + JSON.stringify(stateUpdate));
+	console.log('state : ' + JSON.stringify(state));
 
 	var stateData = {
 		identification : req.params.identification,
-		nodeId : req.body.nodeId,
-		timestamp : req.body.timestamp,
+		nodeId : stateUpdate.nodeId,
+		timestamp : stateUpdate.timestamp,
 		kWh : state.kWh,
 		W : state.W,
 		temperature : state.temperature,
@@ -83,13 +87,11 @@ function postDeviceState(req, res) {
 
 function getDeviceState(req, res) {
 	var query = {
-		from : (parseDate(req.query.from) || moment().startOf('month'))
-				.valueOf(),
+		from : (parseDate(req.query.from) || moment().startOf('month')).valueOf(),
 		to : (parseDate(req.query.to) || moment().endOf('month')).valueOf()
 	};
 
-	deviceService.get(req.params.identification, query, function handleResult(
-			err, results) {
+	deviceService.get(req.params.identification, query, function handleResult(err, results) {
 		res.send(404, results);
 	});
 }
