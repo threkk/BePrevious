@@ -151,7 +151,7 @@ public class DevicesDatasource {
 		public static final String COLUMN_DEVICE_TYPE = "type";
 		public static final String COLUMN_DEVICE_MAC = "mac";
 
-		private static final String DATABASE_NAME = "database.db";
+		private static final String DATABASE_NAME = "devices.db";
 		private static final int DATABASE_VERSION = 1;
 
 		private static final String DATABASE_CREATE = "create table "

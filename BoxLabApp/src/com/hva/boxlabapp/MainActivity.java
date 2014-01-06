@@ -19,8 +19,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
+import com.hva.boxlabapp.database.FeedbackDatasource;
 import com.hva.boxlabapp.database.ScheduleDatasource;
 import com.hva.boxlabapp.devices.DeviceActivity;
+import com.hva.boxlabapp.entities.MessageItem;
 import com.hva.boxlabapp.entities.Schedule;
 import com.hva.boxlabapp.entities.client.ExerciseEntry;
 import com.hva.boxlabapp.entities.client.JSONEntitySerializer;
@@ -118,8 +120,6 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-//			startActivity(new Intent(MainActivity.this,
-//					ManageDevicesActivity.class));
 			startActivity(new Intent(MainActivity.this, DeviceActivity.class));
 			return true;
 		case R.id.action_about:
@@ -127,6 +127,12 @@ public class MainActivity extends Activity {
 			Schedule entry = new Schedule("test", new Date(), 3, "10 10 10", "Nothing else", false);
 			ScheduleDatasource db = new ScheduleDatasource(this);
 			Schedule ret = db.create(entry);
+			
+			MessageItem message = new MessageItem(new Date(), "Hoi!", false); 
+			FeedbackDatasource fbdb = new FeedbackDatasource(this);
+			fbdb.create(message);
+			
+			
 			return ret.get_id() != -1;
 		case R.id.action_refresh:
 			

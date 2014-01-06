@@ -1,6 +1,7 @@
 package com.hva.boxlabapp;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.hva.boxlabapp.database.FeedbackDatasource;
@@ -9,40 +10,78 @@ import com.hva.boxlabapp.entities.MessageItem;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class FragmentFeedback extends Fragment{
+		
+	private static final String TAG = FragmentFeedback.class.getName();
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	
 		View view = inflater.inflate(R.layout.fragment_feedback, container, false);
-		ListView messages = (ListView) view.findViewById(R.id.feedback_list);
-		List<String> strings = new ArrayList<String>();
+		final ListView messages = (ListView) view.findViewById(R.id.feedback_list);
+			
+		final FeedbackDatasource db = new FeedbackDatasource(getActivity());
+		List<MessageItem> items = db.getMessages();
 		
-		for(int i = 0; i < 50; i++) {
-			strings.add("Hoi! " + i);
-		}
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.item_feedback, strings);
+		final MessageAdapter adapter = new MessageAdapter(getActivity(), items);
 		messages.setAdapter(adapter);
+		
+		final EditText input = (EditText) view.findViewById(R.id.feedback_input);
+		
+		Button send = (Button) view.findViewById(R.id.feedback_send);
+		send.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				MessageItem msg = new MessageItem();
+				String message = input.getText().toString();
+				Date date = new Date();
+				
+				if(!message.equals("")) {
+					msg.setMessage(message);
+					msg.setDate(date);
+					msg.setFromPatient(true);
+					
+					db.create(msg);
+					Log.d(TAG, "Message added.");
+					List<MessageItem> updated = db.getMessages();
+					
+					if(updated != null) {
+						adapter.messages.clear();
+						adapter.messages.addAll(updated);
+					}
+					
+					input.setText("");
+					adapter.notifyDataSetChanged();
+					messages.setSelection(adapter.getCount() - 1);
+				}
+			}
+		});
+		
+		messages.setSelection(adapter.getCount() - 1);
+
 		return view;
 	}
 	
 	private class MessageAdapter extends BaseAdapter {
 
 		private Context context;
-		private List<MessageItem> messages;
+		private final List<MessageItem> messages;
 		
-		public MessageAdapter(Context context, List<MessageItem> messages) {
+		public MessageAdapter(Context context, List<MessageItem> items) {
 			this.context = context;
 			this.messages = new ArrayList<MessageItem>();
-			
-			FeedbackDatasource db = new FeedbackDatasource(context);
-			List<MessageItem> items = db.getMessages();
+
 			messages.addAll(items);
 		}
 		
@@ -53,7 +92,7 @@ public class FragmentFeedback extends Fragment{
 
 		@Override
 		public Object getItem(int position) {
-			return messages.get(position);
+			return this.messages.get(position);
 		}
 
 		@Override
@@ -67,8 +106,24 @@ public class FragmentFeedback extends Fragment{
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View view = inflater.inflate(R.layout.item_feedback, parent, false);
-
-			return null;
+			
+			MessageItem item = messages.get(position);
+			
+			TextView message = (TextView) view.findViewById(R.id.feedback_message);
+			message.setText(item.getMessage());
+			
+			TextView date = (TextView) view.findViewById(R.id.feedback_date);
+			date.setText(item.getDate().toString());
+			
+			if(item.isFromPatient()) {
+				TextView patient = (TextView) view.findViewById(R.id.feedback_you);
+				patient.setVisibility(TextView.VISIBLE);
+			} else {
+				TextView therapist = (TextView) view.findViewById(R.id.feedback_therapist);
+				therapist.setVisibility(TextView.VISIBLE);
+			}
+			
+			return view;
 		}
 		
 	}

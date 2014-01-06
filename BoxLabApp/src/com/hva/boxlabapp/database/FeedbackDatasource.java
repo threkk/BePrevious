@@ -121,7 +121,7 @@ public class FeedbackDatasource {
 				+ FeedbackDatabase.COLUMN_DATE + ", "
 				+ FeedbackDatabase.COLUMN_AUTHOR + ", "
 				+ FeedbackDatabase.COLUMN_MSG + " FROM "
-				+ FeedbackDatabase.DATABASE_NAME + ";";
+				+ FeedbackDatabase.TABLE_FEEDBACK + ";";
 		
 		try {
 			open();
@@ -154,7 +154,7 @@ public class FeedbackDatasource {
 				+ FeedbackDatabase.COLUMN_DATE + ", "
 				+ FeedbackDatabase.COLUMN_AUTHOR + ", "
 				+ FeedbackDatabase.COLUMN_MSG + " FROM "
-				+ FeedbackDatabase.DATABASE_NAME + ";";
+				+ FeedbackDatabase.TABLE_FEEDBACK + ";";
 		
 		try {
 			open();
@@ -210,15 +210,15 @@ public class FeedbackDatasource {
 		public static final String COLUMN_AUTHOR = "author";
 		public static final String COLUMN_MSG = "message";
 		
-		private static final String DATABASE_NAME = "database.db";
+		private static final String DATABASE_NAME = "feedback.db";
 		private static final int DATABASE_VERSION = 1;
 		
 		public static final String DATABASE_CREATE = "create table "
-				+ TABLE_FEEDBACK + " (" 
+				+ TABLE_FEEDBACK + "(" 
 				+ COLUMN_ID + " integer primary key autoincrement, "
 				+ COLUMN_DATE + " integer not null, "
 				+ COLUMN_AUTHOR + " integer not null, "
-				+ COLUMN_MSG + " string not null"
+				+ COLUMN_MSG + " text not null"
 				+ ");";
 		
 		public FeedbackDatabase(Context context) {

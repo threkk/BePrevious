@@ -43,6 +43,6 @@
     <!-- feedback fragment -->
     <string name="feedback_hint">Write your feedback for the therapist.</string>
     <string name="feedback_send">Send</string>
-    <string name="feedback_you">You</string>
-    <string name="feedback_therapist">Therapist</string>
+    <string name="feedback_you">You:</string>
+    <string name="feedback_therapist">Therapist:</string>
 </resources>
