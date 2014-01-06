@@ -11,6 +11,7 @@ var command_stop_exclusion = 'controller.RemoveNodeFromNetwork(0)';
 
 var restClient = restify.createJsonClient({
 	url : configuration.zwave_host,
+	connectTimeout : configuration.pollingTimeout,
 	version : '*'
 });
 
@@ -30,22 +31,22 @@ Client.prototype = {
 			callback(err, json);
 		});
 	},
-	
-    startInclusionMode: function (callback) {
-    	this.runCommand(command_start_inclusion, callback);
-    },
 
-    stopInclusionMode: function (callback) {
-    	this.runCommand(command_stop_inclusion, callback);
-    },
+	startInclusionMode : function(callback) {
+		this.runCommand(command_start_inclusion, callback);
+	},
 
-    startExclusionMode: function (callback) {
-    	this.runCommand(command_start_exclusion, callback);
-    },
+	stopInclusionMode : function(callback) {
+		this.runCommand(command_stop_inclusion, callback);
+	},
 
-    stopExclusionMode: function (callback) {
-    	this.runCommand(command_stop_exclusion, callback);
-    }
+	startExclusionMode : function(callback) {
+		this.runCommand(command_start_exclusion, callback);
+	},
+
+	stopExclusionMode : function(callback) {
+		this.runCommand(command_stop_exclusion, callback);
+	}
 };
 
 module.exports.client = new Client();

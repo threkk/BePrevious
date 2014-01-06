@@ -1,5 +1,5 @@
-var userService = require('../modules/userservice').service;
-var patientService = require('../modules/patientservice').service;
+var userService = require('../modules/service/userservice');
+var patientService = require('../modules/service/patientservice');
 
 function postCredentials(req, res) {
 	var username = req.body.username;

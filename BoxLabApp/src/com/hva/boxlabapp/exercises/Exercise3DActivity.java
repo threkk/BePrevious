@@ -139,9 +139,9 @@ public class Exercise3DActivity extends AndroidApplication implements
 	public double[][] getData() {
 		// 3 sensors sending 6 outputs, 3 accel, 3 gyro
 		double[][] data = new double[3][6];
-		data[0] = chest.readSensors();
-		data[1] = thigh.readSensors();
-		data[2] = shin.readSensors();
+//		data[0] = chest.readSensors();
+//		data[1] = thigh.readSensors();
+//		data[2] = shin.readSensors();
 		return data;
 	}
 	

@@ -1,32 +1,54 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Mixed = Schema.Types.Mixed;
-
-function merge(source, target) {
-	for ( var index in source) {
-		if (target[index] != source[index]) {
-			target[index] = source[index];
-		}
-	}
-}
-
-function prepare(name, schema) {
+function saveUpdatePlugin(schema) {
+	schema.add({
+		updated : Number
+	});
 	schema.statics.saveUpdate = function(data, callback) {
 		var self = this;
 		self.findOne({
 			_id : data._id
 		}, function(err, result) {
 			if (!result) {
-				console.log('save: ' + JSON.stringify(data));
 				new self(data).save(callback);
 			} else {
-				console.log('merge: ' + JSON.stringify(data));
-				merge(data, result);
-				result.save(callback);
+				var changed = false;
+				for ( var index in data) {
+					if (result[index] != data[index]) {
+						result[index] = data[index];
+						changed = true;
+					}
+				}
+
+				if (changed) {
+					result.save(callback);
+				} else {
+					callback();
+				}
 			}
 		});
 	};
+}
+
+function createdDatePlugin(schema) {
+	schema.add({
+		created : Number
+	});
+
+	schema.pre('save', function(next) {
+		var millis = +new Date();
+		if (!this.created) {
+			this.created = millis;
+		}
+		this.updated = millis;
+		next();
+	});
+}
+
+function prepare(name, schema) {
+	saveUpdatePlugin(schema);
+	createdDatePlugin(schema);
 	return mongoose.model(name, schema);
 }
 
@@ -63,8 +85,8 @@ var deviceStateSchema = new Schema({
 		type : Number,
 		required : true
 	},
-	power : Number,
-	usage : Number,
+	kWh : Number,
+	W : Number,
 	temperature : Number,
 	luminescence : Number,
 	value : Number,
@@ -95,14 +117,10 @@ var messageSchema = new Schema({
 		type : String,
 		required : true
 	},
-	date : {
-		type : Number,
-		required : true
-	},
 
 	message : String,
 	fromPatient : Boolean,
-	read : Boolean	
+	read : Boolean
 });
 
 module.exports = {

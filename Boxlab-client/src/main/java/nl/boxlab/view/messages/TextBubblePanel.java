@@ -66,7 +66,7 @@ public class TextBubblePanel extends JPanel {
 		} else {
 			this.lblDate.setHorizontalAlignment(SwingConstants.LEFT);
 		}
-		this.lblDate.setText(DATE_FORMAT.format(message.getDate()));
+		this.lblDate.setText(DATE_FORMAT.format(message.getCreated()));
 
 		updateText(message.getMessage());
 	}

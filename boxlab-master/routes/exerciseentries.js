@@ -1,24 +1,29 @@
 var moment = require('moment');
 
-var exerciseEntryService = require('../modules/exerciseentryservice').service;
+var exerciseEntryService = require('../modules/service/exerciseentryservice');
 
 function parseDate(input) {
-	var intValue = parseInt(input, 10);
-	if (intValue) {
-		input = intValue;
+	if (!input) {
+		return null;
+	} else {
+		var intValue = parseInt(input, 10);
+		if (intValue) {
+			input = intValue;
+		}
 	}
 
-	var parsedDate = moment(input);
-	if (parsedDate.isValid()) {
-		return parsedDate;
+	var parsed = moment(input);
+	if (parsed.isValid()) {
+		return parsed.valueOf();
 	} else {
 		return null;
 	}
 }
 
 function postEntry(req, res) {
-	req.body.identification = req.params.identification;
-	exerciseEntryService.saveEntry(req.body, function(err) {
+	var entry = req.body;
+	entry.identification = req.params.identification;
+	exerciseEntryService.saveEntry(entry, function(err) {
 		if (err) {
 			res.send(500, err);
 		} else {
@@ -28,13 +33,10 @@ function postEntry(req, res) {
 }
 
 function getEntries(req, res) {
-	var query = {
-		from : (parseDate(req.query.from) || moment().startOf('month')).valueOf(),
-		to : (parseDate(req.query.to) || moment().endOf('month')).valueOf()
-	};
-
-	var identification = req.params.identification;
-	exerciseEntryService.getEntries(identification, query, function(err, results) {
+	exerciseEntryService.getEntries(req.params.identification, {
+		from : parseDate(req.query.from),
+		to : parseDate(req.query.to)
+	}, function(err, results) {
 		if (err) {
 			res.send(500, {});
 		} else {
@@ -56,6 +58,9 @@ function deleteEntry(req, res) {
 module.exports.routes = {
 	post : postEntry,
 	get : getEntries,
+	'/all' : {
+		get : getEntries
+	},
 	'/:id' : {
 		del : deleteEntry
 	}

@@ -17,7 +17,6 @@ public class Message extends Entity implements Serializable {
 
 	};
 
-	private Date date;
 	private String identity;
 	private String message;
 
@@ -28,13 +27,11 @@ public class Message extends Entity implements Serializable {
 
 	}
 
-	public Message(Date date, String message) {
-		this.date = date;
+	public Message(String message) {
 		this.message = message;
 	}
 
-	public Message(Date date, String message, boolean fromPatient) {
-		this.date = date;
+	public Message(String message, boolean fromPatient) {
 		this.message = message;
 		this.fromPatient = fromPatient;
 	}
@@ -44,7 +41,7 @@ public class Message extends Entity implements Serializable {
 	}
 
 	public void setIdentity(String identity) {
-		this.identity = identity;
+		firePropertyChange("identity", this.identity, this.identity = identity);
 	}
 
 	public String getMessage() {
@@ -52,15 +49,7 @@ public class Message extends Entity implements Serializable {
 	}
 
 	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
+		firePropertyChange("message", this.message, this.message = message);
 	}
 
 	public boolean isFromPatient() {
@@ -68,7 +57,7 @@ public class Message extends Entity implements Serializable {
 	}
 
 	public void setFromPatient(boolean fromPatient) {
-		this.fromPatient = fromPatient;
+		firePropertyChange("fromPatient", this.fromPatient, this.fromPatient = fromPatient);
 	}
 
 	public boolean isRead() {
@@ -76,16 +65,15 @@ public class Message extends Entity implements Serializable {
 	}
 
 	public void setRead(boolean read) {
-		this.read = read;
+		firePropertyChange("read", this.read, this.read = read);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result
-		        + ((identity == null) ? 0 : identity.hashCode());
+		result = prime * result + ((identity == null) ? 0 : identity.hashCode());
+		result = prime * result + ((getCreated() == null) ? 0 : getCreated().hashCode());
 		return result;
 	}
 
@@ -98,15 +86,15 @@ public class Message extends Entity implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Message other = (Message) obj;
-		if (date == null) {
-			if (other.date != null)
-				return false;
-		} else if (!date.equals(other.date))
-			return false;
 		if (identity == null) {
 			if (other.identity != null)
 				return false;
 		} else if (!identity.equals(other.identity))
+			return false;
+		if (getCreated() == null) {
+			if (other.getCreated() != null)
+				return false;
+		} else if (!getCreated().equals(other.getCreated()))
 			return false;
 		return true;
 	}

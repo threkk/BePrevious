@@ -1,6 +1,5 @@
-var logger = require('./logging').getLogger('service');
-
-var Patient = require('./models').Patient;
+var logger = require('../logging').getLogger('service');
+var Patient = require('../schemas').Patient;
 
 function Service() {
 
@@ -23,9 +22,4 @@ Service.prototype = {
 
 };
 
-function handleError(message, err) {
-	logger.error(message);
-	logger.error('Error: ' + JSON.stringify(err));
-}
-
-module.exports.service = new Service();
+module.exports = new Service();

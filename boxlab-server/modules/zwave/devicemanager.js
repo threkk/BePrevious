@@ -104,7 +104,7 @@ DeviceManager.prototype = {
 			command(self, callback);
 		}
 
-		async.each(commands, iterator, callback);
+		async.eachSeries(commands, iterator, callback);
 	},
 
 	getController : function() {

@@ -3,6 +3,7 @@ package nl.boxlab.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.Date;
 
 public class Entity implements Serializable {
 
@@ -10,6 +11,24 @@ public class Entity implements Serializable {
 
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private String id;
+	private Date created = new Date();
+	private Date updated = new Date();
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Date updated) {
+		this.updated = updated;
+	}
 
 	public String getId() {
 		return id;

@@ -28,6 +28,17 @@ app.map = function(a, route) {
 	}
 };
 
+app.initDB = function() {
+	var mongoose = require('mongoose');
+	mongoose.set('debug', function(collectionName, method, query, doc) {
+		DBLogger.debug("query: db.%s.%s(%s)", collectionName, method, JSON.stringify(query));
+	});
+	mongoose.connection.on('error', function(err) {
+		DBLogger.error('Failed to connect to mongoDB');
+	});
+	mongoose.connect('mongodb://localhost/boxlab');
+};
+
 app.start = function(port) {
 	http.createServer(app).listen(port, function() {
 		logger.debug('Boxlab master server running on port ' + port);
@@ -48,21 +59,13 @@ app.start = function(port) {
 		}
 	};
 	app.map(routes, '/boxlab');
-
-	var mongoose = require('mongoose');
-	mongoose.set('debug', function(collectionName, method, query, doc) {
-		var formatted = 'db.' + collectionName + '.' + method + '(' + JSON.stringify(query) + ')';
-		DBLogger.debug('query: ' + formatted);
-	});
-
-	mongoose.connect('mongodb://localhost/boxlab');
 };
 
 // development only
 if ('development' == app.get('env')) {
 	app.use(express.errorHandler());
 	app.use(function(req, res, next) {
-		serverLogger.debug('%s %s', req.method, req.url);
+		serverLogger.trace('%s %s', req.method, req.url);
 		next();
 	});
 }
@@ -80,4 +83,5 @@ app.use(express.cookieSession({
 	}
 }));
 
+app.initDB();
 app.start(process.env.PORT || 8083);

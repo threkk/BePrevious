@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.JDialog;
 
 import nl.boxlab.ClientContext;
-import nl.boxlab.ClientContextImpl;
 import nl.boxlab.DateUtilities;
 import nl.boxlab.MessageUtilities;
 import nl.boxlab.model.Message;
@@ -70,13 +69,13 @@ public class MessageController implements ActionListener {
 	private void sendMessage(String text) {
 		text = text.trim();
 		if (text.length() < MIN_CHARACTERS) {
-			MessageUtilities.showWarningMessage(this.view, "A message must be at least "
-			        + MIN_CHARACTERS + " characters long");
+			MessageUtilities.showWarningMessage(this.view,
+			        "A message must be at least " + MIN_CHARACTERS + " characters long");
 			return;
 		}
 
 		MessageProvider messageProvider = this.context.getMessageProvider();
-		Message message = new Message(new Date(), text);
+		Message message = new Message(text);
 		message.setIdentity(this.patient.getIdentification());
 
 		try {
@@ -100,16 +99,5 @@ public class MessageController implements ActionListener {
 				MessageUtilities.showErrorMessage(view, "Failed to send message", ex);
 			}
 		}
-	}
-
-	public static void main(String[] args) {
-		ClientContextImpl context = new ClientContextImpl();
-		context.setMessageProvider(new MessageProvider());
-
-		Patient patient = new Patient();
-		patient.setIdentification("1234");
-
-		MessageController controller = new MessageController(context);
-		controller.showView(null, patient);
 	}
 }

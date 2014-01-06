@@ -8,8 +8,9 @@ var client = require('../modules/zwave/client').client;
 var deviceManager = require('../modules/zwave/devicemanager').deviceManager;
 
 function getNormalizedDevice(device) {
-	var device = deviceManager.devices[key];
+	console.log(device);
 	var deviceData = _.merge(device.data, device.state);
+	console.log('data: '+deviceData);
 
 	deviceData.status = 'Ok';
 	if (deviceData.batteryLevel < 25) {
@@ -137,11 +138,12 @@ function getDevices(req, res) {
  */
 function editDevice(req, res) {
 	var device = deviceManager.getDevice(req.params.id);
+	var normalized = getNormalizedDevice(device);
 	if (!device) {
 		throw new Error('device with node id #' + req.params.id + ' not found');
 	} else {
 		res.render('editDevice.hbs', {
-			device : getNormalizedDevice(device)
+			device : normalized
 		});
 	}
 }

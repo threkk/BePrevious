@@ -1,24 +1,29 @@
 var moment = require('moment');
 
-var messageService = require('../modules/messageservice').service;
+var messageService = require('../modules/service/messageservice');
 
 function parseDate(input) {
-	var intValue = parseInt(input, 10);
-	if (intValue) {
-		input = intValue;
+	if (!input) {
+		return null;
+	} else {
+		var intValue = parseInt(input, 10);
+		if (intValue) {
+			input = intValue;
+		}
 	}
 
-	var parsedDate = moment(input);
-	if (parsedDate.isValid()) {
-		return parsedDate;
+	var parsed = moment(input);
+	if (parsed.isValid()) {
+		return parsed.valueOf();
 	} else {
 		return null;
 	}
 }
 
 function postMessage(req, res) {
-	req.body.identification = req.params.identification;
-	messageService.saveMessage(req.body, function(err) {
+	var message = req.body;
+	message.identification = req.params.identification;
+	messageService.saveMessage(message, function(err) {
 		if (err) {
 			res.send(500, err);
 		} else {
@@ -28,13 +33,10 @@ function postMessage(req, res) {
 }
 
 function getMessages(req, res) {
-	var query = {
-		from : (parseDate(req.query.from) || moment().startOf('month')).valueOf(),
-		to : (parseDate(req.query.to) || moment().endOf('month')).valueOf()
-	};
-
-	var identification = req.params.identification;
-	messageService.getMessages(identification, query, function handleResult(err, results) {
+	messageService.getMessages(req.params.identification, {
+		from : parseDate(req.query.from),
+		to : parseDate(req.query.to)
+	}, function handleResult(err, results) {
 		if (err) {
 			res.send(500, {});
 		} else {

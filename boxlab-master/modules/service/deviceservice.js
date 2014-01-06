@@ -1,6 +1,6 @@
-var logger = require('./logging').getLogger('service');
-var Device = require('./models').Device;
-var DeviceState = require('./models').DeviceState;
+var logger = require('../logging').getLogger('service');
+var Device = require('../schemas').Device;
+var DeviceState = require('../schemas').DeviceState;
 
 function Service() {
 
@@ -11,7 +11,7 @@ Service.prototype = {
 		var device = new Device(deviceData);
 		device.save(function(err) {
 			if (err) {
-				logger.error('Failed to save device with data: ' + JSON.stringify(deviceData));
+				logger.error('Failed to save device: ' + JSON.stringify(deviceData));
 			}
 			callback(err);
 		});
@@ -34,8 +34,7 @@ Service.prototype = {
 		var deviceState = new DeviceState(deviceStateData);
 		deviceState.save(function(err) {
 			if (err) {
-				logger.error('Failed to save device state with data: '
-						+ JSON.stringify(deviceStateData));
+				logger.error('Failed to save device state: ' + JSON.stringify(deviceStateData));
 			}
 			callback(err);
 		});
@@ -48,4 +47,4 @@ Service.prototype = {
 	}
 };
 
-module.exports.service = new Service();
+module.exports = new Service();

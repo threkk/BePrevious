@@ -1,8 +1,8 @@
 var async = require('async');
 var moment = require('moment');
 
-var deviceService = require('../modules/deviceservice').service;
 var logger = require('../modules/logging').getLogger('api');
+var deviceService = require('../modules/service/deviceservice');
 
 function parseDate(input) {
 	var intValue = parseInt(input, 10);
@@ -17,6 +17,7 @@ function parseDate(input) {
 		return null;
 	}
 }
+
 function getDevices(req, res) {
 	var identifier = req.params.identifier;
 	var nodeId = req.query.nodeid;
@@ -46,27 +47,46 @@ function postDevices(req, res) {
 		});
 	}
 
-	async.each(devices, function(device, callback) {
-		device.identifier = identifier;
-		deviceService.save(device, callback);
-	}, function(err) {
+	// first delete any existing devices
+	deviceService.getDevices(identifier, function(err, persistedDevices) {
 		if (err) {
 			return res.send(500, err);
 		}
-		return res.end();
+
+		async.each(persistedDevices, function(persistedDevice, callback) {
+			persistedDevice.remove(callback);
+		}, function(err) {
+			if (err) {
+				res.send(500, err);
+			} else {
+				// persist new devices
+				async.each(devices, function(device, callback) {
+					device.identifier = identifier;
+					deviceService.save(device, callback);
+				}, function(err) {
+					if (err) {
+						return res.send(500, err);
+					}
+					return res.end();
+				});
+			}
+		});
 	});
 }
 
 function postDeviceState(req, res) {
+	var stateUpdate = req.body;
+	var state = stateUpdate.state;
+
 	var stateData = {
 		identification : req.params.identification,
-		nodeId : req.body.nodeId,
-		timestamp : req.body.timestamp,
-		power : req.body.state.power,
-		usage : req.body.state.usage,
-		temperature : req.body.state.temperature,
-		luminescence : req.body.state.luminescence,
-		value : req.body.state.luminescence,
+		nodeId : stateUpdate.nodeId,
+		timestamp : stateUpdate.timestamp,
+		kWh : state.kWh,
+		W : state.W,
+		temperature : state.temperature,
+		luminescence : state.luminescence,
+		value : state.value
 	};
 
 	deviceService.saveState(stateData, function(err) {
