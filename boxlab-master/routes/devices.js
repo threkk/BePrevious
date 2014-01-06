@@ -47,23 +47,36 @@ function postDevices(req, res) {
 		});
 	}
 
-	async.each(devices, function(device, callback) {
-		device.identifier = identifier;
-		deviceService.save(device, callback);
-	}, function(err) {
+	// first delete any existing devices
+	deviceService.getDevices(identifier, function(err, persistedDevices) {
 		if (err) {
 			return res.send(500, err);
 		}
-		return res.end();
+
+		async.each(persistedDevices, function(persistedDevice, callback) {
+			persistedDevice.remove(callback);
+		}, function(err) {
+			if (err) {
+				res.send(500, err);
+			} else {
+				// persist new devices
+				async.each(devices, function(device, callback) {
+					device.identifier = identifier;
+					deviceService.save(device, callback);
+				}, function(err) {
+					if (err) {
+						return res.send(500, err);
+					}
+					return res.end();
+				});
+			}
+		});
 	});
 }
 
 function postDeviceState(req, res) {
 	var stateUpdate = req.body;
 	var state = stateUpdate.state;
-
-	console.log('state update: ' + JSON.stringify(stateUpdate));
-	console.log('state : ' + JSON.stringify(state));
 
 	var stateData = {
 		identification : req.params.identification,
