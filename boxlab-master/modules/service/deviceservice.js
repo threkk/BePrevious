@@ -17,16 +17,16 @@ Service.prototype = {
 		});
 	},
 
-	getDevice : function(identifier, nodeId, callback) {
+	getDevice : function(identification, nodeId, callback) {
 		Device.find({
-			identifier : identifier,
-			nodeId : nodeId
+			identification : identification,
+			id : nodeId
 		}).exec(callback);
 	},
 
-	getDevices : function(identifier, callback) {
+	getDevices : function(identification, callback) {
 		Device.find({
-			identifier : identifier
+			identification : identification
 		}).exec(callback);
 	},
 
@@ -40,9 +40,9 @@ Service.prototype = {
 		});
 	},
 
-	getState : function(identifier, query, callback) {
+	getState : function(identification, query, callback) {
 		DeviceState.find({
-			identifier : identifier
+			identification : identification
 		}).where('timestamp').gte(query.from).lte(query.to).exec(callback);
 	}
 };
