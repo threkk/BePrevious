@@ -25,6 +25,7 @@ function uploadDevices(client, callback) {
 			logger.debug('no devices found to upload');
 			callback();
 		} else {
+			logger.info("synchronizing %d devices with the master server", devices.length);
 			async.map(devices, function(device, fn) {
 				fn(null, device.data);
 			}, function(err, results) {
@@ -49,7 +50,11 @@ function uploadDevices(client, callback) {
  */
 function uploadFiles(client, callback) {
 	_listUploadFiles(function(err, files) {
-		logger.debug("files to upload: " + JSON.stringify(files));
+		if (files.length==0) {
+			logger.debug("no files to upload to the master server");
+		} else {
+			logger.info("synchronizing %d files with the master server", files.length);
+		}
 		async.eachSeries(files, function(file, fn) {
 			_uploadFile(client, file, fn);
 		}, callback);

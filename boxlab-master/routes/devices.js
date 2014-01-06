@@ -19,7 +19,7 @@ function parseDate(input) {
 }
 
 function getDevices(req, res) {
-	var identifier = req.params.identifier;
+	var identification = req.params.identification;
 	var nodeId = req.query.nodeid;
 
 	function handleReponse(err, results) {
@@ -30,9 +30,9 @@ function getDevices(req, res) {
 	}
 
 	if (nodeId) {
-		deviceService.getDevice(identifier, nodeId, handleResponse);
+		deviceService.getDevice(identification, nodeId, handleResponse);
 	} else {
-		deviceService.getDevices(identifier, handleReponse);
+		deviceService.getDevices(identification, handleReponse);
 	}
 }
 

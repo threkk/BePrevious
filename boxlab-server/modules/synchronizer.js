@@ -71,7 +71,7 @@ function downloadFiles(callback) {
 }
 
 function uploadFiles(callback) {
-	logger.info('uploading data to master server (not yet implemented)');
+	logger.info('uploading data to master server');
 
 	function doUploadDevices(fn) {
 		uploader.uploadDevices(client, fn);
@@ -85,8 +85,3 @@ function uploadFiles(callback) {
 }
 
 module.exports.synchronize = synchronize;
-module.exports.synchronize(function(err) {
-	console.log('finished');
-	if (err)
-		console.log('err: ' + JSON.stringify(err));
-});
