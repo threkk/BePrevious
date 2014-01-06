@@ -5,7 +5,9 @@ var moment = require('moment');
 var logger = require('../logging').getLogger('io');
 var identification = require('../identification');
 var paths = require('../paths');
+var deviceManager = require('../zwave/devicemanager').deviceManager;
 
+var upload_devices_path = '/boxlab/api/' + identification.getIdentity() + '/devices';
 var upload_file_path = '/boxlab/api/' + identification.getIdentity() + '/devices/state';
 
 /**
@@ -16,7 +18,19 @@ var upload_file_path = '/boxlab/api/' + identification.getIdentity() + '/devices
 function uploadDevices(client, callback) {
 	logger.debug('need to send devices to server');
 	logger.debug('NOT YET IMPLEMENTED');
-	callback();
+	var devices = deviceManager.devices;
+	if (devices.length < 1) {
+		logger.debug('node devices found to upload');
+		callback();
+	} else {
+		async.map(devices, function(device, fn) {
+			fn(device.data);
+		}, function(err, results) {
+			client.post(upload_devices_path, results, function(err, req, res) {
+				callback(err);
+			})
+		});
+	}
 }
 
 /**
@@ -89,9 +103,11 @@ function _uploadFile(client, file, callback) {
 				return fn(err);
 			}
 
-			client.post(upload_file_path, data, function(err, req, res) {
-				fn(err);
-			})
+			async.eachSeries(data, function(stateUpdate, fn) {
+				client.post(upload_file_path, stateUpdate, function(err, req, res) {
+					fn(err);
+				})
+			}, fn);
 		})
 	}
 
