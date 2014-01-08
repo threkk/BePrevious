@@ -10,18 +10,34 @@ function LocalDatabase() {
 	this.sourcefile = paths.relative(paths.resources, 'localdatabase.json');
 	this.encoding = 'utf8';
 	this.data = {};
-
-	var self = this;
-	this._load(function(err) {
-		if (err) {
-			return logger.error("failed to load local database: " + JSON.stringify(err));
-		}
-
-		logger.debug('local database loaded');
-	});
 }
 
 LocalDatabase.prototype = {
+	initialize : function(callback) {
+		var self = this;
+		fs.readFile(self.sourcefile, function(err, data) {
+			// no file exists yet, so create a new empty json file
+			if (err && err.code === 'ENOENT') {
+				fs.writeFile(self.sourcefile, '{}', function(err) {
+					logger.debug('creating new localdatabase.json');
+					self.data = {};
+					callback(err);
+				});
+			} else if (err) {
+				// failed to read the source file
+				callback(err);
+			} else {
+				// succesfully read a file, so parse it
+				data = data.toString();
+				if (data.length > 0) {
+					self.data = JSON.parse(data);
+				}
+
+				callback();
+			}
+		});
+	},
+
 	setLastCommandUpdate : function(lastCommandUpdate) {
 		this.update({
 			lastCommandUpdate : lastCommandUpdate
@@ -136,29 +152,6 @@ LocalDatabase.prototype = {
 				}
 			});
 		}
-	},
-
-	_load : function(callback) {
-		var data;
-		try {
-			data = fs.readFileSync(this.sourcefile, this.encoding);
-		} catch (e) {
-			if (e.code === 'ENOENT') {
-				logger.debug('no json data can be found (database empty)');
-				return callback(null);
-			} else {
-				logger.error('failed to read from database: ' + JSON.stringify(e));
-				return callback(e);
-			}
-		}
-
-		data = data.toString();
-		if (data.length == 0) {
-			logger.debug('loaded an empty local json database');
-		} else {
-			this.data = JSON.parse(data.toString());
-		}
-		callback(null, this.data);
 	},
 
 	_save : function(callback) {

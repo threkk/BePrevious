@@ -7,15 +7,13 @@ var identification = require('../identification');
 var paths = require('../paths');
 var deviceManager = require('../zwave/devicemanager').deviceManager;
 
-var upload_devices_path = '/boxlab/api/' + identification.getIdentity() + '/devices';
-var upload_file_path = '/boxlab/api/' + identification.getIdentity() + '/devices/state';
-
 /**
  * uploads the currently registered devices to the master server
  * 
  * @param callback
  */
 function uploadDevices(client, callback) {
+	var path = '/boxlab/api/' + identification.getIdentity() + '/devices';
 	deviceManager.update(function(err) {
 		if (err) {
 			return callback(err);
@@ -33,7 +31,7 @@ function uploadDevices(client, callback) {
 					return callback(err);
 				}
 
-				client.post(upload_devices_path, {
+				client.post(path, {
 					devices : results
 				}, function(err, req, res) {
 					callback(err);
@@ -111,6 +109,7 @@ function _listUploadFiles(callback) {
 }
 
 function _uploadFile(client, file, callback) {
+	var path = '/boxlab/api/' + identification.getIdentity() + '/devices/state';
 	function doUpload(fn) {
 		_parseFile(file, function(err, data) {
 			if (err) {
@@ -118,7 +117,7 @@ function _uploadFile(client, file, callback) {
 			}
 
 			async.eachSeries(data, function(stateUpdate, fn) {
-				client.post(upload_file_path, stateUpdate, function(err, req, res) {
+				client.post(path, stateUpdate, function(err, req, res) {
 					fn(err);
 				})
 			}, fn);

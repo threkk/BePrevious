@@ -2,18 +2,15 @@ var express = require("express");
 var http = require('http');
 var path = require("path");
 var fs = require('fs');
-var async = require('async');
 var app = express();
 var hbs = require('hbs');
 var io = require('socket.io');
 
+var identification = require('./modules/identification');
 var handler = require('./modules/zwave/commandhandler').handler;
-
-var scheduler = require('./modules/scheduler').scheduler;
-var synchronizer = require('./modules/synchronizer');
+var bootstrapper = require('./modules/bootstrapper');
 var writer = require('./modules/writer').writer;
 var logger = require('./modules/logging').getLogger('app');
-var identification = require('./modules/identification');
 
 /**
  * Helper for mapping routes to the app
@@ -51,19 +48,25 @@ app.registerPartial = function(partialName, filename) {
  * Helper for starting the boxlab server
  */
 app.start = function() {
-	var server = http.createServer(app);
+	logger.debug('start');
+	bootstrapper.bootstrap(function(err) {
+		if (err) {
+			return logger.error('failed to start boxlab server: ' + JSON.stringify(err));
+		}
+		logger.debug('bootstrapped');
+		var server = http.createServer(app);
 
-	bindWebsockets(server);
-	bindWriter();
-	scheduleSynchronizer();
+		bindWebsockets(server);
+		bindWriter();
 
-	app.map(require('./routes/client').routes, '/client/');
-	app.map(require('./routes/dashboard').routes, '/');
+		app.map(require('./routes/client').routes, '/client/');
+		app.map(require('./routes/dashboard').routes, '/');
 
-	var port = app.get('port');
-	server.listen(port, function() {
-		logger.debug('Boxlab server started, listening on port ' + port);
-		logger.debug('Boxlab device identification: ' + identification.getIdentity());
+		var port = app.get('port');
+		server.listen(port, function() {
+			logger.debug('Boxlab server started, listening on port ' + port);
+			logger.debug('Boxlab device identification: ' + identification.getIdentity());
+		});
 	});
 }
 
@@ -88,22 +91,6 @@ function bindWriter() {
 		writer.write(message, function(err, status) {
 			logger.debug('wrote to file: ' + JSON.stringify(message));
 		});
-	});
-}
-
-function scheduleSynchronizer() {
-	scheduler.schedule('00 00 03 * * 1-7', function() {
-		synchronizer.synchronize(function(err) {
-			if (err) {
-				logger.info('synchronization unsuccesfull:' + JSON.stringify(err));
-			} else {
-				logger.info('synchronization succesfull');
-			}
-		});
-	}, function(err) {
-		if (err) {
-			logger.error('failed to schedule synchronizer');
-		}
 	});
 }
 
