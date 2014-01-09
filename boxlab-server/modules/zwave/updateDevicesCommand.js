@@ -2,7 +2,7 @@ var async = require('async');
 var _ = require('lodash');
 
 var localDB = require('../localdatabase').localDB;
-var client = require('./client').client;
+var client = require('./client');
 var Device = require('./device').Device;
 
 module.exports.updateDevicesCommand = function(deviceManager, callback) {

@@ -1,23 +1,14 @@
 var cronJob = require('cron').CronJob;
 
-function Scheduler() {
+function schedule(cronPattern, onTick, callback) {
+	var job = new cronJob({
+		cronTime : cronPattern,
+		onTick : onTick,
+		start : false
+	});
+	job.start();
 
+	callback();
 }
 
-Scheduler.prototype = {
-    schedule: function (cronPattern, onTick, callback) {
-        try {
-            var job = new cronJob({
-                cronTime: cronPattern,
-                onTick: onTick,
-                start: false
-            });
-            job.start();
-            callback(null, job);
-        } catch (ex) {
-            callback(ex);
-        }
-    }
-}
-
-module.exports.scheduler = new Scheduler();
+module.exports.schedule = schedule;

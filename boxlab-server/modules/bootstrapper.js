@@ -4,11 +4,13 @@ var async = require('async');
 var logger = require('./logging').getLogger('app');
 var paths = require('./paths');
 var localDB = require('./localdatabase').localDB;
-var scheduler = require('./scheduler').scheduler;
+var scheduler = require('./scheduler');
 var synchronizer = require('./synchronizer');
+var deviceManager = require('./zwave/devicemanager').deviceManager;
 
 function bootstrap(callback) {
-	async.series([ checkPermissions, initDatabase, scheduleSynchronizer ], callback);
+	var funcs = [ checkPermissions, initDatabase, scheduleSynchronizer, startDeviceManager ];
+	async.series(funcs, callback);
 }
 
 function checkPermissions(callback) {
@@ -45,7 +47,17 @@ function scheduleSynchronizer(callback) {
 		});
 	}
 
-	scheduler.schedule('00 00 03 * * 1-7', onTick, callback);
+	scheduler.schedule('00 00 03 * * 1-7', onTick, function(err) {
+		if (err) {
+			logger.error('failed to schedule synchronization');
+		}
+		callback(err);
+	});
+}
+
+function startDeviceManager(callback) {
+	deviceManager.start();
+	callback();
 }
 
 module.exports.bootstrap = bootstrap;

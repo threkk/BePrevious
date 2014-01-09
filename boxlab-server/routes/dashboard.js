@@ -8,10 +8,9 @@ var client = require('../modules/zwave/client').client;
 var deviceManager = require('../modules/zwave/devicemanager').deviceManager;
 
 function getNormalizedDevice(device) {
-	console.log(device);
 	var deviceData = _.merge(device.data, device.state);
-	console.log('data: '+deviceData);
 
+	// determine the status of the device
 	deviceData.status = 'Ok';
 	if (deviceData.batteryLevel < 25) {
 		deviceData.status = 'Low battery';
@@ -19,6 +18,7 @@ function getNormalizedDevice(device) {
 		deviceData.status = 'Failed';
 	}
 
+	// add an image for the battery level
 	if (deviceData.batteryLevel) {
 		var prefix = '/images/battery/battery-';
 		var fraction = Math.round(deviceData.batteryLevel / 25) * 25;
@@ -32,7 +32,9 @@ function getNormalizedDevices() {
 	var devices = [];
 
 	for ( var key in deviceManager.devices) {
-		devices.push(getNormalizedDevice(deviceManager.devices[key].data));
+		var device = deviceManager.devices[key];
+		var normalized = getNormalizedDevice(device);
+		devices.push(normalized);
 	}
 
 	return devices;
@@ -52,6 +54,8 @@ function setCalibratedTemp(nodeid, calibratedTemp, callback) {
 
 	localDB.setTempOffset(nodeid, offset);
 	logger.debug('setting temp offset to (' + offset + 'c) for ' + nodeid);
+	
+	callback();
 }
 
 /**
@@ -69,25 +73,25 @@ function setSleepTime(nodeid, sleeptime, callback) {
 }
 
 function setName(nodeid, name, callback) {
-	localDB.setDeviceName(nodeid, name);
+	localDB.setName(nodeid, name);
 	callback();
 }
 
 function updateDevice(nodeid, options, callback) {
 	var funcs = [];
 	if (options.calibratedTemp) {
-		funcs.add(function(callback) {
+		funcs.push(function(callback) {
 			setCalibratedTemp(nodeid, options.calibratedTemp, callback);
 		});
 	}
 	if (options.sleeptime) {
-		funcs.add(function(callback) {
+		funcs.push(function(callback) {
 			setSleepTime(nodeid, options.sleeptime, callback)
 		});
 	}
 
 	if (options.name) {
-		funcs.add(function(callback) {
+		funcs.push(function(callback) {
 			setName(nodeid, options.name, callback);
 		});
 	}
@@ -136,10 +140,11 @@ function getDevices(req, res) {
 /**
  * renders the edit device page
  */
-function editDevice(req, res) {
+function getEditDevice(req, res) {
 	var device = deviceManager.getDevice(req.params.id);
 	var normalized = getNormalizedDevice(device);
 	if (!device) {
+		console.log();
 		throw new Error('device with node id #' + req.params.id + ' not found');
 	} else {
 		res.render('editDevice.hbs', {
@@ -151,13 +156,27 @@ function editDevice(req, res) {
 /**
  * receives the post from the edit device page
  */
-function updateDevice(req, res) {
+function postUpdateDevice(req, res) {
 	var nodeid = parseInt(req.params.id, 10) || -1;
 	if (nodeid > 0) {
-		async.series([ deviceManager.update, function(callback) {
+
+		function doDeviceManagerUpdate(callback) {
+			deviceManager.update(callback);
+		}
+
+		function doDeviceUpdate(callback) {
 			updateDevice(nodeid, req.body, callback);
-		}, deviceManager.update ], function(err, results) {
-			res.end();
+		}
+
+		async.series([ doDeviceManagerUpdate, doDeviceUpdate, doDeviceManagerUpdate ], function(
+				err, results) {
+			if (err) {
+				res.send(500, {
+					error : err
+				});
+			} else {
+				res.end();
+			}
 		});
 	}
 }
@@ -166,7 +185,7 @@ function updateDevice(req, res) {
  * receives the post from the edit device page if it should apply to devices of
  * the same type
  */
-function updateDevicesByType(req, res) {
+function postUpdateDevicesByType(req, res) {
 	var nodeid = parseInt(req.params.id, 10) || -1;
 	if (nodeid > 0) {
 		async.series([ deviceManager.update, function(callback) {
@@ -182,11 +201,11 @@ exports.routes = {
 	'devices' : {
 		get : getDevices,
 		'/edit/:id' : {
-			get : editDevice,
-			post : updateDevice
+			get : getEditDevice,
+			post : postUpdateDevice
 		},
 		'/edit/all/:id' : {
-			post : updateDevicesByType
+			post : postUpdateDevicesByType
 		}
 	}
 }

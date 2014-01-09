@@ -15,38 +15,41 @@ var restClient = restify.createJsonClient({
 	version : '*'
 });
 
-function Client() {
-
+function runCommand(command, callback) {
+	restClient.get(apiCommandPath + command, function(err, req, res, json) {
+		callback && callback(err, json);
+	});
 }
 
-Client.prototype = {
-	runCommand : function(command, callback) {
-		restClient.get(apiCommandPath + command, function(err, req, res, json) {
-			callback && callback(err, json);
-		});
-	},
+function getApiData(timestamp, callback) {
+	restClient.get(apiDataPath + timestamp, function(err, req, res, json) {
+		callback(err, json);
+	});
+}
 
-	getApiData : function(timestamp, callback) {
-		restClient.get(apiDataPath + timestamp, function(err, req, res, json) {
-			callback(err, json);
-		});
-	},
+function startInclusionMode(callback) {
+	runCommand(command_start_inclusion, callback);
+}
 
-	startInclusionMode : function(callback) {
-		this.runCommand(command_start_inclusion, callback);
-	},
+function stopInclusionMode(callback) {
+	runCommand(command_stop_inclusion, callback);
+}
 
-	stopInclusionMode : function(callback) {
-		this.runCommand(command_stop_inclusion, callback);
-	},
+function startExclusionMode(callback) {
+	runCommand(command_start_exclusion, callback);
+}
 
-	startExclusionMode : function(callback) {
-		this.runCommand(command_start_exclusion, callback);
-	},
+function stopExclusionMode(callback) {
+	runCommand(command_stop_exclusion, callback);
+}
 
-	stopExclusionMode : function(callback) {
-		this.runCommand(command_stop_exclusion, callback);
-	}
-};
+module.exports = {
+	runCommand : runCommand,
+	getApiData : getApiData,
 
-module.exports.client = new Client();
+	startInclusionMode : startInclusionMode,
+	stopInclusionMode : stopInclusionMode,
+
+	startExclusionMode : startExclusionMode,
+	stopExclusionMode : stopExclusionMode
+}

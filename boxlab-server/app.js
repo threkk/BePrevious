@@ -48,12 +48,11 @@ app.registerPartial = function(partialName, filename) {
  * Helper for starting the boxlab server
  */
 app.start = function() {
-	logger.debug('start');
 	bootstrapper.bootstrap(function(err) {
 		if (err) {
 			return logger.error('failed to start boxlab server: ' + JSON.stringify(err));
 		}
-		logger.debug('bootstrapped');
+
 		var server = http.createServer(app);
 
 		bindWebsockets(server);
@@ -95,7 +94,6 @@ function bindWriter() {
 }
 
 if ('development' == app.get('env')) {
-	app.use(express.logger('dev'));
 	app.use(express.errorHandler());
 }
 

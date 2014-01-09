@@ -79,10 +79,8 @@ LocalDatabase.prototype = {
 			return name.nodeid == nodeid;
 		});
 
-		offsets = offsets.slice(0);
-
 		if (index < 0) {
-			offsets.push({
+			names.push({
 				nodeid : nodeid,
 				value : name
 			});

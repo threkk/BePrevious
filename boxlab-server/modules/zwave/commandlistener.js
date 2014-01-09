@@ -5,15 +5,15 @@ var emitter = new EventEmitter();
 
 var logger = require('../logging').getLogger('client');
 var localDB = require('../localdatabase').localDB;
-var client = require('./client').client;
+var client = require('./client');
 
 var pathRegex = new RegExp(
 		/^devices\.(\d+)\.instances\.(\d+)\.commandClasses\.(\d+)\.(.*)$/)
 
-var updateDelay = 5000;
+var updateDelay = 10000;
 var updateRate = 500;
 
-var commandCacheSize = 25;
+var commandCacheSize = 50;
 var commandCache = [];
 
 function CommandListener() {
@@ -60,6 +60,7 @@ CommandListener.prototype = {
 	},
 
 	_update : function(data) {
+		//console.log('data: '+JSON.stringify(data));
 		for ( var key in data) {
 			var match = pathRegex.exec(key);
 			if (match) {

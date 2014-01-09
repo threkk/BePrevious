@@ -5,7 +5,7 @@ var configuration = require('../../configuration');
 var logger = require('../logging').getLogger('client');
 
 var Device = require('./device').Device;
-var client = require('./client').client;
+var client = require('./client');
 
 var MODE_IDLE = 'idle';
 var MODE_INCLUDING = 'including';
@@ -45,8 +45,6 @@ function DeviceManager() {
 	this.modeTimer = null;
 	this.mode = 'idle';
 	this.running = false;
-
-	this.start();
 }
 
 DeviceManager.prototype = {
@@ -158,6 +156,7 @@ DeviceManager.prototype = {
 			modeChanger = (duration > 0) ? client.startExclusionMode : client.stopExclusionMode;
 		}
 
+		var self = this;
 		modeChanger(function(err) {
 			if (!err) {
 				if (duration > 0) {
