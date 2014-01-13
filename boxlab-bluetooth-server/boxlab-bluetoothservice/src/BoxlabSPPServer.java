@@ -1,5 +1,14 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+
+import nl.boxlab.model.BoxlabDTO;
+import nl.boxlab.model.ExerciseEntry;
+import nl.boxlab.model.Message;
+import nl.boxlab.model.serializer.JSONEntitySerializer;
+import nl.hva.btserver.io.FileReader;
+import nl.hva.btserver.io.FileWriter;
+import nl.hva.btserver.resources.Paths;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,15 +23,18 @@ import java.util.logging.FileHandler;
 import javax.bluetooth.*;
 import javax.microedition.io.*;
 
+
+
 /**
  * Class that implements an SPP Server which accepts single line of message from
  * an SPP client and sends a single line of response to the client.
  */
 public class BoxlabSPPServer {
-
+	
+	
 	// start server
-	private void startServer(Filehandler handler) throws IOException {
-		Filehandler fileHandler = handler;
+	private void startServer() throws IOException {
+	
 		// Create a UUID for SPP
 		UUID uuid = new UUID("1101", true);
 		// Create the service url
@@ -45,27 +57,38 @@ public class BoxlabSPPServer {
 				inStream));
 
 		// while(bReader.ready()){
-		List<String> inputFromAndroid = new ArrayList<>();
+		String inputFromAndroid = "";
 		String header = "";
 		while ((header = bReader.readLine()) != null) {
 			if (header.equals("EXIT")) {
 				break;
 			}
 			if (!header.equals("SERVER_FLAG")) {
-				inputFromAndroid.add(header);
+				inputFromAndroid = header;
 			}
 
 		}
-		fileHandler.writeToFile(inputFromAndroid);
+		JSONEntitySerializer serializer = new JSONEntitySerializer();
+		BoxlabDTO dtoFromAndroid = serializer.deserialize(BoxlabDTO.class, inputFromAndroid);
+		
+		FileWriter fileWriter = new FileWriter();
+		fileWriter.appendToFile(Paths.FILE_ENTRIES_OUT, dtoFromAndroid.getExerciseEntries());
+		fileWriter.appendToFile(Paths.FILE_FEEDBACK_OUT, dtoFromAndroid.getSensorFeedback());
+		fileWriter.appendToFile(Paths.FILE_MESSAGES_OUT, dtoFromAndroid.getMessages());
+		
+		FileReader fileReader = new FileReader();
+		BoxlabDTO dtoToAndroid = new BoxlabDTO();
+		dtoToAndroid.setExerciseEntries(fileReader.readFromFile(Paths.FILE_ENTRIES_IN, ExerciseEntry.class));
+		dtoToAndroid.setMessages(fileReader.readFromFile(Paths.FILE_MESSAGES_IN, Message.class));
+		
+		String output = serializer.serialize(dtoToAndroid);
 		OutputStream outStream = connection.openOutputStream();
 		PrintWriter pWriter = new PrintWriter(new OutputStreamWriter(outStream,
 				"UTF-8"));
 
-		List<String> readFromFiles = fileHandler.readFromFiles();
-		for (String string : readFromFiles) {
-			System.out.println(string);
-			pWriter.println(string + "\r\n");
-		}
+		
+		pWriter.println(output + "\r\n");
+		
 		pWriter.println("EXIT");
 		pWriter.close();
 		connection.close();
@@ -74,7 +97,8 @@ public class BoxlabSPPServer {
 	}
 
 	public static void main(String[] args) throws IOException {
-		Filehandler fileHandler =new Filehandler();
+		
+		
 		// display local device address and name
 		LocalDevice localDevice = LocalDevice.getLocalDevice();
 		System.out.println("Address: " + localDevice.getBluetoothAddress());
@@ -82,7 +106,7 @@ public class BoxlabSPPServer {
 		System.out.println("Name: " + localDevice.getFriendlyName());
 		while (true) {
 			BoxlabSPPServer sampleSPPServer = new BoxlabSPPServer();
-			sampleSPPServer.startServer(fileHandler);
+			sampleSPPServer.startServer();
 		}
 
 	}
