@@ -16,6 +16,13 @@ public class Paths {
 	public static final File FILE_DATA_IN = resolvePath("/boxlab-server/data/data_in");
 	public static final File FILE_DATA_OUT = resolvePath("/boxlab-server/data/data_out");
 
+	public static final File FILE_MESSAGES_IN = resolvePath("/boxlab-server/data/data_in/messages.json");
+	public static final File FILE_ENTRIES_IN = resolvePath("/boxlab-server/data/data_in/entries.json");
+
+	public static final File FILE_MESSAGES_OUT = resolvePath("/boxlab-server/data/data_out/messages.json");
+	public static final File FILE_ENTRIES_OUT = resolvePath("/boxlab-server/data/data_out/entries.json");
+	public static final File FILE_FEEDBACK_OUT = resolvePath("/boxlab-server/data/data_out/feedback.json");
+
 	private static final File resolvePath(String path) {
 		ProtectionDomain domain = Paths.class.getProtectionDomain();
 		CodeSource codeSource = domain.getCodeSource();
