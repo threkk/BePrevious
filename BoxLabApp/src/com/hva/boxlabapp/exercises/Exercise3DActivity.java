@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.hva.boxlabapp.FragmentLibrary;
@@ -21,7 +20,7 @@ import com.hva.boxlabapp.R;
 import com.hva.boxlabapp.database.DevicesDatasource;
 import com.hva.boxlabapp.database.LibraryDatasource;
 import com.hva.boxlabapp.devices.Device;
-import com.hva.boxlabapp.entities.Schedule;
+import com.hva.boxlabapp.entities.ExerciseEntryItem;
 import com.hva.boxlabapp.gdx.Exercise3DObject;
 import com.hva.boxlabapp.gdx.Exercise3DHandler;
 import com.hva.boxlabapp.shimmer.driver.ShimmerHandler;
@@ -83,18 +82,18 @@ public class Exercise3DActivity extends AndroidApplication implements
 		View contentView = LayoutInflater.from(this).inflate(
 				R.layout.activity_exercise, null);
 		Intent intent = getIntent();
-		Schedule exercise = (Schedule) intent.getSerializableExtra(FragmentSchedule.EXERCISE);
+		ExerciseEntryItem exercise = (ExerciseEntryItem) intent.getSerializableExtra(FragmentSchedule.EXERCISE);
 
 		if(exercise != null) {
-			final Schedule export = exercise;
+			final ExerciseEntryItem export = exercise;
 			LibraryDatasource db = new LibraryDatasource(this);
 			TextView exerciseName = (TextView) contentView.findViewById(R.id.exercise_3d_title);
 			String name = "";
-			name = db.getName(exercise.getExercise());
+			name = db.getName(exercise.getExerciseId());
 			exerciseName.setText(name);
 			
 			TextView exerciseNotes = (TextView) contentView.findViewById(R.id.exercise_3d_description);
-			exerciseNotes.setText(exercise.getNotes());
+			exerciseNotes.setText(exercise.getNote());
 			
 			TextView exerciseSets = (TextView) contentView.findViewById(R.id.exercise_3d_set_counter);
 			exerciseSets.setText("1");
@@ -116,7 +115,7 @@ public class Exercise3DActivity extends AndroidApplication implements
 				public void onClick(View v) {
 					Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 					intent.putExtra(MainActivity.TAB, 1);
-					intent.putExtra(FragmentLibrary.URI, export.getExercise());
+					intent.putExtra(FragmentLibrary.URI, export.getExerciseId());
 					intent.putExtra(FragmentSchedule.EXERCISE, export);
 					startActivity(intent);
 				}

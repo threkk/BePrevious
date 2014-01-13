@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.hva.boxlabapp.entities.MessageItem;
-import com.hva.boxlabapp.entities.client.Message;
+import nl.boxlab.model.Message;
 
+import com.hva.boxlabapp.entities.MessageItem;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -15,9 +15,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class FeedbackDatasource {
+public class MessagesDatasource {
 
-	private final static String TAG = FeedbackDatasource.class.getName();
+	private final static String TAG = MessagesDatasource.class.getName();
 	
 	public enum Author {
 		PATIENT,
@@ -27,7 +27,7 @@ public class FeedbackDatasource {
 	private SQLiteDatabase database;
 	private FeedbackDatabase dbHelper;
 	
-	public FeedbackDatasource(Context context){
+	public MessagesDatasource(Context context){
 		dbHelper = new FeedbackDatabase(context);
 	}
 	
@@ -46,7 +46,7 @@ public class FeedbackDatasource {
 		try {
 			open();
 			ContentValues values = new ContentValues();
-			values.put(FeedbackDatabase.COLUMN_DATE, message.getDate().getTime());
+			values.put(FeedbackDatabase.COLUMN_DATE, message.getCreated().getTime());
 			values.put(FeedbackDatabase.COLUMN_MSG, message.getMessage());
 			
 			if (message.isFromPatient()) {
@@ -75,7 +75,7 @@ public class FeedbackDatasource {
 		try {
 			open();
 			ContentValues values = new ContentValues();
-			values.put(FeedbackDatabase.COLUMN_DATE, message.getDate().getTime());
+			values.put(FeedbackDatabase.COLUMN_DATE, message.getCreated().getTime());
 			values.put(FeedbackDatabase.COLUMN_MSG, message.getMessage());
 			
 			if (message.isFromPatient()) {
@@ -189,7 +189,7 @@ public class FeedbackDatasource {
 		
 		MessageItem message = new MessageItem();
 		message.set_id(id);
-		message.setDate(date);
+		message.setCreated(date);
 		message.setMessage(msg);
 		
 		switch (author) {

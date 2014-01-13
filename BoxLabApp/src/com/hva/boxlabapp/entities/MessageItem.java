@@ -2,7 +2,8 @@ package com.hva.boxlabapp.entities;
 
 import java.util.Date;
 
-import com.hva.boxlabapp.entities.client.Message;
+import nl.boxlab.model.Message;
+
 
 public class MessageItem extends Message {
 
@@ -14,15 +15,22 @@ public class MessageItem extends Message {
 	}
 	
 	public MessageItem(Date date, String message) {
-		super(date,message);
+		super(message);
+		this.setCreated(date);
+		this.setUpdated(new Date());
 	}
 
 	public MessageItem(Date date, String message, boolean fromPatient) {
-		super(date,message,fromPatient);
+		super(message,fromPatient);
+		this.setCreated(date);
+		this.setUpdated(new Date());
 	}
 
 	public MessageItem(Message message) {
-		super(message.getDate(), message.getMessage(), message.isFromPatient());
+		super(message.getMessage(), message.isFromPatient());
+		this.setIdentity(message.getId());
+		this.setCreated(message.getCreated());
+		this.setUpdated(new Date());
 	}
 	
 	public int get_id() {
@@ -34,6 +42,10 @@ public class MessageItem extends Message {
 	}
 	
 	public static Message toMessage(MessageItem msg){
-		return new Message(msg.getDate(), msg.getMessage(), msg.isFromPatient());
+		Message message = new Message(msg.getMessage(), msg.isFromPatient());
+		message.setCreated(msg.getCreated());
+		message.setUpdated(new Date());
+		message.setId(msg.getId());
+		return message;
 	}
 }

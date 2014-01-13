@@ -2,6 +2,9 @@ package com.hva.boxlabapp;
 
 import java.util.Date;
 
+import nl.boxlab.model.ExerciseEntry;
+import nl.boxlab.model.serializer.JSONEntitySerializer;
+
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -19,13 +22,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.hva.boxlabapp.bluetooth.ConnectToRaspberryPi;
-import com.hva.boxlabapp.database.FeedbackDatasource;
+import com.hva.boxlabapp.database.MessagesDatasource;
 import com.hva.boxlabapp.database.ScheduleDatasource;
 import com.hva.boxlabapp.devices.DeviceActivity;
 import com.hva.boxlabapp.entities.MessageItem;
-import com.hva.boxlabapp.entities.Schedule;
-import com.hva.boxlabapp.entities.client.ExerciseEntry;
-import com.hva.boxlabapp.entities.client.JSONEntitySerializer;
+import com.hva.boxlabapp.entities.ExerciseEntryItem;
 import com.hva.boxlabapp.utils.TabListenerImpl;
 
 @SuppressLint("HandlerLeak")
@@ -124,12 +125,12 @@ public class MainActivity extends Activity {
 			return true;
 		case R.id.action_about:
 			// Meanwhile, we can use this for testing purposes.
-			Schedule entry = new Schedule("test", new Date(), 3, "10 10 10", "Nothing else", false);
+			ExerciseEntryItem entry = new ExerciseEntryItem("test", new Date(), new Date(), 3, "10 10 10", "Nothing else", false);
 			ScheduleDatasource db = new ScheduleDatasource(this);
-			Schedule ret = db.create(entry);
+			ExerciseEntryItem ret = db.create(entry);
 			
 			MessageItem message = new MessageItem(new Date(), "Hoi!", false); 
-			FeedbackDatasource fbdb = new FeedbackDatasource(this);
+			MessagesDatasource fbdb = new MessagesDatasource(this);
 			fbdb.create(message);
 			
 			
@@ -148,7 +149,7 @@ public class MainActivity extends Activity {
 					JSONEntitySerializer serializer = new JSONEntitySerializer();
 					for(String jentry : entries) {
 						ExerciseEntry entry = serializer.deserialize(ExerciseEntry.class, jentry);
-						Schedule schedule = Schedule.fromExerciseEntryToSchedule(entry);
+						ExerciseEntryItem schedule = new ExerciseEntryItem(entry);
 						db.create(schedule);
 						Log.e(TAG,schedule.toString());
 					}
@@ -178,7 +179,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		Intent intent = getIntent();
-		Schedule exercise = (Schedule) intent.getSerializableExtra(FragmentSchedule.EXERCISE);
+		ExerciseEntryItem exercise = (ExerciseEntryItem) intent.getSerializableExtra(FragmentSchedule.EXERCISE);
 
 		if(exercise != null) {
 			this.finish();

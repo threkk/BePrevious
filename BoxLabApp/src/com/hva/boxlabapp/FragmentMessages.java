@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.hva.boxlabapp.database.FeedbackDatasource;
+import com.hva.boxlabapp.database.MessagesDatasource;
 import com.hva.boxlabapp.entities.MessageItem;
 
 import android.app.Fragment;
@@ -30,7 +30,7 @@ public class FragmentMessages extends Fragment{
 		View view = inflater.inflate(R.layout.fragment_messages, container, false);
 		final ListView messages = (ListView) view.findViewById(R.id.messages_list);
 			
-		final FeedbackDatasource db = new FeedbackDatasource(getActivity());
+		final MessagesDatasource db = new MessagesDatasource(getActivity());
 		List<MessageItem> items = db.getMessages();
 		
 		final MessageAdapter adapter = new MessageAdapter(getActivity(), items);
@@ -49,7 +49,7 @@ public class FragmentMessages extends Fragment{
 				
 				if(!message.equals("")) {
 					msg.setMessage(message);
-					msg.setDate(date);
+					msg.setCreated(date);
 					msg.setFromPatient(true);
 					
 					db.create(msg);
@@ -113,7 +113,7 @@ public class FragmentMessages extends Fragment{
 			message.setText(item.getMessage());
 			
 			TextView date = (TextView) view.findViewById(R.id.messages_date);
-			date.setText(item.getDate().toString());
+			date.setText(item.getCreated().toString());
 			
 			if(item.isFromPatient()) {
 				TextView patient = (TextView) view.findViewById(R.id.messages_you);

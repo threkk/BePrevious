@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.hva.boxlabapp.database.LibraryDatasource;
 import com.hva.boxlabapp.database.ScheduleDatasource;
-import com.hva.boxlabapp.entities.Schedule;
+import com.hva.boxlabapp.entities.ExerciseEntryItem;
 import com.hva.boxlabapp.exercises.Exercise3DActivity;
 import com.hva.boxlabapp.utils.ScheduleActivitiesAdapter;
 import com.squareup.timessquare.CalendarPickerView;
@@ -48,7 +48,7 @@ public class FragmentSchedule extends Fragment {
 				ScheduleDatasource db1 = new ScheduleDatasource(getActivity());
 				LibraryDatasource db2 = new LibraryDatasource(getActivity());
 				
-				List<Schedule> calendar = db1.getExercisesByDate(date);
+				List<ExerciseEntryItem> calendar = db1.getExercisesByDate(date);
 				List<String> exercises = db2.getNames();
 				
 				if(calendar.isEmpty()){
@@ -67,7 +67,7 @@ public class FragmentSchedule extends Fragment {
 						
 						public boolean onChildClick(ExpandableListView parent, View v,
 								int groupPosition, int childPosition, long id) {
-							Schedule exercise = (Schedule) adapter.getChild(groupPosition, childPosition);
+							ExerciseEntryItem exercise = (ExerciseEntryItem) adapter.getChild(groupPosition, childPosition);
 							Log.e(TAG, exercise.toString());
 							Intent intent = new Intent(getActivity(), Exercise3DActivity.class);
 							intent.putExtra(EXERCISE, exercise);

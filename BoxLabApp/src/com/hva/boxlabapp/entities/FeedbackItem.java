@@ -1,5 +1,5 @@
 package com.hva.boxlabapp.entities;
 
-public class Feedback {
+public class FeedbackItem {
 
 }

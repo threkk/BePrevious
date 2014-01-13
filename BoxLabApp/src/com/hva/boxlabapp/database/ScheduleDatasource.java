@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.hva.boxlabapp.entities.Schedule;
+import com.hva.boxlabapp.entities.ExerciseEntryItem;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -35,8 +35,8 @@ public class ScheduleDatasource {
 		dbhelper.close();
 	}
 
-	public List<Schedule> getExercisesByDate(Date date) {
-		List<Schedule> calendar = new ArrayList<Schedule>();
+	public List<ExerciseEntryItem> getExercisesByDate(Date date) {
+		List<ExerciseEntryItem> calendar = new ArrayList<ExerciseEntryItem>();
 		Cursor cursor = null;
 
 		Calendar min = Calendar.getInstance();
@@ -73,7 +73,7 @@ public class ScheduleDatasource {
 
 			while (!cursor.isAfterLast()) {
 				boolean done = cursor.getInt(6) == 1 ? true : false;
-				Schedule schedule = new Schedule(cursor.getString(1), new Date(cursor.getInt(2)), cursor.getInt(3), cursor.getString(4), cursor.getString(5), done);
+				ExerciseEntryItem schedule = new ExerciseEntryItem(cursor.getString(1), new Date(cursor.getInt(2)), cursor.getInt(3), cursor.getString(4), cursor.getString(5), done);
 				schedule.set_id(cursor.getInt(0));
 				calendar.add(schedule);
 				cursor.moveToNext();
@@ -90,24 +90,24 @@ public class ScheduleDatasource {
 		return calendar;
 	}
 
-	public Schedule create(Schedule entry) {
+	public ExerciseEntryItem create(ExerciseEntryItem entry) {
 		long row = -1;
 		
 		try {
 			this.open();
 			ContentValues content = new ContentValues();
 			content.put(ScheduleDatabase.COLUMN_SCHEDULE_RID, 
-					entry.get_remoteId());
+					entry.getIdentification());
 			content.put(ScheduleDatabase.COLUMN_SCHEDULE_DATE,
-					entry.getMillis());
+					entry.getDate().getTime());
 			content.put(ScheduleDatabase.COLUMN_SCHEDULE_EXID,
-					entry.getExercise());
+					entry.getExerciseId());
 			content.put(ScheduleDatabase.COLUMN_SCHEDULE_REPS, 
 					entry.getReps());
 			content.put(ScheduleDatabase.COLUMN_SCHEDULE_DONE, 
 					entry.isDone());
 			content.put(ScheduleDatabase.COLUMN_SCHEDULE_NOTES,
-					entry.getNotes());
+					entry.getNote());
 
 			Log.e(TAG, content.toString());
 			row = database.insert(ScheduleDatabase.TABLE_SCHEDULE, null,
@@ -129,11 +129,6 @@ public class ScheduleDatasource {
 		return entry;
 	}
 
-//	TODO: Thinking about how to implement
-//	public boolean update (Schedule entry, boolean done) {
-//		
-//	}
-//	
 	private class ScheduleDatabase extends SQLiteOpenHelper {
 
 		public static final String TABLE_SCHEDULE = "schedule";
