@@ -2,8 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="C:/Users/Bjorn/Downloads/bluecove-2.1.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Bjorn/Desktop/BU/bluecove/bluecove-gpl-2.1.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Bjorn/Downloads/google-gson-2.2.4-release.zip"/>
+	<classpathentry kind="lib" path="lib/bluecove-2.1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/bluecove-gpl-2.1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.2.4.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/model"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
