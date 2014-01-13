@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="serializer" class="nl.boxlab.remote.JSONEntitySerializer" />
+	<bean id="serializer" class="nl.boxlab.model.serializer.JSONEntitySerializer" />
 	<bean id="clientFactory" class="nl.boxlab.remote.ClientFactory" />
 	<bean id="client" factory-bean="clientFactory" factory-method="createClient" />
 
