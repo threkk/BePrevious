@@ -8,7 +8,7 @@
     tools:context=".MainActivity" >
  	
        <ListView
-            android:id="@+id/feedback_list"
+            android:id="@+id/messages_list"
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:focusable="false"
@@ -22,20 +22,20 @@
         android:orientation="horizontal">
 	
            <EditText
-        android:id="@+id/feedback_input"
+        android:id="@+id/messages_input"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:singleLine="true"
-        android:hint="@string/feedback_hint" >
+        android:hint="@string/messages_hint" >
 
         <requestFocus />
     </EditText>
      <Button
-        android:id="@+id/feedback_send"
+        android:id="@+id/messages_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/feedback_send"
+        android:text="@string/messages_send"
         />
 
     </LinearLayout>

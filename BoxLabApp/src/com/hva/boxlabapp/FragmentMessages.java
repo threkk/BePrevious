@@ -21,14 +21,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class FragmentFeedback extends Fragment{
+public class FragmentMessages extends Fragment{
 		
-	private static final String TAG = FragmentFeedback.class.getName();
+	private static final String TAG = FragmentMessages.class.getName();
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	
-		View view = inflater.inflate(R.layout.fragment_feedback, container, false);
-		final ListView messages = (ListView) view.findViewById(R.id.feedback_list);
+		View view = inflater.inflate(R.layout.fragment_messages, container, false);
+		final ListView messages = (ListView) view.findViewById(R.id.messages_list);
 			
 		final FeedbackDatasource db = new FeedbackDatasource(getActivity());
 		List<MessageItem> items = db.getMessages();
@@ -36,9 +36,9 @@ public class FragmentFeedback extends Fragment{
 		final MessageAdapter adapter = new MessageAdapter(getActivity(), items);
 		messages.setAdapter(adapter);
 		
-		final EditText input = (EditText) view.findViewById(R.id.feedback_input);
+		final EditText input = (EditText) view.findViewById(R.id.messages_input);
 		
-		Button send = (Button) view.findViewById(R.id.feedback_send);
+		Button send = (Button) view.findViewById(R.id.messages_send);
 		send.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -105,21 +105,21 @@ public class FragmentFeedback extends Fragment{
 
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View view = inflater.inflate(R.layout.item_feedback, parent, false);
+			View view = inflater.inflate(R.layout.item_message, parent, false);
 			
 			MessageItem item = messages.get(position);
 			
-			TextView message = (TextView) view.findViewById(R.id.feedback_message);
+			TextView message = (TextView) view.findViewById(R.id.messages_message);
 			message.setText(item.getMessage());
 			
-			TextView date = (TextView) view.findViewById(R.id.feedback_date);
+			TextView date = (TextView) view.findViewById(R.id.messages_date);
 			date.setText(item.getDate().toString());
 			
 			if(item.isFromPatient()) {
-				TextView patient = (TextView) view.findViewById(R.id.feedback_you);
+				TextView patient = (TextView) view.findViewById(R.id.messages_you);
 				patient.setVisibility(TextView.VISIBLE);
 			} else {
-				TextView therapist = (TextView) view.findViewById(R.id.feedback_therapist);
+				TextView therapist = (TextView) view.findViewById(R.id.messages_therapist);
 				therapist.setVisibility(TextView.VISIBLE);
 			}
 			

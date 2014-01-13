@@ -53,10 +53,10 @@ public class MainActivity extends Activity {
 
 		Tab tabFeedback = bar
 				.newTab()
-				.setText(getText(R.string.fragment_feedback))
+				.setText(getText(R.string.fragment_messages))
 				.setTabListener(
-						new TabListenerImpl<FragmentFeedback>(this,
-								"feedback", FragmentFeedback.class));
+						new TabListenerImpl<FragmentMessages>(this,
+								"messages", FragmentMessages.class));
 		Tab tabLibrary = bar
 				.newTab()
 				.setText(getText(R.string.fragment_library))

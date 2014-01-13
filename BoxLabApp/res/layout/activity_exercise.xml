@@ -23,6 +23,7 @@
              android:layout_marginLeft="@dimen/double_margin"
              android:text="@string/e3d_extra_help" 
              android:textAppearance="?android:attr/textAppearanceSmall"
+             android:textColor="#FF4444"
              android:visibility="gone" />
         
          <TextView

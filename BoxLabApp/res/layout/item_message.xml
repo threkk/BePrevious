@@ -6,28 +6,28 @@
     android:layout_margin="@dimen/normal_margin"
      >
 	<TextView
-	    android:id="@+id/feedback_therapist"
+	    android:id="@+id/messages_therapist"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="@dimen/normal_margin"
 	    android:textSize="14sp"
-	    android:text="@string/feedback_therapist"
+	    android:text="@string/messages_therapist"
 	    android:textColor="#cc0000"
 	    android:visibility="gone"
 	    />
     
 	<TextView
-		android:id="@+id/feedback_you"
+		android:id="@+id/messages_you"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="@dimen/normal_margin"
 	    android:textSize="14sp"
-	    android:text="@string/feedback_you"
+	    android:text="@string/messages_you"
 	    android:visibility="gone"
 		/>
 		
     <TextView
-        android:id="@+id/feedback_message"
+        android:id="@+id/messages_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/normal_margin"
@@ -36,7 +36,7 @@
        />
 
     <TextView
-        android:id="@+id/feedback_date"
+        android:id="@+id/messages_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/normal_margin"

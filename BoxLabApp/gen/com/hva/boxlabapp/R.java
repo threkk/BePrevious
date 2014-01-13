@@ -156,17 +156,17 @@ containing a value of this type.
         public static final int exercise_3d_set_counter=0x7f090005;
         public static final int exercise_3d_set_max=0x7f090006;
         public static final int exercise_3d_title=0x7f090002;
-        public static final int feedback_date=0x7f09001c;
-        public static final int feedback_input=0x7f09000f;
-        public static final int feedback_list=0x7f09000e;
-        public static final int feedback_message=0x7f09001b;
-        public static final int feedback_send=0x7f090010;
-        public static final int feedback_therapist=0x7f090019;
-        public static final int feedback_you=0x7f09001a;
-        public static final int fragment_feedback=0x7f09000d;
-        public static final int library_item=0x7f09001d;
-        public static final int library_webview=0x7f090011;
+        public static final int fragment_feedback=0x7f09000e;
+        public static final int library_item=0x7f090019;
+        public static final int library_webview=0x7f09000d;
         public static final int menu_about=0x7f090025;
+        public static final int messages_date=0x7f09001d;
+        public static final int messages_input=0x7f090010;
+        public static final int messages_list=0x7f09000f;
+        public static final int messages_message=0x7f09001c;
+        public static final int messages_send=0x7f090011;
+        public static final int messages_therapist=0x7f09001a;
+        public static final int messages_you=0x7f09001b;
         public static final int schedule_activities=0x7f090014;
         public static final int schedule_content=0x7f090013;
         public static final int title=0x7f09001e;
@@ -177,12 +177,12 @@ containing a value of this type.
         public static final int activity_exercise=0x7f030001;
         public static final int activity_main=0x7f030002;
         public static final int dialog_device=0x7f030003;
-        public static final int fragment_feedback=0x7f030004;
-        public static final int fragment_library=0x7f030005;
+        public static final int fragment_library=0x7f030004;
+        public static final int fragment_messages=0x7f030005;
         public static final int fragment_schedule=0x7f030006;
         public static final int item_device=0x7f030007;
-        public static final int item_feedback=0x7f030008;
-        public static final int item_library=0x7f030009;
+        public static final int item_library=0x7f030008;
+        public static final int item_message=0x7f030009;
         public static final int month=0x7f03000a;
         public static final int week=0x7f03000b;
     }
@@ -218,14 +218,8 @@ containing a value of this type.
          */
         public static final int e3d_sets=0x7f06000f;
         public static final int e3d_tit_nf=0x7f060012;
-        /**  feedback fragment 
-         */
-        public static final int feedback_hint=0x7f060020;
-        public static final int feedback_send=0x7f060021;
-        public static final int feedback_therapist=0x7f060023;
-        public static final int feedback_you=0x7f060022;
-        public static final int fragment_feedback=0x7f06000c;
         public static final int fragment_library=0x7f06000d;
+        public static final int fragment_messages=0x7f06000c;
         public static final int fragment_schedule=0x7f06000b;
         public static final int invalid_date=0x7f060001;
         public static final int menu_about=0x7f060009;
@@ -234,6 +228,12 @@ containing a value of this type.
          */
         public static final int menu_refresh=0x7f060007;
         public static final int menu_settings=0x7f06000a;
+        /**  messages fragment 
+         */
+        public static final int messages_hint=0x7f060020;
+        public static final int messages_send=0x7f060021;
+        public static final int messages_therapist=0x7f060023;
+        public static final int messages_you=0x7f060022;
         public static final int month_name_format=0x7f060002;
         /**  schedule fragment 
          */
