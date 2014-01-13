@@ -11,19 +11,15 @@ import java.util.List;
 import nl.boxlab.model.Entity;
 import nl.boxlab.model.serializer.JSONEntitySerializer;
 
-public class FileReader<T extends Entity> {
+public class FileReader {
 
 	private final JSONEntitySerializer serializer;
-	private final File file;
-	private final Class<T> clazz;
 
-	public FileReader(File file, Class<T> clazz) {
+	public FileReader() {
 		this.serializer = new JSONEntitySerializer();
-		this.file = file;
-		this.clazz = clazz;
 	}
 
-	public List<T> readFromFile() throws IOException {
+	public <T extends Entity> List<T> readFromFile(File file, Class<T> clazz) throws IOException {
 		List<T> result = new LinkedList<T>();
 
 		BufferedReader reader = null;

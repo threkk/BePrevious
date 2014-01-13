@@ -10,21 +10,19 @@ import java.util.Iterator;
 import nl.boxlab.model.Entity;
 import nl.boxlab.model.serializer.JSONEntitySerializer;
 
-public class FileWriter<T extends Entity> {
+public class FileWriter {
 
 	private final JSONEntitySerializer serializer;
-	private final File file;
 
-	public FileWriter(File file) {
+	public FileWriter() {
 		this.serializer = new JSONEntitySerializer();
-		this.file = file;
 	}
 
-	public void appendToFile(T entity) throws IOException {
-		appendToFile(Collections.singleton(entity));
+	public <T extends Entity> void appendToFile(File file, T entity) throws IOException {
+		appendToFile(file, Collections.singleton(entity));
 	}
 
-	public void appendToFile(Collection<T> entities) throws IOException {
+	public <T extends Entity> void appendToFile(File file, Collection<T> entities) throws IOException {
 		BufferedWriter writer = null;
 		try {
 			writer = new BufferedWriter(new java.io.FileWriter(file, true));
