@@ -1,5 +1,6 @@
 package nl.boxlab.remote;
 
+import nl.boxlab.model.serializer.EntitySerializer;
 
 public class AbstractProvider {
 
