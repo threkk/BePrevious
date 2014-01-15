@@ -5,6 +5,7 @@ node_modules
 *.jar
 *.war
 *.ear
+!boxlab-bluetooth-server/boxlab-bluetoothservice/lib/*.jar
 
 # Java class files #
 *.class
