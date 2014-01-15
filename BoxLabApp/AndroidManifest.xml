@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.hva.boxlabapp"
+    package="nl.hva.boxlabapp"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -26,7 +26,7 @@
         android:theme="@style/Theme.Boxlabapp" >
         
         <activity
-            android:name="com.hva.boxlabapp.MainActivity"
+            android:name="nl.hva.boxlabapp.MainActivity"
             android:label="@string/title_main_activity"
             android:screenOrientation="landscape" >
             <intent-filter>
@@ -36,27 +36,18 @@
         </activity>
         
         <activity
-            android:name="com.hva.boxlabapp.exercises.Exercise3DActivity"
+            android:name="nl.hva.boxlabapp.exercises.Exercise3DActivity"
             android:label="@string/title_activity_exercise3d" 
-            android:parentActivityName="com.hva.boxlabapp.MainActivity">
-        </activity>
-                
-        <activity
-            android:name="com.hva.boxlabapp.deprecated.ManageDevicesActivity"
-            android:label="@string/title_activity_manage_devices"
-            android:parentActivityName="com.hva.boxlabapp.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hva.boxlabapp.MainActivity" />
+            android:parentActivityName="nl.hva.boxlabapp.MainActivity">
         </activity>
         
          <activity
-            android:name="com.hva.boxlabapp.devices.DeviceActivity"
+            android:name="nl.hva.boxlabapp.devices.DeviceActivity"
             android:label="@string/title_activity_manage_devices"
-            android:parentActivityName="com.hva.boxlabapp.MainActivity" >
+            android:parentActivityName="nl.hva.boxlabapp.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hva.boxlabapp.MainActivity" />
+                android:value="nl.hva.boxlabapp.MainActivity" />
         </activity>
 
     </application>
