@@ -3,6 +3,7 @@ package nl.hva.boxlabapp.devices;
 import java.util.List;
 
 import nl.hva.boxlabapp.database.DevicesDatasource;
+import nl.hva.boxlabapp.devices.Device;
 
 import nl.hva.boxlabapp.R;
 
@@ -60,11 +61,11 @@ public class DeviceActivity extends Activity {
 			this.devices = new Device[4];
 			
 			for(Device device : source){
-				switch (device.getPosition().id){
-				case 0 : this.devices[0] = device; break;
-				case 1 : this.devices[1] = device; break;
-				case 2 : this.devices[2] = device; break;
-				case 3 : this.devices[3] = device; break;
+				switch (device.getPosition()){
+				case CHEST : this.devices[0] = device; break;
+				case THIGH : this.devices[1] = device; break;
+				case SHIN : this.devices[2] = device; break;
+				case SERVER : this.devices[3] = device; break;
 				default : break;
 				}
 			}

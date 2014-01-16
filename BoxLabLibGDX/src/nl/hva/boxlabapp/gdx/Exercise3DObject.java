@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 
 public class Exercise3DObject implements ApplicationListener {
@@ -67,21 +68,23 @@ public class Exercise3DObject implements ApplicationListener {
 		
 		// Accelerometer only
 		// TODO: Correct the gravity issue with the data!!!
-		Vector3 chest, thigh, shin;
-		double[][] data = handler.getData();
+		Quaternion[] rotations = handler.getRotation();
+		Vector3[] translations = handler.getTranslation();
 		
-		if(!(data[0][0] == 0 && data[0][1] == 0 && data[0][2] == 0)) { // Hip reading something
-			chest = new Vector3((float)data[0][0], (float)data[0][1], (float)data[0][2]);
-			controller.translateChest(chest);
-		} 
-		if(!(data[1][0] == 0 && data[1][1] == 0 && data[1][2] == 0)) { // Thigh reading something
-			thigh = new Vector3((float)data[1][0], (float)data[1][1], (float)data[1][2]);
-			controller.translateThigh(thigh);
-		}
-		if(!(data[2][0] == 0 && data[2][1] == 0 && data[2][2] == 0)) { // Shin reading something
-			shin = new Vector3((float)data[2][0], (float)data[2][1], (float)data[2][2]);
-			controller.translateShin(shin);
-		}
+		controller.rotateShin(rotations[2]);
+		
+//		if(!(data[0][0] == 0 && data[0][1] == 0 && data[0][2] == 0)) { // Hip reading something
+//			chest = new Vector3((float)data[0][0], (float)data[0][1], (float)data[0][2]);
+//			controller.translateChest(chest);
+//		} 
+//		if(!(data[1][0] == 0 && data[1][1] == 0 && data[1][2] == 0)) { // Thigh reading something
+//			thigh = new Vector3((float)data[1][0], (float)data[1][1], (float)data[1][2]);
+//			controller.translateThigh(thigh);
+//		}
+//		if(!(data[2][0] == 0 && data[2][1] == 0 && data[2][2] == 0)) { // Shin reading something
+//			shin = new Vector3((float)data[2][0], (float)data[2][1], (float)data[2][2]);
+//			controller.translateShin(shin);
+//		}
 	}
 	
 }

@@ -25,6 +25,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector3;
+
 import nl.hva.boxlabapp.R;
 
 public class Exercise3DActivity extends AndroidApplication implements
@@ -62,13 +65,13 @@ public class Exercise3DActivity extends AndroidApplication implements
 //		}
 		
 		// Creating handlers
-//		chest = new ShimmerHandler();
-//		thigh = new ShimmerHandler();
-//		shin = new ShimmerHandler();
+		chest = new ShimmerHandler();
+		thigh = new ShimmerHandler();
+		shin = new ShimmerHandler();
 		
 		// chest.init(mChest, this);
 		// thigh.init(mThigh, this);
-		// shin.init(mShin, this);
+		 shin.init(mShin, this);
 		
 		// UI
 		LinearLayout layout = new LinearLayout(this);
@@ -135,18 +138,24 @@ public class Exercise3DActivity extends AndroidApplication implements
 		setContentView(layout);
 
 	}
-
-	@Override
-	public double[][] getData() {
-		// 3 sensors sending 6 outputs, 3 accel, 3 gyro
-		double[][] data = new double[3][6];
-//		data[0] = chest.readSensors();
-//		data[1] = thigh.readSensors();
-//		data[2] = shin.readSensors();
-		return data;
-	}
 	
 	public void onBackPressed() {
 		this.finish();
+	}
+
+	@Override
+	public Quaternion[] getRotation() {
+		Quaternion[] data = new Quaternion[3];
+//		data[0] = chest.readSensors();
+//		data[1] = thigh.readSensors();
+		data[2] = shin.readMagnetometer();
+		return data;
+	}
+
+	@Override
+	public Vector3[] getTranslation() {
+		Vector3[] data = new Vector3[3];
+		data[2] = shin.readAccelerometer();
+		return data;
 	}
 }

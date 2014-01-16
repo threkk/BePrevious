@@ -1,5 +1,9 @@
 package nl.hva.boxlabapp.gdx;
 
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector3;
+
 public interface Exercise3DHandler {
-	double[][] getData();
+	Quaternion[] getRotation();
+	Vector3[] getTranslation();
 }
