@@ -42,11 +42,12 @@ public class LegController {
 	}
 
 	public void rotateThigh(Quaternion rotation) {
-		this.leg[1].transform.rotate(rotation);
+		this.leg[1].transform.set(rotation);
 	}
 
 	public void rotateShin(Quaternion rotation) {
-		this.leg[2].transform.rotate(rotation);
+		//this.leg[2].transform.rotate(rotation);
+		this.leg[2].transform.set(rotation);
 	}
 
 	public void rotateFoot(Quaternion rotation) {
@@ -64,8 +65,9 @@ public class LegController {
 	}
 
 	public void translateAndRotateShin(Vector3 vector, Quaternion rotation) {
-		this.translateShin(vector);
-		this.rotateShin(rotation);
+		//this.translateShin(vector);
+		//this.rotateShin(rotation);
+		this.leg[2].transform.set(vector, rotation, new Vector3());
 	}
 
 	public void translateAndRotateFoot(Vector3 vector, Quaternion rotation) {

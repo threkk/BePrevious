@@ -17,6 +17,7 @@ import nl.hva.boxlabapp.shimmer.driver.ShimmerHandler;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,8 @@ import nl.hva.boxlabapp.R;
 
 public class Exercise3DActivity extends AndroidApplication implements
 		Exercise3DHandler {
-
+	private static final String TAG = Exercise3DActivity.class.getName();
+	
 	private ShimmerHandler chest;
 	private ShimmerHandler thigh;
 	private ShimmerHandler shin;
@@ -68,10 +70,13 @@ public class Exercise3DActivity extends AndroidApplication implements
 		chest = new ShimmerHandler();
 		thigh = new ShimmerHandler();
 		shin = new ShimmerHandler();
-		
+		Log.d(TAG, "mThigh: " + mThigh.getMac());
+		Log.d(TAG, "mShin: " + mShin.getMac());
 		// chest.init(mChest, this);
-		// thigh.init(mThigh, this);
+		 thigh.init(mThigh, this);
+		 while(!thigh.isConnected());
 		 shin.init(mShin, this);
+		 while(!shin.isConnected());
 		
 		// UI
 		LinearLayout layout = new LinearLayout(this);
@@ -147,7 +152,7 @@ public class Exercise3DActivity extends AndroidApplication implements
 	public Quaternion[] getRotation() {
 		Quaternion[] data = new Quaternion[3];
 //		data[0] = chest.readSensors();
-//		data[1] = thigh.readSensors();
+		data[1] = thigh.readMagnetometer();
 		data[2] = shin.readMagnetometer();
 		return data;
 	}
@@ -155,6 +160,7 @@ public class Exercise3DActivity extends AndroidApplication implements
 	@Override
 	public Vector3[] getTranslation() {
 		Vector3[] data = new Vector3[3];
+		data[1] = thigh.readAccelerometer();
 		data[2] = shin.readAccelerometer();
 		return data;
 	}

@@ -68,10 +68,10 @@ public class ShimmerHandler extends Handler {
 
 				String[] sensorName = new String[7];
 				sensorName = new String[7]; // for x y and z axis
-				sensorName[0] = "Quarternion 0";
-				sensorName[1] = "Quarternion 1";
-				sensorName[2] = "Quarternion 2";
-				sensorName[3] = "Quarternion 3";
+				sensorName[0] = "Quaternion 0";
+				sensorName[1] = "Quaternion 1";
+				sensorName[2] = "Quaternion 2";
+				sensorName[3] = "Quaternion 3";
 				sensorName[4] = "Accelerometer X";
 				sensorName[5] = "Accelerometer Y";
 				sensorName[6] = "Accelerometer Z";
@@ -84,7 +84,7 @@ public class ShimmerHandler extends Handler {
 							.returnFormatCluster(ofFormats, "CAL"));
 					if (formatCluster != null) {
 						data[i] = (float) formatCluster.mData;
-						Log.i(TAG, "Data calibrated for sensorname " + sensorName[i]+"  = " + data[i]);
+						//Log.i(TAG, "Data calibrated for sensorname " + sensorName[i]+"  = " + data[i]);
 
 					}
 				}
@@ -108,6 +108,10 @@ public class ShimmerHandler extends Handler {
 	}
 	
 	public Vector3 readAccelerometer() {
-		return new Vector3(data[4]*0.1f, data[5]*0.1f, data[6]*0.1f);
+		return new Vector3(data[4], data[5], data[6]);
+	}
+	
+	public boolean isConnected() {
+		return this.shimmer.getShimmerState() == Shimmer.STATE_CONNECTED;
 	}
 }

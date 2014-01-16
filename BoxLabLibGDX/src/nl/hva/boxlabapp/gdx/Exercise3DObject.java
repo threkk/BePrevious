@@ -66,13 +66,12 @@ public class Exercise3DObject implements ApplicationListener {
 	
 	public void updateController(){
 		
-		// Accelerometer only
-		// TODO: Correct the gravity issue with the data!!!
 		Quaternion[] rotations = handler.getRotation();
 		Vector3[] translations = handler.getTranslation();
 		
+		controller.rotateThigh(rotations[1]);
 		controller.rotateShin(rotations[2]);
-		
+		//controller.translateAndRotateShin(translations[2], rotations[2]);
 //		if(!(data[0][0] == 0 && data[0][1] == 0 && data[0][2] == 0)) { // Hip reading something
 //			chest = new Vector3((float)data[0][0], (float)data[0][1], (float)data[0][2]);
 //			controller.translateChest(chest);

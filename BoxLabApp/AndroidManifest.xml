@@ -38,12 +38,14 @@
         <activity
             android:name="nl.hva.boxlabapp.exercises.Exercise3DActivity"
             android:label="@string/title_activity_exercise3d" 
+            android:screenOrientation="landscape"
             android:parentActivityName="nl.hva.boxlabapp.MainActivity">
         </activity>
         
          <activity
             android:name="nl.hva.boxlabapp.devices.DeviceActivity"
             android:label="@string/title_activity_manage_devices"
+            android:screenOrientation="landscape"
             android:parentActivityName="nl.hva.boxlabapp.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
