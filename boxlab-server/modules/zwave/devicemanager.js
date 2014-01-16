@@ -21,10 +21,15 @@ var updateCommands = {
 	updateDevicesCommand : {
 		command : require('./updateDevicesCommand').updateDevicesCommand,
 		test : function(manager, tick) {
-			return ((manager.mode != MODE_IDLE) || tick % configuration.deviceUpdateTicks);
+			return ((manager.mode != MODE_IDLE) || tick
+					% configuration.deviceUpdateTicks);
 		}
 	},
-	deviceBatteryTicks : {
+	deviceBinaryCommand : {
+		command : require('./updateBinaryCommand').updateBinaryCommand,
+		test : tickTest(configuration.deviceBinaryTicks)
+	},
+	deviceBatteryCommand : {
 		command : require('./updateBatteryCommand').updateBatteryCommand,
 		test : tickTest(configuration.deviceBatteryTicks)
 	},
@@ -62,7 +67,8 @@ DeviceManager.prototype = {
 		function iteration(callback) {
 			self.update(function(err) {
 				if (err) {
-					logger.debug('failed to update device manager: ' + JSON.stringify(err));
+					logger.debug('failed to update device manager: '
+							+ JSON.stringify(err));
 				}
 
 				// increment the tick
@@ -74,7 +80,8 @@ DeviceManager.prototype = {
 
 		function finish(err) {
 			if (err) {
-				logger.error('device manager encountered an error: ' + JSON.stringify(err));
+				logger.error('device manager encountered an error: '
+						+ JSON.stringify(err));
 			}
 
 			logger.debug('device manager has stopped running');
@@ -151,16 +158,19 @@ DeviceManager.prototype = {
 	_startMode : function(mode, duration, callback) {
 		var modeChanger = null;
 		if (mode == 'include') {
-			modeChanger = (duration > 0) ? client.startInclusionMode : client.stopInclusionMode;
+			modeChanger = (duration > 0) ? client.startInclusionMode
+					: client.stopInclusionMode;
 		} else {
-			modeChanger = (duration > 0) ? client.startExclusionMode : client.stopExclusionMode;
+			modeChanger = (duration > 0) ? client.startExclusionMode
+					: client.stopExclusionMode;
 		}
 
 		var self = this;
 		modeChanger(function(err) {
 			if (!err) {
 				if (duration > 0) {
-					self.mode = (mode == 'include') ? MODE_INCLUDING : MODE_EXCLUDING;
+					self.mode = (mode == 'include') ? MODE_INCLUDING
+							: MODE_EXCLUDING;
 				} else {
 					self.mode = MODE_IDLE;
 				}

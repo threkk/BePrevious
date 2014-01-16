@@ -4,7 +4,7 @@ var _ = require('lodash');
 var logger = require('../modules/logging').getLogger();
 var localDB = require('../modules/localdatabase').localDB;
 
-var client = require('../modules/zwave/client').client;
+var client = require('../modules/zwave/client');
 var deviceManager = require('../modules/zwave/devicemanager').deviceManager;
 
 function getNormalizedDevice(device) {

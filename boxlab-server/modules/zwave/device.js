@@ -5,7 +5,8 @@ function Device(manager) {
 
 	this.data = {
 		id : -1,
-		name: null,
+		name : null,
+		type : 'other',
 		basicType : -1,
 		genericType : -1,
 		specificType : -1,
@@ -18,15 +19,15 @@ function Device(manager) {
 		hasBattery : false,
 		isFailed : false
 	}
-	
+
 	this.state = {
-		value: 0
+		value : 0
 	};
 }
 
 Device.prototype = {
 
-	updateData: function(data, callback) {
+	updateData : function(data, callback) {
 		var clonedData = _.clone(this.data);
 		var dirty = this._merge(clonedData, data);
 		if (dirty) {
@@ -34,8 +35,8 @@ Device.prototype = {
 		}
 		callback(null, dirty, clonedData)
 	},
-	
-	updateState: function(state, callback) {
+
+	updateState : function(state, callback) {
 		var clonedState = _.clone(this.state);
 		var dirty = this._merge(clonedState, state);
 		if (dirty) {

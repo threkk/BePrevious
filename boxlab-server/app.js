@@ -7,7 +7,6 @@ var hbs = require('hbs');
 var io = require('socket.io');
 
 var identification = require('./modules/identification');
-var handler = require('./modules/zwave/commandhandler').handler;
 var bootstrapper = require('./modules/bootstrapper');
 var writer = require('./modules/writer').writer;
 var logger = require('./modules/logging').getLogger('app');
@@ -50,13 +49,13 @@ app.registerPartial = function(partialName, filename) {
 app.start = function() {
 	bootstrapper.bootstrap(function(err) {
 		if (err) {
-			return logger.error('failed to start boxlab server: ' + JSON.stringify(err));
+			return logger.error('failed to start boxlab server: '
+					+ JSON.stringify(err));
 		}
 
 		var server = http.createServer(app);
 
 		bindWebsockets(server);
-		bindWriter();
 
 		app.map(require('./routes/client').routes, '/client/');
 		app.map(require('./routes/dashboard').routes, '/');
@@ -64,11 +63,18 @@ app.start = function() {
 		var port = app.get('port');
 		server.listen(port, function() {
 			logger.debug('Boxlab server started, listening on port ' + port);
-			logger.debug('Boxlab device identification: ' + identification.getIdentity());
+			logger.debug('Boxlab device identification: '
+					+ identification.getIdentity());
 		});
 	});
 }
 
+/**
+ * binds the web sockets to the server, used in communicating if a device was
+ * added or removed
+ * 
+ * @param server
+ */
 function bindWebsockets(server) {
 	var sockets = io.listen(server, {
 		log : false
@@ -82,14 +88,6 @@ function bindWebsockets(server) {
 
 	deviceManager.on('device_removed', function(device) {
 		socket.emit('device_removed', device);
-	});
-}
-
-function bindWriter() {
-	handler.on('state_changed', function(message) {
-		writer.write(message, function(err, status) {
-			logger.debug('wrote to file: ' + JSON.stringify(message));
-		});
 	});
 }
 
