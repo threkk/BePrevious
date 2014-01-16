@@ -43,8 +43,13 @@ public class ShimmerHandler extends Handler {
 			switch (msg.arg1) {
 			case Shimmer.MSG_STATE_FULLY_INITIALIZED:
 				Log.i(TAG, "Shimmer fully initialized");
-				 shimmer.setgetdatainstruction("a"); // ???
-				 shimmer.writeEnabledSensors(Shimmer.SENSOR_ACCEL | Shimmer.SENSOR_GYRO);
+				 
+				 shimmer.writeEnabledSensors(Shimmer.SENSOR_ACCEL | Shimmer.SENSOR_GYRO | Shimmer.SENSOR_MAG);
+				 shimmer.writeMagRange(1);
+				 shimmer.setAccelerometerSpecialMode(Shimmer.ACCEL_SMART_MODE);
+				 shimmer.enable3DOrientation(true);
+				 shimmer.enableCalibration(true);
+				 shimmer.enableOnTheFlyGyroCal(true, 100, 1.2);
 				 shimmer.startStreaming();
 				break;
 			case Shimmer.STATE_CONNECTING:
@@ -63,10 +68,10 @@ public class ShimmerHandler extends Handler {
 
 				String[] sensorName = new String[7];
 				sensorName = new String[7]; // for x y and z axis
-				sensorName[0] = "Quartenion 0";
-				sensorName[1] = "Quartenion 1";
-				sensorName[2] = "Quartenion 2";
-				sensorName[3] = "Quartenion 3";
+				sensorName[0] = "Quarternion 0";
+				sensorName[1] = "Quarternion 1";
+				sensorName[2] = "Quarternion 2";
+				sensorName[3] = "Quarternion 3";
 				sensorName[4] = "Accelerometer X";
 				sensorName[5] = "Accelerometer Y";
 				sensorName[6] = "Accelerometer Z";

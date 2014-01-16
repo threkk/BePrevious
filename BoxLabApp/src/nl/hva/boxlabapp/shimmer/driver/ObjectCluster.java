@@ -43,7 +43,8 @@ public class ObjectCluster {
 	public Multimap<String, FormatCluster> mPropertyCluster = HashMultimap.create();
 	public String mMyName;
 	public String mBluetoothAddress;
-	
+	public byte[] mRawData;
+	public byte[] mSystemTimeStamp = new byte[8];
 	public ObjectCluster(String myName){
 		mMyName = myName;
 	}
