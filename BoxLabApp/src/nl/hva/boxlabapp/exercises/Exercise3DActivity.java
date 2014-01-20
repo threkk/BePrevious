@@ -35,9 +35,9 @@ public class Exercise3DActivity extends AndroidApplication implements
 		Exercise3DHandler {
 	private static final String TAG = Exercise3DActivity.class.getName();
 	
-	private ShimmerHandler chest;
-	private ShimmerHandler thigh;
-	private ShimmerHandler shin;
+	private ShimmerHandler chest, thigh, shin;
+	private Device mChest, mThigh, mShin = null;
+	private Exercise3DObject ex;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,10 +46,6 @@ public class Exercise3DActivity extends AndroidApplication implements
 		// Loading sensors
 		DevicesDatasource dbDevices = new DevicesDatasource(this);
 		List<Device> devices = dbDevices.getDevices();
-		
-		Device mChest = null;
-		Device mThigh = null;
-		Device mShin = null;
 		
 		for (Device device : devices) {
 			switch(device.getPosition()) {
@@ -72,11 +68,6 @@ public class Exercise3DActivity extends AndroidApplication implements
 		shin = new ShimmerHandler();
 		Log.d(TAG, "mThigh: " + mThigh.getMac());
 		Log.d(TAG, "mShin: " + mShin.getMac());
-		// chest.init(mChest, this);
-		 thigh.init(mThigh, this);
-		 while(!thigh.isConnected());
-		 shin.init(mShin, this);
-		 while(!shin.isConnected());
 		
 		// UI
 		LinearLayout layout = new LinearLayout(this);
@@ -136,7 +127,7 @@ public class Exercise3DActivity extends AndroidApplication implements
 		layout.addView(contentView, width, height);
 
 		// 3D
-		final Exercise3DObject ex = new Exercise3DObject(this);
+		ex = new Exercise3DObject(this);
 		View gameView = initializeForView(ex, false);
 		layout.addView(gameView, width, height);
 
@@ -145,13 +136,25 @@ public class Exercise3DActivity extends AndroidApplication implements
 	}
 	
 	public void onBackPressed() {
-		this.finish();
+		super.finish();
 	}
 
 	@Override
+	public void onDestroy(){
+		//chest.disconnect();
+		super.onDestroy();
+		thigh.disconnect();
+		shin.disconnect();
+		thigh = null;
+		shin = null;
+		ex.dispose();
+		ex = null;
+	}
+	
+	@Override
 	public Quaternion[] getRotation() {
 		Quaternion[] data = new Quaternion[3];
-//		data[0] = chest.readSensors();
+//		// data[0] = chest.readSensors();
 		data[1] = thigh.readMagnetometer();
 		data[2] = shin.readMagnetometer();
 		return data;
@@ -160,8 +163,35 @@ public class Exercise3DActivity extends AndroidApplication implements
 	@Override
 	public Vector3[] getTranslation() {
 		Vector3[] data = new Vector3[3];
+		//data[0] = chest.readAccelerometer();
 		data[1] = thigh.readAccelerometer();
 		data[2] = shin.readAccelerometer();
 		return data;
+	}
+
+	@Override
+	public boolean initSensors() {
+		// chest.init(mChest, this);
+		// trivial change
+		thigh.init(mThigh, this);
+		while(!thigh.isConnected());
+		shin.init(mShin, this);
+		while(!shin.isConnected());
+		return thigh.isConnected() && shin.isConnected();
+	}
+
+	@Override
+	public boolean isConnected() {
+		Log.i(TAG, "Thigh: " + Boolean.valueOf(thigh.isConnected()));
+		Log.i(TAG, "Shin: " + Boolean.valueOf(shin.isConnected()));
+		return thigh.isConnected() && shin.isConnected();
+
+	}
+
+	@Override
+	public void disconnect() {
+		thigh.disconnect();
+//		chest.disconnect();
+		shin.disconnect();
 	}
 }

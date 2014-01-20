@@ -32,6 +32,10 @@ public class Exercise3DObject implements ApplicationListener {
 		this.controller = new LegController(renderer.getInstance());
 		this.camController = new CameraInputController(renderer.getCamera());
         Gdx.input.setInputProcessor(camController);
+        do {
+        	this.handler.initSensors();
+        }
+        while(!this.handler.isConnected());
 	}
 
 	@Override
@@ -62,6 +66,7 @@ public class Exercise3DObject implements ApplicationListener {
 	@Override
 	public void dispose() {
 		renderer.dispose();
+		handler.disconnect();
 	}
 	
 	public void updateController(){
@@ -71,19 +76,7 @@ public class Exercise3DObject implements ApplicationListener {
 		
 		controller.rotateThigh(rotations[1]);
 		controller.rotateShin(rotations[2]);
-		//controller.translateAndRotateShin(translations[2], rotations[2]);
-//		if(!(data[0][0] == 0 && data[0][1] == 0 && data[0][2] == 0)) { // Hip reading something
-//			chest = new Vector3((float)data[0][0], (float)data[0][1], (float)data[0][2]);
-//			controller.translateChest(chest);
-//		} 
-//		if(!(data[1][0] == 0 && data[1][1] == 0 && data[1][2] == 0)) { // Thigh reading something
-//			thigh = new Vector3((float)data[1][0], (float)data[1][1], (float)data[1][2]);
-//			controller.translateThigh(thigh);
-//		}
-//		if(!(data[2][0] == 0 && data[2][1] == 0 && data[2][2] == 0)) { // Shin reading something
-//			shin = new Vector3((float)data[2][0], (float)data[2][1], (float)data[2][2]);
-//			controller.translateShin(shin);
-//		}
+
 	}
 	
 }

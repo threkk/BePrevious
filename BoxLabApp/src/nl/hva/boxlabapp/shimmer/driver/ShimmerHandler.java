@@ -114,4 +114,10 @@ public class ShimmerHandler extends Handler {
 	public boolean isConnected() {
 		return this.shimmer.getShimmerState() == Shimmer.STATE_CONNECTED;
 	}
+	
+	public void disconnect(){
+		this.shimmer.stopStreaming();
+		this.shimmer.stop();
+		this.shimmer = null;
+	}
 }
