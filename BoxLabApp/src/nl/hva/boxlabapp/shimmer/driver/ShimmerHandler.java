@@ -13,10 +13,14 @@ import android.os.Message;
 import android.util.Log;
 
 public class ShimmerHandler extends Handler {
+	
 	private static final String TAG = ShimmerHandler.class.getName();
 	private float[] data;
 	private Shimmer shimmer;
-	public ShimmerHandler() {
+	private Device device;
+	
+	public ShimmerHandler(Device device) {
+		this.device = device;
 		data = new float[7];
 		data[0] = 0; // q1
 		data[1] = 0; // q2
@@ -27,14 +31,29 @@ public class ShimmerHandler extends Handler {
 		data[6] = 0; // a3
 					 
 	}
-	public void init(Device device, Context context) {
+	public void init(Context context) {
 		Shimmer shimmerDevice = new Shimmer(context, this, device.getName(),
 				10, 1, 4, Shimmer.SENSOR_ACCEL|Shimmer.SENSOR_GYRO|Shimmer.SENSOR_MAG, false);
-		shimmerDevice.connect(device.getMac(), "default"); 
 		this.shimmer = shimmerDevice;
 		
 	}
+	
+	public void connect() {
+		shimmer.connect(device.getMac(), "default");
+	}
 
+	public int getState() {
+		return this.shimmer.getShimmerState();
+	}
+	
+	public void disconnect(){
+		this.shimmer.stop();
+	}
+	
+	public boolean isStreaming() {
+		return shimmer.getStreamingStatus();
+	}
+	
 	@Override
 	public void handleMessage(Message msg) {
 
@@ -84,7 +103,6 @@ public class ShimmerHandler extends Handler {
 							.returnFormatCluster(ofFormats, "CAL"));
 					if (formatCluster != null) {
 						data[i] = (float) formatCluster.mData;
-						//Log.i(TAG, "Data calibrated for sensorname " + sensorName[i]+"  = " + data[i]);
 
 					}
 				}
@@ -98,9 +116,9 @@ public class ShimmerHandler extends Handler {
 			break;
 		case Shimmer.MESSAGE_INQUIRY_RESPONSE:
 			Log.i(TAG, "Messagae state = MESSAGE_INQUIRY_RESPONSE");
-		}
-		
+			break;
 
+		}
 	}
 
 	public Quaternion readMagnetometer() {
@@ -111,13 +129,4 @@ public class ShimmerHandler extends Handler {
 		return new Vector3(data[4], data[5], data[6]);
 	}
 	
-	public boolean isConnected() {
-		return this.shimmer.getShimmerState() == Shimmer.STATE_CONNECTED;
-	}
-	
-	public void disconnect(){
-		this.shimmer.stopStreaming();
-		this.shimmer.stop();
-		this.shimmer = null;
-	}
 }

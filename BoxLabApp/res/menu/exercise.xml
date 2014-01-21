@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/activate_chest"
+        android:showAsAction="always|withText"
+        android:icon="@drawable/ic_play"
+        android:title="@string/e3d_chest"></item>
+    <item
+        android:id="@+id/activate_thigh"
+        android:showAsAction="always|withText"
+        android:icon="@drawable/ic_play"
+        android:title="@string/e3d_thigh"></item>
+    <item
+        android:id="@+id/activate_shin"
+        android:showAsAction="always|withText"
+        android:icon="@drawable/ic_play"
+        android:title="@string/e3d_shin"></item>
+</menu>

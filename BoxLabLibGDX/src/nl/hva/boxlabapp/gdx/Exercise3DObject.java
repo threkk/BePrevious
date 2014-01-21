@@ -10,14 +10,19 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Exercise3DObject implements ApplicationListener {
 		
+	public interface SensorsHandler {
+		Quaternion[] getRotation();
+		Vector3[] getTranslation();
+	}
+	
 	private LegModel legModel;
 	private LegRenderer renderer;
 	private LegController controller;
-	private Exercise3DHandler handler;
+	private SensorsHandler handler;
 
     private CameraInputController camController;
 	
-	public Exercise3DObject(Exercise3DHandler handler){
+	public Exercise3DObject(SensorsHandler handler){
 		super();
 		this.handler = handler;
 	}
@@ -32,10 +37,6 @@ public class Exercise3DObject implements ApplicationListener {
 		this.controller = new LegController(renderer.getInstance());
 		this.camController = new CameraInputController(renderer.getCamera());
         Gdx.input.setInputProcessor(camController);
-        do {
-        	this.handler.initSensors();
-        }
-        while(!this.handler.isConnected());
 	}
 
 	@Override
@@ -66,7 +67,6 @@ public class Exercise3DObject implements ApplicationListener {
 	@Override
 	public void dispose() {
 		renderer.dispose();
-		handler.disconnect();
 	}
 	
 	public void updateController(){

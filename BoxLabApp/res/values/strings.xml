@@ -16,7 +16,7 @@
     <string name="fragment_messages">Messages</string>
     <string name="fragment_library">Library</string>
     <string name="action_settings">Settings</string>
-    
+        
    <!-- exercise activity -->
 	<string name="e3d_sets">Sets</string>
 	<string name="e3d_reps">Repetitions</string>
@@ -24,6 +24,9 @@
 	<string name="e3d_tit_nf">Exercise name not found</string>
 	<string name="e3d_content_nf">There was an error and the exercise data has not been loaded.</string>
 	<string name="e3d_ast">*</string>
+	<string name="e3d_chest">Chest</string>
+	<string name="e3d_thigh">Thigh</string>
+	<string name="e3d_shin">Shin</string>
 	
     <!-- device manager strings -->
     <string name="devicemanager_title">Device manager</string>

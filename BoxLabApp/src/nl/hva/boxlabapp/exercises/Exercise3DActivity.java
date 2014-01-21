@@ -9,7 +9,6 @@ import nl.hva.boxlabapp.database.DevicesDatasource;
 import nl.hva.boxlabapp.database.LibraryDatasource;
 import nl.hva.boxlabapp.devices.Device;
 import nl.hva.boxlabapp.entities.ExerciseEntryItem;
-import nl.hva.boxlabapp.gdx.Exercise3DHandler;
 import nl.hva.boxlabapp.gdx.Exercise3DObject;
 import nl.hva.boxlabapp.shimmer.driver.ShimmerHandler;
 
@@ -17,13 +16,16 @@ import nl.hva.boxlabapp.shimmer.driver.ShimmerHandler;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.math.Quaternion;
@@ -32,10 +34,9 @@ import com.badlogic.gdx.math.Vector3;
 import nl.hva.boxlabapp.R;
 
 public class Exercise3DActivity extends AndroidApplication implements
-		Exercise3DHandler {
-	private static final String TAG = Exercise3DActivity.class.getName();
+		Exercise3DObject.SensorsHandler {
 	
-	private ShimmerHandler chest, thigh, shin;
+	private ShimmerHandler chest, thigh, shin = null;
 	private Device mChest, mThigh, mShin = null;
 	private Exercise3DObject ex;
 
@@ -43,7 +44,7 @@ public class Exercise3DActivity extends AndroidApplication implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// Loading sensors
+		// Loading sensors data
 		DevicesDatasource dbDevices = new DevicesDatasource(this);
 		List<Device> devices = dbDevices.getDevices();
 		
@@ -63,21 +64,25 @@ public class Exercise3DActivity extends AndroidApplication implements
 //		}
 		
 		// Creating handlers
-		chest = new ShimmerHandler();
-		thigh = new ShimmerHandler();
-		shin = new ShimmerHandler();
-		Log.d(TAG, "mThigh: " + mThigh.getMac());
-		Log.d(TAG, "mShin: " + mShin.getMac());
+		chest = new ShimmerHandler(mChest);
+		thigh = new ShimmerHandler(mThigh);
+		shin = new ShimmerHandler(mShin);
+		
+		//chest.init(this);
+		thigh.init(this);
+		shin.init(this);
 		
 		// UI
 		LinearLayout layout = new LinearLayout(this);
-
-		// Dimensions
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
 		int width = size.x / 2;
 		int height = size.y;
+		
+		// 3D
+		ex = new Exercise3DObject(this);
+		View gameView = initializeForView(ex, false);
 		
 		// Content
 		View contentView = LayoutInflater.from(this).inflate(
@@ -123,38 +128,85 @@ public class Exercise3DActivity extends AndroidApplication implements
 				
 			});
 			
-		}
+		}	
+		
 		layout.addView(contentView, width, height);
-
-		// 3D
-		ex = new Exercise3DObject(this);
-		View gameView = initializeForView(ex, false);
 		layout.addView(gameView, width, height);
-
 		setContentView(layout);
-
 	}
 	
+	// Back button behaviour
+	@Override
 	public void onBackPressed() {
 		super.finish();
 	}
 
+	// Menu
 	@Override
-	public void onDestroy(){
-		//chest.disconnect();
-		super.onDestroy();
-		thigh.disconnect();
-		shin.disconnect();
-		thigh = null;
-		shin = null;
-		ex.dispose();
-		ex = null;
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.exercise, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.activate_chest :
+			try {
+				if(chest.isStreaming()) {
+					chest.disconnect();
+					item.setIcon(R.drawable.ic_play);
+					Toast.makeText(this, "Chest sensor disconnected.", Toast.LENGTH_SHORT).show();
+				} else {
+					chest.connect();
+					item.setIcon(R.drawable.ic_pause);
+					Toast.makeText(this, "Chest sensor connected.", Toast.LENGTH_LONG).show();
+				}
+			} catch (NullPointerException oops) {
+				Toast.makeText(this, "Chest sensor not found.", Toast.LENGTH_SHORT).show();
+			}
+			return true;
+		case R.id.activate_thigh :
+			try {
+				if(thigh.isStreaming()) {
+					thigh.disconnect();
+					item.setIcon(R.drawable.ic_play);
+					Toast.makeText(this, "Thigh sensor disconnected.", Toast.LENGTH_SHORT).show();
+				} else {
+					thigh.connect();
+					item.setIcon(R.drawable.ic_pause);
+					Toast.makeText(this, "Thigh sensor connected.", Toast.LENGTH_LONG).show();
+				}
+			} catch (NullPointerException oops) {
+				Toast.makeText(this, "Thigh sensor not found.", Toast.LENGTH_SHORT).show();
+			}
+			return true;
+		case R.id.activate_shin :
+			try {
+				if(shin.isStreaming()) {
+					shin.disconnect();
+					item.setIcon(R.drawable.ic_play);
+					Toast.makeText(this, "Shin sensor disconnected.", Toast.LENGTH_SHORT).show();
+				} else {
+					shin.connect();
+					item.setIcon(R.drawable.ic_pause);
+					Toast.makeText(this, "Shin sensor connected.", Toast.LENGTH_LONG).show();
+				}
+			} catch (NullPointerException oops) {
+				Toast.makeText(this, "Shin sensor not found.", Toast.LENGTH_SHORT).show();
+			}
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	// Interface
+	@Override
 	public Quaternion[] getRotation() {
 		Quaternion[] data = new Quaternion[3];
-//		// data[0] = chest.readSensors();
+//		data[0] = chest.readSensors();
 		data[1] = thigh.readMagnetometer();
 		data[2] = shin.readMagnetometer();
 		return data;
@@ -163,35 +215,10 @@ public class Exercise3DActivity extends AndroidApplication implements
 	@Override
 	public Vector3[] getTranslation() {
 		Vector3[] data = new Vector3[3];
-		//data[0] = chest.readAccelerometer();
+//      data[0] = chest.readAccelerometer();
 		data[1] = thigh.readAccelerometer();
 		data[2] = shin.readAccelerometer();
 		return data;
 	}
 
-	@Override
-	public boolean initSensors() {
-		// chest.init(mChest, this);
-		// trivial change
-		thigh.init(mThigh, this);
-		while(!thigh.isConnected());
-		shin.init(mShin, this);
-		while(!shin.isConnected());
-		return thigh.isConnected() && shin.isConnected();
-	}
-
-	@Override
-	public boolean isConnected() {
-		Log.i(TAG, "Thigh: " + Boolean.valueOf(thigh.isConnected()));
-		Log.i(TAG, "Shin: " + Boolean.valueOf(shin.isConnected()));
-		return thigh.isConnected() && shin.isConnected();
-
-	}
-
-	@Override
-	public void disconnect() {
-		thigh.disconnect();
-//		chest.disconnect();
-		shin.disconnect();
-	}
 }

@@ -40,6 +40,9 @@
             android:label="@string/title_activity_exercise3d" 
             android:screenOrientation="landscape"
             android:parentActivityName="nl.hva.boxlabapp.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nl.hva.boxlabapp.MainActivity" />
         </activity>
         
          <activity
