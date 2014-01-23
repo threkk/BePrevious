@@ -33,8 +33,6 @@
  */
 package nl.hva.boxlabapp.shimmer.driver;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class Configuration {
 	//Channel Contents

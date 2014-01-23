@@ -19,7 +19,8 @@ public class Exercise3DObject implements ApplicationListener {
 	private LegRenderer renderer;
 	private LegController controller;
 	private SensorsHandler handler;
-
+	private ModelRender render;
+	
     private CameraInputController camController;
 	
 	public Exercise3DObject(SensorsHandler handler){
@@ -34,6 +35,7 @@ public class Exercise3DObject implements ApplicationListener {
 		
 		this.legModel = new LegModel();
 		this.renderer = new LegRenderer(legModel);
+//		this.render = new ModelRender();
 		this.controller = new LegController(renderer.getInstance());
 		this.camController = new CameraInputController(renderer.getCamera());
         Gdx.input.setInputProcessor(camController);
@@ -48,8 +50,9 @@ public class Exercise3DObject implements ApplicationListener {
 	public void render() {
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-	    updateController();
+	    updateController(Gdx.graphics.getDeltaTime());
 		renderer.render();
+//	    render.render();
 	    camController.update();
 	}
 
@@ -67,15 +70,17 @@ public class Exercise3DObject implements ApplicationListener {
 	@Override
 	public void dispose() {
 		renderer.dispose();
+		//render.dispose();
 	}
 	
-	public void updateController(){
+	public void updateController(float time){
+		Vector3[] position = handler.getTranslation();
+		Quaternion[] rotation = handler.getRotation();
 		
-		Quaternion[] rotations = handler.getRotation();
-		Vector3[] translations = handler.getTranslation();
 		
-		controller.rotateThigh(rotations[1]);
-		controller.rotateShin(rotations[2]);
+		controller.updateThigh(position[1], rotation[1], time);
+		controller.updateShin(position[2], rotation[2], time);
+		
 
 	}
 	

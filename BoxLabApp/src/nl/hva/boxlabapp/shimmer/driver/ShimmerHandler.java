@@ -14,6 +14,8 @@ import android.util.Log;
 
 public class ShimmerHandler extends Handler {
 	
+	private static final float POSITIVE_GRAVITY_FIX = -10f;
+	private static final float NEGATIVE_GRAVITY_FIX = 9.5f;
 	private static final String TAG = ShimmerHandler.class.getName();
 	private float[] data;
 	private Shimmer shimmer;
@@ -103,10 +105,35 @@ public class ShimmerHandler extends Handler {
 							.returnFormatCluster(ofFormats, "CAL"));
 					if (formatCluster != null) {
 						data[i] = (float) formatCluster.mData;
-
 					}
 				}
-
+			
+				
+				int max = 4;
+				int min = 4;
+				
+				for(int i = 4; i<=6; i++){
+					if(data[i] >= data[max]) {
+						max = i;
+					} else if (data[i] <= data[min]) {
+						min = i;
+					}
+				}
+				
+				if(data[max] >= 9 && data[min] >= -8.5f) {
+					data[max] += POSITIVE_GRAVITY_FIX;					
+				} else if(data[max] <= 9f && data[min] <= -8.5f) {
+					data[min] += NEGATIVE_GRAVITY_FIX;
+				}
+				
+				for(int i = 4; i <= 6; i++){
+					data[i] = (float)Math.round(data[i]*10)/10;
+					if(data[i] > 0 && data[i] < 0.2f) {
+						data[i] = 0;
+					}
+				}
+				
+				Log.i(TAG,"X: " + data[4] + " Y: " + data[5] + " Z: " + data[6]);
 			}
 
 			break;
@@ -126,7 +153,12 @@ public class ShimmerHandler extends Handler {
 	}
 	
 	public Vector3 readAccelerometer() {
-		return new Vector3(data[4], data[5], data[6]);
+		// Axis are rotated. Probably same problem with magnetometer.
+		// Sensors -> Anim
+		// z -> x
+		// x -> y
+		// y -> z
+		
+		return new Vector3(data[6], data[4], data[5]);
 	}
-	
 }

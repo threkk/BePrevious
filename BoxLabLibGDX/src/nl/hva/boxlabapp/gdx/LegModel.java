@@ -24,10 +24,15 @@ public class LegModel {
 		Material yellow = new Material(ColorAttribute.createDiffuse(Color.YELLOW));
 		Material green = new Material(ColorAttribute.createDiffuse(Color.GREEN));
 		
-		hip = mb.createBox(3f, 2f, 1.5f, blue, attributes);
+		//hip = mb.createBox(3f, 2f, 1.5f, blue, attributes);
 		thigh = mb.createBox(1f, 4.5f, 1f, red, attributes);
 		shin = mb.createBox(1f, 4.25f, 1f, green, attributes);
-		foot = mb.createBox(1f, 1f, 2.5f, yellow, attributes);
+//		foot = mb.createBox(1f, 1f, 2.5f, yellow, attributes);
+		hip = mb.createBox(1.5f, 2f, 3f, blue, attributes);
+//		thigh = mb.createBox(1f, 1f, 4.5f, red, attributes);
+//		shin = mb.createBox(1f, 1f, 4.25f, green, attributes);
+		foot = mb.createBox(2.5f, 1f, 1f, yellow, attributes);
+
 	}
 
 	public Model getHip() {
