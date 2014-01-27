@@ -61,10 +61,18 @@ app.start = function() {
 		app.map(require('./routes/dashboard').routes, '/');
 
 		var port = app.get('port');
-		server.listen(port, function() {
+		server.listen(port, function(err) {
+			if (err) {
+				return logger.error("failed to listen on port " + port + ": "
+						+ JSON.stringify(err));
+			}
 			logger.debug('Boxlab server started, listening on port ' + port);
 			logger.debug('Boxlab device identification: '
 					+ identification.getIdentity());
+		});
+
+		server.on('error', function(e) {
+			logger.error("server error: " + JSON.stringify(e));
 		});
 	});
 }

@@ -72,7 +72,7 @@ function parseSwitch(update) {
 
 function parseSensor(update) {
 	return {
-		timestamp : update.data.level.updateTime
+		timestamp : update.data.level.updateTime,
 		state : {
 			value:update.data.level.value ? 1 : 0
 		}
