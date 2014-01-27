@@ -35,7 +35,7 @@ function parseNewDevices(data) {
 		var commandClasses = data.devices[nodeId].instances[0].commandClasses;
 		var newDevice = {
 			id : nodeId,
-			name: deviceName,
+			name : deviceName,
 			basicType : deviceData.basicType.value,
 			genericType : deviceData.genericType.value,
 			specificType : deviceData.specificType.value,
@@ -53,6 +53,15 @@ function parseNewDevices(data) {
 		if (newDevice.hasWakeup) {
 			newDevice.wakeupInterval = commandClasses[0x84].data.interval.value
 		}
+		
+		if (0x25 in commandClasses) {
+			// COMMAND_CLASS_SWITCH_BINARY
+			newDevice.type = 'switch';
+		} else if (0x30 in commandClasses) {
+			// COMMAND_CLASS_SENSOR_BINARY
+			newDevice.type = 'sensor';
+		}
+
 		newDevices.push(newDevice);
 	}
 	return newDevices;
@@ -69,7 +78,7 @@ function updateDevices(deviceManager, newDevices, callback) {
 			}
 		}
 
-		for (var index in deviceManager.devices) {
+		for ( var index in deviceManager.devices) {
 			var oldDevice = deviceManager.devices[index];
 			if (_.findIndex(newDevices, function(newDevice) {
 				return oldDevice.data.id == newDevice.id;

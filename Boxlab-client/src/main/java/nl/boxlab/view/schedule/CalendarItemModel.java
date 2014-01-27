@@ -14,7 +14,7 @@ import nl.boxlab.model.Message;
 public class CalendarItemModel extends DefaultTableModel {
 
 	private static final String[] DAY_NAMES = { "Monday", "Tuesday",
-			"Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+	        "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
 	private List<CalendarItem> items;
 
@@ -23,14 +23,14 @@ public class CalendarItemModel extends DefaultTableModel {
 	}
 
 	public void updateModel(List<ExerciseEntry> entries,
-			List<Message> messages, int month, int year) {
+	        List<Message> messages, int month, int year) {
 		int leadDays = DateUtilities.getLeadingDays(month, year);
 		int trailDays = DateUtilities.getTrailingDays(month, year);
 
 		Date start = DateUtilities.addDay(
-				DateUtilities.getStartOfMonth(month, year), -leadDays);
+		        DateUtilities.getStartOfMonth(month, year), -leadDays);
 		Date end = DateUtilities.addDay(
-				DateUtilities.getEndOfMonth(month, year), trailDays);
+		        DateUtilities.getEndOfMonth(month, year), trailDays);
 
 		this.items.clear();
 		Date current = start;
@@ -59,9 +59,11 @@ public class CalendarItemModel extends DefaultTableModel {
 
 	private List<Message> getMessages(List<Message> messages, Date date) {
 		List<Message> result = new ArrayList<>();
-		for (Message message : messages) {
-			if (DateUtilities.equalDay(message.getCreated(), date)) {
-				result.add(message);
+		if (messages != null) {
+			for (Message message : messages) {
+				if (DateUtilities.equalDay(message.getCreated(), date)) {
+					result.add(message);
+				}
 			}
 		}
 		return result;

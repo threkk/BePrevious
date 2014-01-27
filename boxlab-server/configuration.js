@@ -10,6 +10,7 @@ module.exports = {
 	// device manager variables
 	deviceUpdateTicks : 60,
 	deviceMultilevelTicks : 10,
+	deviceBinaryTicks : 1,
 	deviceBatteryTicks : 10,
 	deviceMeterTicks : 5,
 	tickRate : 1000,
