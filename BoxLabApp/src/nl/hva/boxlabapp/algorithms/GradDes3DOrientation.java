@@ -1,8 +1,9 @@
 package nl.hva.boxlabapp.algorithms;
-/*
- * Madgwick, Sebastian OH, Andrew JL Harrison, and Ravi Vaidyanathan. "Estimation of imu and marg orientation using a gradient descent algorithm." Rehabilitation Robotics (ICORR), 2011 IEEE International Conference on. IEEE, 2011.
- *
+/**
+ * "Estimation of imu and marg orientation using a gradient descent algorithm." Rehabilitation Robotics (ICORR), 2011 IEEE International Conference on. IEEE, 2011.
  * 3D orientation code modified from https://code.google.com/p/labview-quaternion-ahrs/ which is licensed under GNU_Lesser_GPL
+ *
+ * @author Madgwick, Sebastian OH, Andrew JL Harrison, and Ravi Vaidyanathan. 
  */
 
 

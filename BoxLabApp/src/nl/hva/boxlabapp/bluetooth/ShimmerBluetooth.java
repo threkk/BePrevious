@@ -36,17 +36,15 @@ package nl.hva.boxlabapp.bluetooth;
 
 import nl.hva.boxlabapp.shimmer.driver.ShimmerObject;
 
+/**
+ * The reason for having an abstract ShimmerBluetooth class, is so in the future code reuse for a PC based Shimmer Java Instrument Driver will be easy to implement. 
+ * An example of what the code will look like in the future is provided below, where core Bluetooth functionality such as connect, readbytes, and write bytes, are
+ * abstract methods to be implemented by a class inheriting it. For the moment this is not done, but there is a simple working example for use with a Windows/Linux/Mac OSx 
+ * provided in the 'Shimmer Java Instrument Driver Trial' Folder, where an example of reading the firmware version is show.
+ * 
+ * @author Bjorn Water
+ */
 public abstract class ShimmerBluetooth extends ShimmerObject {
-	/*
-	 * NOTE:
-	 * 
-	 * The reason for having an abstract ShimmerBluetooth class, is so in the future code reuse for a PC based Shimmer Java Instrument Driver will be easy to implement. 
-	 * An example of what the code will look like in the future is provided below, where core Bluetooth functionality such as connect, readbytes, and write bytes, are
-	 * abstract methods to be implemented by a class inheriting it. For the moment this is not done, but there is a simple working example for use with a Windows/Linux/Mac OSx 
-	 * provided in the 'Shimmer Java Instrument Driver Trial' Folder, where an example of reading the firmware version is show.
-	 * 
-	 */
-	
 	/*
 	
 
