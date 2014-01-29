@@ -1,12 +1,34 @@
 package nl.hva.boxlabapp.database;
 
+import nl.boxlab.model.Entity;
+import nl.hva.boxlabapp.devices.Device;
+import nl.hva.boxlabapp.entities.ExerciseEntryItem;
+import nl.hva.boxlabapp.entities.MessageItem;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class Database extends SQLiteOpenHelper{
-	
+/**
+ * This class manages the creation of the database where all the information is
+ * stored. The management of the tables is done in other classes, this one is
+ * just for the model and creation.
+ * 
+ * The tables store information of the classes which also implement the
+ * superclass <code>Entity</code>.
+ * 
+ * @author Alberto Mtnz de Murga
+ * @version 1
+ * @see DevicesDatasource
+ * @see MessagesDatasource
+ * @see ScheduleDatasource
+ * @see Entity
+ * @see Device
+ * @see MessageItem
+ * @see ExerciseEntryItem
+ */
+public class Database extends SQLiteOpenHelper {
+
 	private static final String TAG = Database.class.getName();
 	private static final String DATABASE_NAME = "database.db";
 	private static final int DATABASE_VERSION = 1;
@@ -36,40 +58,31 @@ public class Database extends SQLiteOpenHelper{
 	public static final String DEVICE_POSITION = "position";
 	public static final String DEVICE_TYPE = "type";
 	public static final String DEVICE_MAC = "mac";
-	
+
 	// Creation
 	private static final String CREATE_SCHEDULE = "create table "
-			+ TABLE_SCHEDULE + " ( " 
-			+ LOCAL_ID + " integer primary key autoincrement, "
-			+ ENTITY_ID + " text, "
-			+ ENTITY_CREATION_DATE + " integer not null, "
-			+ ENTITY_UPDATE_DATE + " integer, "
-			+ SCHEDULE_DATE + " integer not null, "
-			+ SCHEDULE_EXID + " integer not null, "
-			+ SCHEDULE_REPS + " text not null, "
-			+ SCHEDULE_DONE + " integer, "
-			+ SCHEDULE_NOTE + " text "
-			+ ");";
-	
+			+ TABLE_SCHEDULE + " ( " + LOCAL_ID
+			+ " integer primary key autoincrement, " + ENTITY_ID + " text, "
+			+ ENTITY_CREATION_DATE + " integer not null, " + ENTITY_UPDATE_DATE
+			+ " integer, " + SCHEDULE_DATE + " integer not null, "
+			+ SCHEDULE_EXID + " integer not null, " + SCHEDULE_REPS
+			+ " text not null, " + SCHEDULE_DONE + " integer, " + SCHEDULE_NOTE
+			+ " text " + ");";
+
 	private static final String CREATE_MESSAGES = "create table "
-			+ TABLE_MESSAGES + " ( " 
-			+ LOCAL_ID + " integer primary key autoincrement, "
-			+ ENTITY_ID + " text, "
-			+ ENTITY_CREATION_DATE + " integer not null, "
-			+ ENTITY_UPDATE_DATE + " integer, "
-			+ MESSAGES_MSG + " text not null, "
-			+ MESSAGES_AUTHOR + " integer not null "
-			+ ");";
-	
+			+ TABLE_MESSAGES + " ( " + LOCAL_ID
+			+ " integer primary key autoincrement, " + ENTITY_ID + " text, "
+			+ ENTITY_CREATION_DATE + " integer not null, " + ENTITY_UPDATE_DATE
+			+ " integer, " + MESSAGES_MSG + " text not null, "
+			+ MESSAGES_AUTHOR + " integer not null " + ");";
+
 	private static final String CREATE_DEVICES = "create table "
-			+ TABLE_DEVICES + "(" 
-			+ LOCAL_ID + " integer primary key autoincrement, "
-			+ DEVICE_NAME + " text not null, " 
-			+ DEVICE_TYPE + " integer not null, "
-			+ DEVICE_POSITION + " integer not null, "
-			+ DEVICE_MAC + " text not null"
-			+ ");";
-	
+			+ TABLE_DEVICES + "(" + LOCAL_ID
+			+ " integer primary key autoincrement, " + DEVICE_NAME
+			+ " text not null, " + DEVICE_TYPE + " integer not null, "
+			+ DEVICE_POSITION + " integer not null, " + DEVICE_MAC
+			+ " text not null" + ");";
+
 	public Database(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		Log.d(TAG, "Database created");
@@ -83,7 +96,7 @@ public class Database extends SQLiteOpenHelper{
 		db.execSQL(CREATE_MESSAGES);
 		Log.d(TAG, "Messages created.");
 		db.execSQL(CREATE_DEVICES);
-		Log.d(TAG, "Devices created.");	
+		Log.d(TAG, "Devices created.");
 	}
 
 	@Override
@@ -93,7 +106,7 @@ public class Database extends SQLiteOpenHelper{
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_DEVICES);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULE);
-		onCreate(db);		
+		onCreate(db);
 	}
 
 }

@@ -16,6 +16,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/**
+ * This class manages a static database inside the application. The current location of the database is /assets/dbexercises.db It's a SQLite v3 database. If you want to add more entries, you will need some extra software.
+ * The id in the database is the id of the exercise.
+ * @author Alberto Mtnz de Murga
+ * @version 1
+ */
 public class LibraryDatasource {
 	
     protected static final String TAG = LibraryDatasource.class.getName();
@@ -44,7 +50,7 @@ public class LibraryDatasource {
     	} catch (SQLException oops){
     		Log.e(TAG, oops.getMessage());
     	} catch (IOException e) {
-			// TODO Auto-generated catch block
+    		Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		}
     }
@@ -54,6 +60,11 @@ public class LibraryDatasource {
     	dbhelper.close();
     }
     
+    /**
+     * Returns the name of an exercise based on its id.
+     * @param id Id to check.
+     * @return String with the name of the exercise.
+     */
     public String getName(int id) {
     	String name = "";
     	Cursor cursor = null;
@@ -76,6 +87,10 @@ public class LibraryDatasource {
     	return name;
     }
     
+    /**
+     * Returns the name of all the exercises.
+     * @return Returns all the exercises name.
+     */
     public List<String> getNames() {
     	List<String> names = new ArrayList<String>();
     	Cursor cursor = null;
@@ -101,7 +116,12 @@ public class LibraryDatasource {
     	
     	return names;
     }
-    
+    /**
+     * Get the URI for the exercise with that id. The uri follows the scheme:
+     * exerciseXX.html, where XX is the id of the exercise plus 1.
+     * @param id Id of the exercise.
+     * @return A string with the URI.
+     */
     public String getURIById(int id) {
     	String uri = null;
     	Cursor cursor = null;
@@ -125,6 +145,11 @@ public class LibraryDatasource {
     }
     
 	@SuppressLint("SdCardPath")
+	/**
+	 * Just don't touch this. I'm not totally sure about how this works, but it works.
+	 * @author Alberto Mtnz de Murga
+	 * @version 1
+	 */
 	private class LibraryDatabase extends SQLiteOpenHelper{
 
     	private String DB_PATH = ""; 

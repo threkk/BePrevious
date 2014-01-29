@@ -23,12 +23,14 @@ import android.util.Log;
  * freeze.
  * 
  * @author Alberto Mtnz de Murga
+ * @version 1
  * 
  */
 public class ConnectToRaspberryPi extends Thread {
 
 	/**
-	 * UUID needed to connect both devices. Must be the same in both sides. Why this one? Magic!
+	 * UUID needed to connect both devices. Must be the same in both sides. Why
+	 * this one? Magic!
 	 */
 	public final static UUID SEC_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -40,7 +42,7 @@ public class ConnectToRaspberryPi extends Thread {
 	// TODO: Fix this. No longer needed with the new data model.
 	public final static String SEPARATOR = "–";
 	private final static String TAG = ConnectToRaspberryPi.class.getName();
-	// TODO: Change the flags for hashes. 
+	// TODO: Change the flags for hashes.
 	private final static String SERVER_FLAG = "SERVER_FLAG\n";
 	private final static String EXIT = "EXIT";
 
@@ -159,10 +161,9 @@ public class ConnectToRaspberryPi extends Thread {
 	 * avoid the app to block while doing the I/O.
 	 * 
 	 * @author Alberto Mtnz de Murga
-	 * 
+	 * @version 1
 	 */
 
-	// TODO Finish documentation
 	private class ManageConnection extends Thread {
 
 		private InputStream input;
@@ -180,11 +181,16 @@ public class ConnectToRaspberryPi extends Thread {
 			}
 		}
 
+		/**
+		 * Reads the buffer until receiving a EXIT flag. After, it sends a
+		 * message to the handler with all the information read.
+		 * 
+		 */
 		public void run() {
 			BufferedReader br = new BufferedReader(new InputStreamReader(input));
 			String line = null;
 			String msgContent = "";
-			Log.e(TAG, "Reading...");
+			Log.i(TAG, "Reading...");
 			try {
 				while ((line = br.readLine()) != null) {
 					if (line.equals(EXIT))
@@ -192,7 +198,7 @@ public class ConnectToRaspberryPi extends Thread {
 					msgContent += line;
 				}
 				this.write(EXIT.getBytes());
-				Log.e(TAG, "All lines read");
+				Log.i(TAG, "All lines read");
 			} catch (IOException oops) {
 				Log.e(TAG, "Problems reading");
 			}
@@ -206,14 +212,20 @@ public class ConnectToRaspberryPi extends Thread {
 				boolean ret = mHandler.sendMessage(msg);
 				state = ConnectToRaspberryPi.SENT;
 				if (ret) {
-					Log.e(TAG, "Message sent");
-					Log.e(TAG, msgContent);
+					Log.i(TAG, "Message sent");
+					Log.i(TAG, msgContent);
 				} else {
 					Log.e(TAG, "Error sending the message.");
 				}
 			}
 		}
 
+		/**
+		 * Sends the input to the server.
+		 * 
+		 * @param msg
+		 *            The information to send. It can be whatever.
+		 */
 		public void write(byte[] msg) {
 			try {
 				output.write(msg);
@@ -222,6 +234,9 @@ public class ConnectToRaspberryPi extends Thread {
 			}
 		}
 
+		/**
+		 * Closes everything. Recommended to avoid blocking resources.
+		 */
 		public void cancel() {
 			try {
 				input.close();
